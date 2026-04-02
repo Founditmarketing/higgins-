@@ -1,0 +1,66 @@
+.prac-card {
+  background: var(--bg3);
+  border: 1px solid var(--bdr);
+  padding: 3rem;
+  border-radius: 4px;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.prac-num {
+  font-family: var(--fd);
+  font-size: 6rem;
+  font-weight: 700;
+  color: var(--bdrh);
+  opacity: 0.15;
+  line-height: 1;
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  pointer-events: none;
+}
+
+.prac-card h3 {
+  margin-top: 0 !important;
+  font-size: 2rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.prac-card p {
+  margin-bottom: 2rem !important;
+  color: var(--txtd) !important;
+}
+
+.prac-list h4 {
+  font-family: var(--fd);
+  font-size: 1.25rem;
+  color: var(--gold);
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.prac-list p {
+  font-size: 0.95rem !important;
+  color: var(--txtd) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.prac-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media(max-width: 768px) {
+  .prac-card {
+    padding: 2rem 1.5rem;
+  }
+  .prac-list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .prac-num {
+    font-size: 4rem;
+  }
+}

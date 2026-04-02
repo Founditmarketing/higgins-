@@ -1,0 +1,162 @@
+/*══════════════════════════════════════════════
+  NAV
+══════════════════════════════════════════════*/
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.5rem 0;
+  transition: all 0.5s var(--ease);
+}
+.nav::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50vh;
+  transform: translateY(-100%);
+  background: #03080e;
+  pointer-events: none;
+  z-index: 99;
+}
+.nav.sc {
+  background: rgba(8, 9, 12, 0.92);
+  backdrop-filter: blur(24px) saturate(1.4);
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--bdr);
+}
+.ni {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nb {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.nb-logo {
+  width: 240px;
+  height: auto;
+  object-fit: contain;
+}
+.nl {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  align-items: center;
+}
+.nl a {
+  font-family: var(--fu);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--txtd);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  position: relative;
+  padding: 0.25rem 0;
+}
+.nl a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.4s var(--ease);
+}
+.nl a:hover {
+  color: var(--cream);
+}
+.nl a:hover::after {
+  width: 100%;
+}
+.ncw a {
+  font-family: var(--fu) !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--bg) !important;
+  background: linear-gradient(135deg, var(--gold), var(--goldb));
+  padding: 0.7rem 1.75rem;
+  display: inline-block;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.ncw a::after {
+  display: none !important;
+}
+.ncw a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(200, 164, 78, 0.25);
+  color: var(--bg) !important;
+}
+.nt {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 101;
+}
+.nt span {
+  display: block;
+  width: 26px;
+  height: 1.5px;
+  background: var(--cream);
+  margin: 6px 0;
+  transition: all 0.3s var(--ease);
+}
+.nt.act span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.nt.act span:nth-child(2) {
+  opacity: 0;
+}
+.nt.act span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+@media (max-width: 768px) {
+  .nav.menu-open {
+    height: 100vh !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom-color: transparent !important;
+    transition: none !important;
+  }
+  .nb-logo {
+    width: 200px;
+  }
+  .nl {
+    display: none;
+  }
+  .nl.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 9, 12, 0.97);
+    backdrop-filter: blur(30px);
+    justify-content: center;
+    align-items: center;
+    gap: 2.25rem;
+    z-index: 100;
+  }
+  .nl.open a {
+    font-size: 1.2rem;
+    color: var(--cream);
+    letter-spacing: 0.08em;
+  }
+  .nt {
+    display: block;
+  }
+}

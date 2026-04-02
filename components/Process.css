@@ -1,0 +1,44 @@
+/*══════════════════════════════════════════════
+  HOW IT WORKS — PROCESS TIMELINE
+══════════════════════════════════════════════*/
+.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 4rem; position: relative; }
+.how-grid::before { content: ""; position: absolute; top: 44px; left: 16.66%; right: 16.66%; height: 1px; background: linear-gradient(to right, transparent, var(--bdrh), var(--bdrh), transparent); }
+.how-card { text-align: center; padding: 0 2.5rem; position: relative; cursor: pointer; }
+.how-num { width: 88px; height: 88px; margin: 0 auto 2rem; border: 1px solid var(--bdrh); display: flex; align-items: center; justify-content: center; font-family: var(--fd); font-size: 1.8rem; font-weight: 700; color: var(--gold); background: var(--bg); position: relative; z-index: 2; transition: background 0.4s, border-color 0.4s, box-shadow 0.4s; }
+.how-card:hover .how-num { background: var(--bg3); border-color: var(--gold); box-shadow: 0 0 40px var(--gglow); }
+.how-card h3 { font-family: var(--fd); font-size: 1.4rem; font-weight: 600; color: var(--cream); margin-bottom: 0.75rem; }
+.how-card p { font-size: 1.05rem; color: var(--txtd); line-height: 1.8; }
+.how-icon { display: block; margin: 0 auto 1rem; color: var(--gold); opacity: 0.5; }
+
+@media(max-width:1100px){
+  .how-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media(max-width:768px){
+  .how-grid {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+  }
+  .how-grid::-webkit-scrollbar { display: none; }
+  .how-grid::before { display: none; }
+  .how-card {
+    flex: 0 0 75vw;
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 1.25rem;
+    background: var(--bg3);
+    border: 1px solid var(--bdr);
+  }
+  .how-num { width: 48px; height: 48px; font-size: 1.1rem; margin: 0 0 0.75rem 0; }
+  .how-icon { display: none; }
+  .how-card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+  .how-card p { font-size: .88rem; line-height: 1.5; }
+}
