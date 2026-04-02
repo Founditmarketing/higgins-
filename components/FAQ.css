@@ -25,12 +25,3 @@
   .fqnb { width: auto; border-left: none; border-bottom: 1px solid var(--bdr); padding: 0.5rem 1rem; }
   .fqnb.act, .fqnb:hover { border-left-color: transparent; border-bottom-color: var(--gold); padding-left: 1rem; }
 }
-@media(max-width:768px){
-  .fql { gap: 1rem; margin-top: 1.5rem; }
-  .fqn { gap: 0.35rem; }
-  .fqnb { font-size: .68rem; padding: 0.4rem 0.75rem; }
-  .fqg { margin-bottom: 1.5rem; }
-  .fq { padding: 1rem 0; font-size: 1rem; gap: 1rem; }
-  .fai { padding-bottom: 1rem; font-size: .92rem; line-height: 1.7; }
-  .fqgl { font-size: .56rem; padding-bottom: 0.5rem; }
-}

@@ -8,9 +8,3 @@
 .marquee-item span { font-family: var(--fd); font-size: 1.1rem; font-weight: 500; color: var(--cream); letter-spacing: 0.06em; text-transform: uppercase; }
 .marquee-item .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
 @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-@media(max-width:768px){
-  .marquee { padding: 0.75rem 0; }
-  .marquee-item span { font-size: .85rem; }
-  .marquee-item { gap: 1.5rem; padding: 0 0.75rem; }
-}

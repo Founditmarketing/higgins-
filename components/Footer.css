@@ -25,11 +25,6 @@
   .foot-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
 }
 @media(max-width:768px){
-  .foot { padding: 2.5rem 0 6rem; }
-  .foot-top { grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-bottom: 2rem; }
-  .foot-logo { width: 160px; margin-bottom: 0.75rem; }
-  .foot-tagline { font-size: .95rem; margin-bottom: 1rem; }
-  .foot-col h4 { margin-bottom: 0.75rem; }
-  .foot-col a { font-size: .78rem; margin-bottom: 0.5rem; }
-  .foot-bottom { flex-direction: column; gap: 0.5rem; text-align: center; padding-top: 1.25rem; }
+  .foot-top { grid-template-columns: 1fr; }
+  .foot-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
 }

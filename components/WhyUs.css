@@ -10,10 +10,9 @@
 .wc p { font-size: 1.05rem; color: var(--txtd); line-height: 1.85; }
 
 @media(max-width:768px){
-  .wg { grid-template-columns: 1fr; margin-top: 1.5rem; gap: 0; }
-  .wc { padding: 1.25rem 1.25rem; border-right: 1px solid var(--bdr); border-bottom: none; }
+  .wg { grid-template-columns: 1fr; margin-top: 2rem; }
+  .wc { padding: 2.25rem 1.5rem; border-right: 1px solid var(--bdr); border-bottom: none; }
   .wc:last-child { border-bottom: 1px solid var(--bdr); }
-  .wn { font-size: 2.5rem; margin-bottom: 0.5rem; }
-  .wc h3 { font-size: 1.2rem; margin-bottom: 0.4rem; }
-  .wc p { font-size: .9rem; line-height: 1.6; }
+  .wn { font-size: 4rem; margin-bottom: 1rem; }
+  .wc h3 { font-size: 1.45rem; margin-bottom: 0.65rem; }
 }

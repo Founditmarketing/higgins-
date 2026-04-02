@@ -240,8 +240,8 @@
 
   .pr-hint {
     order: -1;
-    margin-top: -0.5rem;
-    margin-bottom: 1.5rem;
+    margin-top: -1rem;
+    margin-bottom: 2rem;
   }
 
   .pr-h {
@@ -250,24 +250,24 @@
   }
 
   .pc {
-    flex: 0 0 80vw;
-    padding: 1.25rem 1rem;
+    flex: 0 0 85vw;
+    padding: 1.5rem 1.25rem;
   }
 
   .pcn {
-    font-size: 2.5rem;
-    margin-bottom: 0.3rem;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
   }
 
   .pc h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.35rem;
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
   }
 
   .pc>p {
-    font-size: 0.88rem;
-    line-height: 1.45;
-    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
   }
 
   .ps {
@@ -276,19 +276,15 @@
 
   .pst {
     gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
   .pst-a {
     line-height: 1.3;
-    font-size: .85rem;
-  }
-
-  .pst h4 {
-    font-size: .68rem;
   }
 
   .pst p {
-    display: none;
+    font-size: 0.8rem;
+    line-height: 1.3;
   }
 }

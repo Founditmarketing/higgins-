@@ -22,13 +22,6 @@
   .ab-m { max-width: 550px; }
 }
 @media(max-width:768px){
-  .ab-m { display: none; }
-  .ab-badge { display: none; }
+  .ab-badge { left: 0; bottom: 1rem; }
   .ab-ib { display: none; }
-  .ab-g { gap: 0; }
-  .ab-c p { font-size: 1rem; line-height: 1.7; margin-bottom: 1rem; }
-  .ab-c p:nth-child(n+3) { display: none; }
-  .ab-p { grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; }
-  .pn { font-size: 1.6rem; }
-  .pt { font-size: .6rem; }
 }

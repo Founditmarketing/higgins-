@@ -14,31 +14,21 @@
   .how-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media(max-width:768px){
-  .how-grid {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 2rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 0.5rem;
-  }
-  .how-grid::-webkit-scrollbar { display: none; }
+  .how-grid { grid-template-columns: 1fr; gap: 3.5rem; }
   .how-grid::before { display: none; }
-  .how-card {
-    flex: 0 0 75vw;
-    scroll-snap-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  .how-card { 
+    display: grid; 
+    grid-template-columns: 24px 1fr; 
+    grid-template-areas: 
+      "num num"
+      "ico tit"
+      "desc desc";
+    gap: 0.5rem 1.25rem;
     text-align: left;
-    padding: 1.25rem;
-    background: var(--bg3);
-    border: 1px solid var(--bdr);
+    padding: 0 1rem;
   }
-  .how-num { width: 48px; height: 48px; font-size: 1.1rem; margin: 0 0 0.75rem 0; }
-  .how-icon { display: none; }
-  .how-card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
-  .how-card p { font-size: .88rem; line-height: 1.5; }
+  .how-num { grid-area: num; margin: 0 0 1rem 0; width: 64px; height: 64px; font-size: 1.4rem; }
+  .how-icon { grid-area: ico; margin: 0; width: 24px; height: 24px; align-self: center; }
+  .how-card h3 { grid-area: tit; margin: 0; align-self: center; font-size: 1.3rem; }
+  .how-card p { grid-area: desc; margin-top: 0.5rem; }
 }

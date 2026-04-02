@@ -17,29 +17,5 @@
   .tm-g { grid-template-columns: 1fr; }
 }
 @media(max-width:768px){
-  .tm-g {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 0.5rem;
-  }
-  .tm-g::-webkit-scrollbar { display: none; }
-  .tc {
-    flex: 0 0 80vw;
-    scroll-snap-align: center;
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    grid-template-rows: auto;
-  }
-  .tp { height: 160px; }
-  .tp img { object-position: top center; }
-  .tb { padding: 1.25rem; }
-  .tb h3 { font-size: 1.2rem; margin-bottom: 0.15rem; }
-  .tr { font-size: .6rem; margin-bottom: 0.6rem; letter-spacing: .18em; }
-  .tb p { font-size: .85rem; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .sd { margin-bottom: 0; }
+  .tp { height: 320px; }
 }

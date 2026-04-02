@@ -270,15 +270,3 @@ body::after {
 .bgh:hover svg {
   transform: translateX(6px);
 }
-
-/*══════════════════════════════════════════════
-  MOBILE CONDENSED LAYOUT
-══════════════════════════════════════════════*/
-@media(max-width:768px) {
-  .sec { padding: clamp(3rem, 6vw, 5rem) 0; }
-  .sh { font-size: clamp(1.8rem, 5vw, 2.8rem); margin-bottom: 0.6rem; }
-  .sl { margin-bottom: 0.75rem; font-size: .58rem; }
-  .sd { font-size: 1rem; line-height: 1.65; }
-  .div-f { margin: 0; }
-  .btn { padding: 0.85rem 1.8rem; font-size: .7rem; }
-}
