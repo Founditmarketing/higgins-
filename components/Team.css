@@ -17,5 +17,23 @@
   .tm-g { grid-template-columns: 1fr; }
 }
 @media(max-width:768px){
-  .tp { height: 320px; }
+  .tm-g { 
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 2rem;
+  }
+  .tc {
+    position: sticky;
+    top: 80px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+    border-top: 1px solid var(--goldd);
+    margin-bottom: 20px;
+  }
+  .tc:nth-child(1) { top: 90px; z-index: 1; margin-bottom: 250px; }
+  .tc:nth-child(2) { top: 110px; z-index: 2; margin-bottom: 0; }
+  .tp { height: 280px; }
+  .tb p { font-size: 0.9rem; line-height: 1.6; }
 }

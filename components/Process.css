@@ -3,32 +3,67 @@
 ══════════════════════════════════════════════*/
 .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 4rem; position: relative; }
 .how-grid::before { content: ""; position: absolute; top: 44px; left: 16.66%; right: 16.66%; height: 1px; background: linear-gradient(to right, transparent, var(--bdrh), var(--bdrh), transparent); }
-.how-card { text-align: center; padding: 0 2.5rem; position: relative; cursor: pointer; }
+.how-card { text-align: center; position: relative; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+.how-card-header { display: flex; flex-direction: column; align-items: center; width: 100%; transition: opacity .4s; }
+.how-card:hover .how-card-header { opacity: 0.8; }
 .how-num { width: 88px; height: 88px; margin: 0 auto 2rem; border: 1px solid var(--bdrh); display: flex; align-items: center; justify-content: center; font-family: var(--fd); font-size: 1.8rem; font-weight: 700; color: var(--gold); background: var(--bg); position: relative; z-index: 2; transition: background 0.4s, border-color 0.4s, box-shadow 0.4s; }
-.how-card:hover .how-num { background: var(--bg3); border-color: var(--gold); box-shadow: 0 0 40px var(--gglow); }
+.how-card:hover .how-num, .how-card.active .how-num { background: var(--bg3); border-color: var(--gold); box-shadow: 0 0 40px var(--gglow); }
 .how-card h3 { font-family: var(--fd); font-size: 1.4rem; font-weight: 600; color: var(--cream); margin-bottom: 0.75rem; }
-.how-card p { font-size: 1.05rem; color: var(--txtd); line-height: 1.8; }
+.how-card-body { overflow: hidden; transition: max-height 0.6s var(--ease); width: 100%; padding: 0 2.5rem; }
+.how-card-body p { font-size: 1.05rem; color: var(--txtd); line-height: 1.8; margin-top: 0.5rem; }
 .how-icon { display: block; margin: 0 auto 1rem; color: var(--gold); opacity: 0.5; }
+.how-toggle-icon { display: none; }
+
+@media(min-width:769px){
+  /* Desktop always shows full body, override inline styles */
+  .how-card-body { max-height: 1000px !important; }
+}
 
 @media(max-width:1100px){
   .how-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media(max-width:768px){
-  .how-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+  .how-grid { grid-template-columns: 1fr; gap: 0; }
   .how-grid::before { display: none; }
   .how-card { 
-    display: grid; 
-    grid-template-columns: 24px 1fr; 
-    grid-template-areas: 
-      "num num"
-      "ico tit"
-      "desc desc";
-    gap: 0.5rem 1.25rem;
+    display: block;
     text-align: left;
-    padding: 0 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--bdr);
+    align-items: flex-start;
   }
-  .how-num { grid-area: num; margin: 0 0 1rem 0; width: 64px; height: 64px; font-size: 1.4rem; }
-  .how-icon { grid-area: ico; margin: 0; width: 24px; height: 24px; align-self: center; }
-  .how-card h3 { grid-area: tit; margin: 0; align-self: center; font-size: 1.3rem; }
-  .how-card p { grid-area: desc; margin-top: 0.5rem; }
+  .how-card:first-child { border-top: 1px solid var(--bdr); }
+  .how-card-header {
+    display: grid;
+    grid-template-columns: 48px 1fr 24px;
+    grid-template-areas: "num tit tgl";
+    gap: 1rem;
+    align-items: center;
+    opacity: 1 !important;
+  }
+  .how-num { grid-area: num; width: 48px; height: 48px; font-size: 1.2rem; margin: 0; }
+  .how-card h3 { grid-area: tit; margin: 0; font-size: 1.2rem; }
+  .how-icon { display: none; }
+  
+  .how-toggle-icon { 
+    grid-area: tgl; 
+    display: block; 
+    position: relative; 
+    width: 24px; 
+    height: 24px; 
+    color: var(--gold); 
+  }
+  .how-toggle-icon span {
+    position: absolute;
+    top: 50%; left: 50%;
+    background: currentColor;
+    transition: transform 0.4s var(--ease);
+  }
+  .how-toggle-icon span:nth-child(1) { width: 14px; height: 1px; transform: translate(-50%, -50%); }
+  .how-toggle-icon span:nth-child(2) { width: 1px; height: 14px; transform: translate(-50%, -50%); }
+  
+  .how-card.active .how-toggle-icon span:nth-child(2) { transform: translate(-50%, -50%) rotate(90deg); }
+  
+  .how-card-body { padding: 0 0 0 64px; }
+  .how-card-body p { font-size: 0.95rem; margin-top: 0.5rem; padding-bottom: 1rem; }
 }

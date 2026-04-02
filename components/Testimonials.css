@@ -10,9 +10,38 @@
 .tst { display: flex; gap: 3px; margin-bottom: 1.25rem; }
 .tst svg { width: 13px; height: 13px; fill: var(--gold); }
 .tt blockquote { font-family: var(--fb); font-size: 1.08rem; font-style: italic; font-weight: 300; color: var(--txt); line-height: 1.9; margin-bottom: 1.5rem; position: relative; z-index: 1; }
-.ta { font-family: var(--fu); font-size: 0.8rem; font-weight: 600; color: var(--cream); letter-spacing: 0.08em; }
+.md-hidden { display: none; }
 
 @media(max-width:768px){
-  .tg { grid-template-columns: 1fr; }
-  .tt:nth-child(2), .tt:nth-child(4) { margin-top: 0; }
+  .tg { 
+    overflow: hidden; 
+    margin-top: 2rem; 
+    margin-left: calc(-1 * clamp(1.5rem, 5vw, 4rem));
+    margin-right: calc(-1 * clamp(1.5rem, 5vw, 4rem));
+    position: relative;
+  }
+  .tg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--bg) 0%, transparent 5%, transparent 95%, var(--bg) 100%);
+    pointer-events: none;
+  }
+  .tg-track {
+    display: flex;
+    width: max-content;
+    animation: testimonialScroll 40s linear infinite;
+    gap: 1rem;
+    padding-left: 1rem;
+  }
+  .tt {
+    flex: 0 0 82vw;
+    margin-top: 0 !important;
+  }
+  .md-hidden { display: block; }
+}
+
+@keyframes testimonialScroll { 
+  0% { transform: translateX(0); } 
+  100% { transform: translateX(calc(-50% - 0.5rem)); } 
 }

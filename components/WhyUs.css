@@ -10,9 +10,27 @@
 .wc p { font-size: 1.05rem; color: var(--txtd); line-height: 1.85; }
 
 @media(max-width:768px){
-  .wg { grid-template-columns: 1fr; margin-top: 2rem; }
-  .wc { padding: 2.25rem 1.5rem; border-right: 1px solid var(--bdr); border-bottom: none; }
-  .wc:last-child { border-bottom: 1px solid var(--bdr); }
-  .wn { font-size: 4rem; margin-bottom: 1rem; }
-  .wc h3 { font-size: 1.45rem; margin-bottom: 0.65rem; }
+  .wg { 
+    grid-template-columns: 1fr 1fr; 
+    grid-template-areas: 
+      "val1 val1"
+      "val2 val3";
+    gap: 0.75rem; 
+    margin-top: 2rem; 
+  }
+  .wc { 
+    border: 1px solid var(--bdr); 
+    border-radius: 12px;
+    padding: 1.5rem; 
+    background: var(--bg3);
+  }
+  .wc:last-child { border-right: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr); }
+  
+  .wc:nth-child(1) { grid-area: val1; }
+  .wc:nth-child(2) { grid-area: val2; }
+  .wc:nth-child(3) { grid-area: val3; }
+
+  .wn { font-size: 3rem; margin-bottom: 0.75rem; color: rgba(200, 164, 78, 0.08); }
+  .wc h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .wc p { font-size: 0.9rem; line-height: 1.5; }
 }
