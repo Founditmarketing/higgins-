@@ -280,10 +280,18 @@
     padding-right: 1.25rem;
   }
 
+  .hero h1 {
+    font-size: clamp(3rem, 12vw, 4.5rem);
+    letter-spacing: -0.03em;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    position: relative;
+    z-index: 10;
+  }
+
   .hero-bg-g {
     background: radial-gradient(ellipse 80% 60% at 70% 45%, rgba(200, 164, 78, 0.15), transparent 70%), 
                 radial-gradient(ellipse 50% 80% at 20% 80%, rgba(3, 8, 14, 0.85), transparent), 
-                linear-gradient(180deg, rgba(3, 8, 14, 0.3) 0%, transparent 15%, transparent 75%, var(--bg) 100%);
+                linear-gradient(180deg, rgba(3, 8, 14, 0.5) 0%, transparent 15%, transparent 75%, var(--bg) 100%);
   }
 
   .hero-bg-i {
@@ -291,17 +299,22 @@
     height: 100%;
     top: 0;
     opacity: 0.85;
-    object-position: 75% top;
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.85) 60%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.85) 60%, transparent 100%);
+    object-position: 75% 20%;
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%), linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.85) 40%, transparent 100%), linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%);
   }
 
   .hsub {
-    color: #fdfcf9 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-size: 1.15rem;
+    letter-spacing: 0.01em;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
   }
 
   .hact {
     margin-top: 2rem;
+    z-index: 10;
+    position: relative;
   }
 
   .hlow {

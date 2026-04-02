@@ -6,18 +6,46 @@ export default function About() {
       <div className="ab-watermark"></div>
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <div className="ab-g">
+
+          {/* Sibling 1: The Content (Desktop layout places this on the right) */}
+          <div className="ab-c">
+            <div className="sl" data-r>About the Firm</div>
+            <h2 className="sh" data-r="d1">We Listen. We Fight.<br /><em>We Win.</em></h2>
+            
+            <p className="sd" data-r="d2">
+              When you contact Higgins Law, you don&apos;t just get a case number. You get a direct line to attorneys who know your family, understand your struggles, and have the experience to push back against insurance giants. 
+            </p>
+            <p data-r="d2">
+              We are not a volume-based firm. We are trial lawyers. We meticulously prepare every case as if it will go before a jury, a strategy that often forces early, maximum settlements.
+            </p>
+            <p className="df" data-r="d3">
+              Born and raised in Louisiana, our attorneys leverage their deep community roots and courtroom authority to secure your future.
+            </p>
+
+            {/* Sibling 1.A: The Stats (Desktop puts this below the text, Mobile stacks it) */}
+            <div className="ab-p" data-r="d3">
+              <div>
+                <div className="pn">54+</div>
+                <div className="pt">Years of Combined Experience</div>
+              </div>
+              <div>
+                <div className="pn">04</div>
+                <div className="pt">Louisiana Locations</div>
+              </div>
+              <div>
+                <div className="pn">&infin;</div>
+                <div className="pt">Commitment to Clients</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sibling 2: The Image (Desktop layout places this on the left) */}
           <div className="ab-m" data-r>
             <div className="ab-ib"></div>
             <div className="ab-iw">
-              <img
-                className="plx"
-                data-plx="-.04"
-                src="/george-higgins-meeting.webp"
-                alt="George Higgins consulting with a client"
-                loading="lazy"
-              />
-              <div className="ab-io"></div>
+              <img src="/george-higgins-meeting.webp" alt="George Higgins III consulting with a client" loading="lazy" />
             </div>
+            <div className="ab-io"></div>
             <div className="ab-badge">
               <div className="abn">
                 54<span style={{ fontSize: ".5em", color: "var(--goldd)" }}>+</span>
@@ -28,39 +56,7 @@ export default function About() {
               </div>
             </div>
           </div>
-          <div className="ab-c">
-            <div className="sl" data-r>About the Firm</div>
-            <h2 className="sh" data-r="d1">
-              Trusted Advocates.<br />
-              Steady Support.<br />
-              <em>Rooted in Louisiana.</em>
-            </h2>
-            <div data-r="d2">
-              <p>
-                At Higgins Law, every case matters &mdash; your freedom, your family, your future. Whether defending against charges, planning for your estate, or seeking justice after an injury, we guide you with skill and care.
-              </p>
-              <p>
-                As a father&ndash;son firm in Pineville, we bring a personal, hands-on approach. You&apos;ll never be treated as just a file. Clear communication and steady support are our promises.
-              </p>
-              <p>
-                Our mission is to resolve matters efficiently while safeguarding what matters most. With Higgins Law, you gain more than representation &mdash; you gain a team committed to your rights, your family, and your future.
-              </p>
-            </div>
-            <div className="ab-p" data-r="d3">
-              <div>
-                <div className="pn">54+</div>
-                <div className="pt">Years Combined</div>
-              </div>
-              <div>
-                <div className="pn">4</div>
-                <div className="pt">Practice Areas</div>
-              </div>
-              <div>
-                <div className="pn">&infin;</div>
-                <div className="pt">Commitment</div>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
