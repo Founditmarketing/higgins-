@@ -175,16 +175,10 @@ export default function AdminPage() {
               <div className="form-group">
                 <label>Date (Required for events, optional for updates)</label>
                 <input 
-                  type="text" 
-                  onFocus={(e) => (e.target.type = "date")}
-                  onBlur={(e) => {
-                    if (!e.target.value) e.target.type = "text";
-                  }}
+                  type="date" 
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                   required={type === "event"}
-                  placeholder="Select a date..."
-                  className="ios-date-fix"
                 />
               </div>
               <div className="form-group">

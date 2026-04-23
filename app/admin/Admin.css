@@ -63,18 +63,15 @@
   color-scheme: dark;
   box-sizing: border-box;
   width: 100%;
-  max-width: 100%;
-  padding: 0.8rem 1rem; /* Reduced vertical padding */
-  height: auto;
-  appearance: none;
-  -webkit-appearance: none;
+  height: 56px;
+  padding: 0 1rem; /* Removing vertical padding fixes the hidden text bug on iOS */
+  line-height: 56px;
   background-color: var(--bg3);
   color: var(--cream);
 }
 
-.form-group input[type="date"]::-webkit-date-and-time-value {
-  text-align: left;
-  min-height: 1.5em;
+.form-group input[type="date"]::-webkit-datetime-edit {
+  color: var(--cream);
 }
 
 .form-group textarea {
