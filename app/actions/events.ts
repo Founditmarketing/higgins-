@@ -1,10 +1,7 @@
 "use server";
 
-import fs from "fs/promises";
-import path from "path";
+import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
-
-const dataPath = path.join(process.cwd(), "data", "events.json");
 
 export type AppEvent = {
   id: string;
@@ -17,53 +14,80 @@ export type AppEvent = {
   createdAt: number;
 };
 
-// Initialize file if not exists
-async function ensureFile() {
-  try {
-    await fs.access(dataPath);
-  } catch {
-    await fs.mkdir(path.dirname(dataPath), { recursive: true });
-    await fs.writeFile(dataPath, "[]", "utf-8");
-  }
+// Map database row to AppEvent
+function mapRowToEvent(row: any): AppEvent {
+  return {
+    id: row.id,
+    title: row.title,
+    date: row.date_str || undefined,
+    description: row.description,
+    type: row.type,
+    mediaUrl: row.media_url || undefined,
+    mediaType: row.media_type || undefined,
+    createdAt: parseInt(row.created_at, 10),
+  };
 }
 
 export async function getEvents(): Promise<AppEvent[]> {
-  await ensureFile();
-  const raw = await fs.readFile(dataPath, "utf-8");
-  return JSON.parse(raw);
+  if (!process.env.POSTGRES_URL) {
+    console.warn("POSTGRES_URL is missing. Returning empty events array.");
+    return [];
+  }
+
+  try {
+    const { rows } = await sql`SELECT * FROM events`;
+    return rows.map(mapRowToEvent);
+  } catch (error: any) {
+    console.error("Database Error:", error);
+    // Return empty array if table doesn't exist yet to prevent crashes
+    if (error.message?.includes('relation "events" does not exist')) {
+      return [];
+    }
+    throw new Error("Failed to fetch events from the database.");
+  }
 }
 
 export async function addEvent(event: Omit<AppEvent, "id" | "createdAt">): Promise<void> {
-  const events = await getEvents();
-  const newEvent: AppEvent = {
-    ...event,
-    id: crypto.randomUUID(),
-    createdAt: Date.now(),
-  };
+  if (!process.env.POSTGRES_URL) {
+    throw new Error("Vercel Postgres is not connected. Please create a database in Vercel.");
+  }
+
+  const id = crypto.randomUUID();
+  const createdAt = Date.now().toString();
+
   try {
-    events.push(newEvent);
-    // Sort chronically by date (or createdAt if no date)
-    events.sort((a, b) => {
-      const timeA = a.date ? new Date(a.date).getTime() : a.createdAt;
-      const timeB = b.date ? new Date(b.date).getTime() : b.createdAt;
-      return timeA - timeB;
-    });
-    await fs.writeFile(dataPath, JSON.stringify(events, null, 2));
+    await sql`
+      INSERT INTO events (id, title, date_str, description, type, media_url, media_type, created_at)
+      VALUES (
+        ${id}, 
+        ${event.title}, 
+        ${event.date || null}, 
+        ${event.description}, 
+        ${event.type}, 
+        ${event.mediaUrl || null}, 
+        ${event.mediaType || null}, 
+        ${createdAt}
+      )
+    `;
     revalidatePath("/updates");
     revalidatePath("/admin");
   } catch (error) {
-    throw new Error("Vercel Read-Only File System Error: Cannot write to data/events.json");
+    console.error("Database Error:", error);
+    throw new Error("Failed to add event to the database.");
   }
 }
 
 export async function deleteEvent(id: string): Promise<void> {
+  if (!process.env.POSTGRES_URL) {
+    throw new Error("Vercel Postgres is not connected. Please create a database in Vercel.");
+  }
+
   try {
-    const events = await getEvents();
-    const updated = events.filter((e) => e.id !== id);
-    await fs.writeFile(dataPath, JSON.stringify(updated, null, 2));
+    await sql`DELETE FROM events WHERE id = ${id}`;
     revalidatePath("/updates");
     revalidatePath("/admin");
   } catch (error) {
-    throw new Error("Vercel Read-Only File System Error: Cannot write to data/events.json");
+    console.error("Database Error:", error);
+    throw new Error("Failed to delete event from the database.");
   }
 }

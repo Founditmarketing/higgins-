@@ -1,7 +1,6 @@
 "use server";
 
-import fs from "fs/promises";
-import path from "path";
+import { put } from '@vercel/blob';
 import crypto from "crypto";
 
 export async function uploadFile(formData: FormData) {
@@ -10,31 +9,22 @@ export async function uploadFile(formData: FormData) {
     return { success: false, error: "No file provided" };
   }
 
-  try {
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    return { success: false, error: "Vercel Blob is not connected. Please create Blob storage in Vercel." };
+  }
 
-    // Create unique filename
-    const uniqueSuffix = crypto.randomBytes(8).toString("hex");
+  try {
+    const uniqueSuffix = crypto.randomBytes(4).toString("hex");
     const originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
     const filename = `${uniqueSuffix}-${originalName}`;
     
-    // Ensure uploads directory exists
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    try {
-      await fs.access(uploadsDir);
-    } catch {
-      await fs.mkdir(uploadsDir, { recursive: true });
-    }
+    // Upload to Vercel Blob
+    const blob = await put(filename, file, { access: 'public' });
 
-    // Write file
-    const filePath = path.join(uploadsDir, filename);
-    await fs.writeFile(filePath, buffer);
-
-    // Return the public URL
-    return { success: true, url: `/uploads/${filename}` };
+    // Return the public URL provided by Vercel Blob
+    return { success: true, url: blob.url };
   } catch (error) {
     console.error("Upload error:", error);
-    return { success: false, error: "Failed to upload file" };
+    return { success: false, error: "Failed to upload file to Vercel Blob" };
   }
 }
