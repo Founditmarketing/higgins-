@@ -1,0 +1,47 @@
+/*══════════════════════════════════════════════
+  TESTIMONIALS
+══════════════════════════════════════════════*/
+.tg { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 4rem; }
+.tt { background: var(--bg3); border: 1px solid var(--bdr); padding: 2.5rem; position: relative; overflow: hidden; transition: border-color 0.5s, box-shadow 0.5s; cursor: pointer; }
+.tt:hover { border-color: var(--bdrh); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
+.tt:nth-child(2) { margin-top: 3rem; }
+.tt:nth-child(4) { margin-top: 0; }
+.tqm { position: absolute; top: 1rem; right: 1.5rem; font-family: var(--fd); font-size: 7rem; font-weight: 800; color: rgba(200, 164, 78, 0.06); line-height: 0.8; pointer-events: none; }
+.tst { display: flex; gap: 3px; margin-bottom: 1.25rem; }
+.tst svg { width: 13px; height: 13px; fill: var(--gold); }
+.tt blockquote { font-family: var(--fb); font-size: 1.08rem; font-style: italic; font-weight: 300; color: var(--txt); line-height: 1.9; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+.md-hidden { display: none; }
+
+@media(max-width:768px){
+  .tg { 
+    overflow: hidden; 
+    margin-top: 2rem; 
+    margin-left: calc(-1 * clamp(1.5rem, 5vw, 4rem));
+    margin-right: calc(-1 * clamp(1.5rem, 5vw, 4rem));
+    position: relative;
+  }
+  .tg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--bg) 0%, transparent 5%, transparent 95%, var(--bg) 100%);
+    pointer-events: none;
+  }
+  .tg-track {
+    display: flex;
+    width: max-content;
+    animation: testimonialScroll 40s linear infinite;
+    gap: 1rem;
+    padding-left: 1rem;
+  }
+  .tt {
+    flex: 0 0 82vw;
+    margin-top: 0 !important;
+  }
+  .md-hidden { display: block; }
+}
+
+@keyframes testimonialScroll { 
+  0% { transform: translateX(0); } 
+  100% { transform: translateX(calc(-50% - 0.5rem)); } 
+}

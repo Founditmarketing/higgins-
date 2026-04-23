@@ -1,0 +1,106 @@
+/*══════════════════════════════════════════════
+  PRELOADER
+══════════════════════════════════════════════*/
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+}
+
+.preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pl-logo-wrapper {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pl-logo {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+  animation: logo-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+@keyframes logo-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.pl-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  animation: show-ring 0.1s 0.3s forwards;
+}
+
+@keyframes show-ring {
+  to { opacity: 1; visibility: visible; }
+}
+
+.pl-top,
+.pl-bot {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 260 566;
+  stroke-dashoffset: 260;
+  transform-origin: 50% 50%;
+}
+
+.pl-top {
+  stroke: #f8f7d8;
+  animation: draw-top-swoop 1.8s ease-in-out 0.3s both;
+}
+
+.pl-bot {
+  stroke: var(--gold);
+  animation: draw-bot-swoop 1.8s ease-in-out 0.3s both;
+}
+
+@keyframes draw-top-swoop {
+  0% {
+    stroke-dashoffset: 260;
+    transform: rotate(-262.5deg);
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    transform: rotate(-172.5deg);
+  }
+}
+
+@keyframes draw-bot-swoop {
+  0% {
+    stroke-dashoffset: 260;
+    transform: rotate(-82.5deg);
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    transform: rotate(7.5deg);
+  }
+}

@@ -1,0 +1,51 @@
+.proc-step {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--bdr);
+}
+
+.proc-step:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.proc-num {
+  font-family: var(--fd);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  opacity: 0.8;
+  line-height: 1;
+}
+
+.proc-step h3 {
+  margin-top: 0 !important;
+  margin-bottom: 1rem !important;
+  font-size: 1.75rem !important;
+  color: var(--cream) !important;
+}
+
+.proc-step p {
+  margin-bottom: 0 !important;
+}
+
+.proc-step svg {
+  color: var(--goldd);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+@media(max-width: 768px) {
+  .proc-step {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+  }
+}

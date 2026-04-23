@@ -1,0 +1,10 @@
+/*══════════════════════════════════════════════
+  MARQUEE TICKER
+══════════════════════════════════════════════*/
+.marquee { overflow: hidden; padding: 1.25rem 0; border-top: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr); background: var(--bg2); position: relative; }
+.marquee-track { display: flex; width: max-content; animation: marqueeScroll 30s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item { display: flex; align-items: center; gap: 2.5rem; padding: 0 1.25rem; white-space: nowrap; }
+.marquee-item span { font-family: var(--fd); font-size: 1.1rem; font-weight: 500; color: var(--cream); letter-spacing: 0.06em; text-transform: uppercase; }
+.marquee-item .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+@keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }

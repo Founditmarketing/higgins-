@@ -1,0 +1,31 @@
+/*══════════════════════════════════════════════
+  FOOTER — RICH
+══════════════════════════════════════════════*/
+.foot { background: var(--bg); border-top: 1px solid var(--bdr); padding: 5rem 0 2rem; }
+.foot-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 3rem; padding-bottom: 4rem; border-bottom: 1px solid var(--bdr); }
+.foot-logo { width: 220px; height: auto; margin-bottom: 1.25rem; display: block; }
+.foot-tagline { font-family: var(--fb); font-size: 1.1rem; font-style: italic; color: var(--txtd); line-height: 1.7; margin-bottom: 1.5rem; }
+.foot-social { display: flex; gap: 0.75rem; }
+.foot-social a { width: 36px; height: 36px; border: 1px solid var(--bdr); display: flex; align-items: center; justify-content: center; color: var(--txtm); transition: border-color 0.3s, color 0.3s; }
+.foot-social a:hover { border-color: var(--gold); color: var(--gold); }
+.foot-col h4 { font-family: var(--fu); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.25em; color: var(--gold); margin-bottom: 1.25rem; }
+.foot-col a { display: block; font-family: var(--fu); font-size: 0.85rem; color: var(--txtd); margin-bottom: 0.75rem; transition: color 0.3s; }
+.foot-col a:hover { color: var(--cream); }
+.foot-contact-item { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem; }
+.foot-contact-item svg { flex-shrink: 0; color: var(--gold); margin-top: 0.2rem; }
+.foot-contact-item span { font-family: var(--fu); font-size: 0.85rem; color: var(--txtd); line-height: 1.5; }
+.foot-contact-item a { display: inline; margin-bottom: 0; }
+.foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; }
+.foot-copy { font-family: var(--fu); font-size: 0.7rem; color: var(--txtm); letter-spacing: 0.05em; }
+.foot-legal { display: flex; gap: 1.5rem; }
+.foot-legal a { font-family: var(--fu); font-size: 0.7rem; color: var(--txtm); letter-spacing: 0.05em; }
+.foot-legal a:hover { color: var(--gold); }
+
+@media(max-width:1100px){
+  .foot-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+}
+@media(max-width:768px){
+  .foot { padding-bottom: 6rem; }
+  .foot-top { grid-template-columns: 1fr; }
+  .foot-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
+}
