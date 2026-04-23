@@ -61,13 +61,20 @@
 
 .form-group input[type="date"] {
   color-scheme: dark;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 56px;
-  line-height: normal;
-  padding: 0 1rem; /* Prevents vertical shift bug on iOS */
-  display: flex;
-  align-items: center;
+  min-height: 56px;
+  display: block;
+  padding: 1rem;
+}
+
+.form-group input[type="date"]::-webkit-datetime-edit {
+  color: var(--cream);
+}
+
+.form-group input[type="date"]::-webkit-datetime-edit-text,
+.form-group input[type="date"]::-webkit-datetime-edit-month-field,
+.form-group input[type="date"]::-webkit-datetime-edit-day-field,
+.form-group input[type="date"]::-webkit-datetime-edit-year-field {
+  color: var(--cream);
 }
 
 .form-group textarea {
