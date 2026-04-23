@@ -9,12 +9,18 @@ export async function GET() {
         id UUID PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         date_str VARCHAR(50),
+        time_str VARCHAR(50),
         description TEXT NOT NULL,
         type VARCHAR(50) NOT NULL,
         media_url TEXT,
         media_type VARCHAR(50),
         created_at VARCHAR(50) NOT NULL
       );
+    `;
+
+    // Ensure the time_str column exists for older tables
+    await sql`
+      ALTER TABLE events ADD COLUMN IF NOT EXISTS time_str VARCHAR(50);
     `;
 
     return NextResponse.json(

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { login, logout, checkAuth } from "../actions/auth";
-import { getEvents, addEvent, deleteEvent, AppEvent } from "../actions/events";
+import { getEvents, addEvent, deleteEvent, updateEvent, AppEvent } from "../actions/events";
 import { uploadFile } from "../actions/upload";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -18,11 +18,13 @@ export default function AdminPage() {
   // Form state
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState<"update" | "event">("update");
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null);
 
   async function loadEvents() {
     const data = await getEvents();
@@ -88,12 +90,21 @@ export default function AdminPage() {
     }
 
     try {
-      await addEvent({ title, date, description, type, mediaUrl, mediaType });
+      const payload = { title, date, time, description, type, mediaUrl, mediaType };
+      
+      if (editId) {
+        await updateEvent(editId, payload);
+      } else {
+        await addEvent(payload);
+      }
+      
       setTitle("");
       setDate("");
+      setTime("");
       setDescription("");
       setType("update");
       setFile(null);
+      setEditId(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -104,6 +115,21 @@ export default function AdminPage() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleEdit = (evt: AppEvent) => {
+    setEditId(evt.id);
+    setTitle(evt.title);
+    setDate(evt.date || "");
+    setTime(evt.time || "");
+    setDescription(evt.description);
+    setType(evt.type);
+    setFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    // Scroll to top of the form
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = async (id: string) => {
@@ -165,7 +191,7 @@ export default function AdminPage() {
             </div>
 
             <form className="event-form" onSubmit={handleCreate}>
-              <div className="sl">Post New Item</div>
+              <div className="sl">{editId ? "Edit Item" : "Post New Item"}</div>
               <div className="form-group">
                 <label>Type</label>
                 <select value={type} onChange={(e) => setType(e.target.value as "update" | "event")}>
@@ -205,6 +231,25 @@ export default function AdminPage() {
                 </div>
               </div>
               <div className="form-group">
+                <label>Time (Optional)</label>
+                <input 
+                  type="time" 
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  style={{
+                    width: '100%',
+                    height: '56px',
+                    padding: '0 1rem',
+                    background: 'var(--bg3)',
+                    border: '1px solid var(--bdr)',
+                    borderRadius: '4px',
+                    color: 'var(--cream)',
+                    fontFamily: 'var(--fu)',
+                    colorScheme: 'dark'
+                  }}
+                />
+              </div>
+              <div className="form-group">
                 <label>Description</label>
                 <textarea 
                   value={description}
@@ -222,9 +267,26 @@ export default function AdminPage() {
                   accept="image/*,video/*,.pdf,.doc,.docx"
                 />
               </div>
-              <button type="submit" className="btn bg" disabled={isSubmitting}>
-                <span>{isSubmitting ? "Posting..." : "Publish Item"}</span>
+              <button type="submit" className="btn bg" disabled={isSubmitting} style={{width: "100%", justifyContent: "center"}}>
+                <span>{isSubmitting ? "Posting..." : editId ? "Update Item" : "Publish Item"}</span>
               </button>
+              {editId && (
+                <button 
+                  type="button" 
+                  className="btn bgh" 
+                  onClick={() => {
+                    setEditId(null);
+                    setTitle("");
+                    setDate("");
+                    setTime("");
+                    setDescription("");
+                    setType("update");
+                  }}
+                  style={{width: "100%", justifyContent: "center", marginTop: "1rem"}}
+                >
+                  <span>Cancel Edit</span>
+                </button>
+              )}
             </form>
 
             <div className="events-list">
@@ -242,9 +304,21 @@ export default function AdminPage() {
                       <h3>{evt.title}</h3>
                       <p className="sd" style={{fontSize: "0.95rem", marginTop: "0.5rem", whiteSpace: "pre-wrap"}}>{evt.description}</p>
                     </div>
-                    <button onClick={() => handleDelete(evt.id)} className="delete-btn">
-                      Delete
-                    </button>
+                    <div style={{marginTop: "1rem", display: "flex", gap: "1rem"}}>
+                      <button onClick={() => handleEdit(evt)} className="edit-btn" style={{
+                        background: 'transparent',
+                        border: '1px solid var(--gold)',
+                        color: 'var(--gold)',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}>
+                        Edit
+                      </button>
+                      <button onClick={() => handleDelete(evt.id)} className="delete-btn">
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 ))
               )}

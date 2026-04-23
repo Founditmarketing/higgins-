@@ -93,7 +93,15 @@ export default function UpdatesClient({ events }: { events: AppEvent[] }) {
               <div key={evt.id} className="feed-item" data-r>
                 <div className="feed-meta">
                   <span className="feed-type">{evt.type}</span>
-                  <span className="feed-date">{evt.date ? new Date(evt.date + "T00:00:00").toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : new Date(evt.createdAt).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                  <span className="feed-date">
+                    {evt.date ? new Date(evt.date + "T00:00:00").toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : new Date(evt.createdAt).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    {evt.time && (() => {
+                      const [h, m] = evt.time.split(':');
+                      const d = new Date();
+                      d.setHours(parseInt(h, 10), parseInt(m, 10));
+                      return " • " + d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+                    })()}
+                  </span>
                 </div>
                 <h2 className="feed-title">{evt.title}</h2>
                 <p className="feed-desc">{evt.description}</p>

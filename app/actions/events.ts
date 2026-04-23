@@ -7,6 +7,7 @@ export type AppEvent = {
   id: string;
   title: string;
   date?: string; // YYYY-MM-DD
+  time?: string; // HH:mm
   description: string;
   type: "update" | "event";
   mediaUrl?: string;
@@ -20,6 +21,7 @@ function mapRowToEvent(row: any): AppEvent {
     id: row.id,
     title: row.title,
     date: row.date_str || undefined,
+    time: row.time_str || undefined,
     description: row.description,
     type: row.type,
     mediaUrl: row.media_url || undefined,
@@ -35,7 +37,12 @@ export async function getEvents(): Promise<AppEvent[]> {
   }
 
   try {
-    const { rows } = await sql`SELECT * FROM events`;
+    const { rows } = await sql`
+      SELECT * FROM events 
+      ORDER BY 
+        CASE WHEN date_str IS NOT NULL THEN date_str ELSE '0' END DESC, 
+        created_at DESC
+    `;
     return rows.map(mapRowToEvent);
   } catch (error: any) {
     console.error("Database Error:", error);
@@ -57,11 +64,12 @@ export async function addEvent(event: Omit<AppEvent, "id" | "createdAt">): Promi
 
   try {
     await sql`
-      INSERT INTO events (id, title, date_str, description, type, media_url, media_type, created_at)
+      INSERT INTO events (id, title, date_str, time_str, description, type, media_url, media_type, created_at)
       VALUES (
         ${id}, 
         ${event.title}, 
         ${event.date || null}, 
+        ${event.time || null},
         ${event.description}, 
         ${event.type}, 
         ${event.mediaUrl || null}, 
@@ -74,6 +82,32 @@ export async function addEvent(event: Omit<AppEvent, "id" | "createdAt">): Promi
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to add event to the database.");
+  }
+}
+
+export async function updateEvent(id: string, event: Omit<AppEvent, "id" | "createdAt">): Promise<void> {
+  if (!process.env.POSTGRES_URL) {
+    throw new Error("Vercel Postgres is not connected. Please create a database in Vercel.");
+  }
+
+  try {
+    await sql`
+      UPDATE events 
+      SET 
+        title = ${event.title},
+        date_str = ${event.date || null},
+        time_str = ${event.time || null},
+        description = ${event.description},
+        type = ${event.type},
+        media_url = ${event.mediaUrl || null},
+        media_type = ${event.mediaType || null}
+      WHERE id = ${id}
+    `;
+    revalidatePath("/updates");
+    revalidatePath("/admin");
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to update event in the database.");
   }
 }
 
