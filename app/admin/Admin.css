@@ -59,6 +59,17 @@
   border-color: var(--gold);
 }
 
+.form-group input[type="date"] {
+  color-scheme: dark;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 56px;
+  line-height: normal;
+  padding: 0 1rem; /* Prevents vertical shift bug on iOS */
+  display: flex;
+  align-items: center;
+}
+
 .form-group textarea {
   min-height: 120px;
   resize: vertical;
