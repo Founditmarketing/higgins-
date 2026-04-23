@@ -61,20 +61,20 @@
 
 .form-group input[type="date"] {
   color-scheme: dark;
-  min-height: 56px;
-  display: block;
-  padding: 1rem;
-}
-
-.form-group input[type="date"]::-webkit-datetime-edit {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding: 0.8rem 1rem; /* Reduced vertical padding */
+  height: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--bg3);
   color: var(--cream);
 }
 
-.form-group input[type="date"]::-webkit-datetime-edit-text,
-.form-group input[type="date"]::-webkit-datetime-edit-month-field,
-.form-group input[type="date"]::-webkit-datetime-edit-day-field,
-.form-group input[type="date"]::-webkit-datetime-edit-year-field {
-  color: var(--cream);
+.form-group input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+  min-height: 1.5em;
 }
 
 .form-group textarea {
