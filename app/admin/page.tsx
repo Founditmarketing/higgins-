@@ -87,17 +87,23 @@ export default function AdminPage() {
       }
     }
 
-    await addEvent({ title, date, description, type, mediaUrl, mediaType });
-    setTitle("");
-    setDate("");
-    setDescription("");
-    setType("update");
-    setFile(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+    try {
+      await addEvent({ title, date, description, type, mediaUrl, mediaType });
+      setTitle("");
+      setDate("");
+      setDescription("");
+      setType("update");
+      setFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      await loadEvents();
+    } catch (error: any) {
+      console.error(error);
+      alert(error.message || "Failed to post item. Make sure you have initialized the database.");
+    } finally {
+      setIsSubmitting(false);
     }
-    await loadEvents();
-    setIsSubmitting(false);
   };
 
   const handleDelete = async (id: string) => {
