@@ -1,13 +1,5 @@
 [
   {
-    "title": "Test 3",
-    "date": "",
-    "description": "This is an update",
-    "type": "update",
-    "id": "cb842a95-f616-44ee-a8ea-cc6afe90ab9f",
-    "createdAt": 1776950758368
-  },
-  {
     "title": "Foundit Test",
     "date": "2026-04-25",
     "description": "This is a foundit marketing test.",

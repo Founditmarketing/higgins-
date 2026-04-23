@@ -40,22 +40,30 @@ export async function addEvent(event: Omit<AppEvent, "id" | "createdAt">): Promi
     id: crypto.randomUUID(),
     createdAt: Date.now(),
   };
-  events.push(newEvent);
-  // Sort chronically by date (or createdAt if no date)
-  events.sort((a, b) => {
-    const timeA = a.date ? new Date(a.date).getTime() : a.createdAt;
-    const timeB = b.date ? new Date(b.date).getTime() : b.createdAt;
-    return timeA - timeB;
-  });
-  await fs.writeFile(dataPath, JSON.stringify(events, null, 2));
-  revalidatePath("/updates");
-  revalidatePath("/admin");
+  try {
+    events.push(newEvent);
+    // Sort chronically by date (or createdAt if no date)
+    events.sort((a, b) => {
+      const timeA = a.date ? new Date(a.date).getTime() : a.createdAt;
+      const timeB = b.date ? new Date(b.date).getTime() : b.createdAt;
+      return timeA - timeB;
+    });
+    await fs.writeFile(dataPath, JSON.stringify(events, null, 2));
+    revalidatePath("/updates");
+    revalidatePath("/admin");
+  } catch (error) {
+    throw new Error("Vercel Read-Only File System Error: Cannot write to data/events.json");
+  }
 }
 
 export async function deleteEvent(id: string): Promise<void> {
-  const events = await getEvents();
-  const updated = events.filter((e) => e.id !== id);
-  await fs.writeFile(dataPath, JSON.stringify(updated, null, 2));
-  revalidatePath("/updates");
-  revalidatePath("/admin");
+  try {
+    const events = await getEvents();
+    const updated = events.filter((e) => e.id !== id);
+    await fs.writeFile(dataPath, JSON.stringify(updated, null, 2));
+    revalidatePath("/updates");
+    revalidatePath("/admin");
+  } catch (error) {
+    throw new Error("Vercel Read-Only File System Error: Cannot write to data/events.json");
+  }
 }

@@ -102,8 +102,13 @@ export default function AdminPage() {
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this item?")) {
-      await deleteEvent(id);
-      await loadEvents();
+      try {
+        await deleteEvent(id);
+        await loadEvents();
+      } catch (error) {
+        console.error("Failed to delete event:", error);
+        alert("Failed to delete the event. If you are viewing this on Vercel, it is because Vercel blocks writing to the file system. We must connect a real database (like Supabase or Postgres) for the admin dashboard to work on Vercel.");
+      }
     }
   };
 
