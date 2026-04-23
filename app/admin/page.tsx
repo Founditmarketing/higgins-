@@ -174,12 +174,24 @@ export default function AdminPage() {
               </div>
               <div className="form-group">
                 <label>Date (Required for events, optional for updates)</label>
-                <input 
-                  type="date" 
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  required={type === "event"}
-                />
+                <div className="custom-date-wrapper">
+                  <span className="date-display" style={{ opacity: date ? 1 : 0.5 }}>
+                    {date ? new Date(date + "T00:00:00").toLocaleDateString() : "mm/dd/yyyy"}
+                  </span>
+                  <svg className="calendar-icon" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  <input 
+                    type="date" 
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required={type === "event"}
+                    className="hidden-date-input"
+                  />
+                </div>
               </div>
               <div className="form-group">
                 <label>Description</label>
