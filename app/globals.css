@@ -20,9 +20,9 @@
   --bdr: rgba(200, 164, 78, 0.1);
   --bdrh: rgba(200, 164, 78, 0.25);
 
-  --fd: var(--font-playfair), Georgia, serif;
-  --fb: var(--font-cormorant), Georgia, serif;
-  --fu: var(--font-outfit), system-ui, sans-serif;
+  --fd: var(--font-marcellus), Georgia, serif;
+  --fb: var(--font-newsreader), Georgia, serif;
+  --fu: var(--font-archivo), system-ui, sans-serif;
 
   --ease: cubic-bezier(.4, 0, .2, 1);
   --eo: cubic-bezier(.22, 1, .36, 1);
