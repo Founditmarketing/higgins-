@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Marcellus, Newsreader, Archivo } from "next/font/google";
+import { Marcellus, Cormorant_Garamond, Archivo } from "next/font/google";
 import "./globals.css";
 
 const marcellus = Marcellus({
@@ -8,11 +8,11 @@ const marcellus = Marcellus({
   weight: "400",
 });
 
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
   style: ["normal", "italic"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
 });
 
 const archivo = Archivo({
@@ -22,7 +22,7 @@ const archivo = Archivo({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#221e17",
+  themeColor: "#171209",
   viewportFit: "cover",
 };
 
@@ -82,7 +82,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${marcellus.variable} ${newsreader.variable} ${archivo.variable} antialiased`}
+        className={`${marcellus.variable} ${cormorant.variable} ${archivo.variable} antialiased`}
       >
         <script
           type="application/ld+json"

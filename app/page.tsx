@@ -1,6 +1,5 @@
-// @ts-nocheck -- this page is a direct port of the verified static ENGRAVED build
-// (single-file vanilla HTML/CSS/JS). The runtime script below is kept verbatim so
-// the tested behavior (office clock, expanders, tools, print/share) stays identical.
+// @ts-nocheck -- direct port of the verified LAMPLIGHT CINEMA static build.
+// The runtime script is kept verbatim so tested behavior stays identical.
 "use client";
 
 import { useEffect } from "react";
@@ -13,9 +12,26 @@ export default function Home() {
 document.documentElement.classList.add('js');
 const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* NAV */
+/* NAV state + tucked mobile bar */
 const nav=document.getElementById('nav');
-addEventListener('scroll',()=>nav.classList.toggle('sc',scrollY>40),{passive:true});
+const mob=document.querySelector('.mob');
+let ioAlive=false;
+const navIO=new IntersectionObserver(es=>{ioAlive=true;es.forEach(e=>{
+  nav.classList.toggle('sc',!e.isIntersecting);
+  mob.classList.toggle('on',!e.isIntersecting);
+})},{rootMargin:'-64px 0px 0px 0px'});
+navIO.observe(document.querySelector('.hero'));
+
+/* SAFETY VALVE · IO fires immediately on observe in any live browser.
+   If it has not fired within 1.6s the renderer is frozen or throttled:
+   reveal everything, show the call bar, settle the ledger at 54+. */
+setTimeout(()=>{
+  if(ioAlive)return;
+  document.documentElement.classList.add('no-io');
+  const led=document.getElementById('led-big');if(led)led.textContent='54+';
+},1600);
+
+/* MOBILE MENU · focus trapped, Escape closes */
 const nt=document.getElementById('nt'),nl=document.getElementById('nl');
 function menuSet(open){
   nt.setAttribute('aria-expanded',open);
@@ -38,7 +54,7 @@ nl.addEventListener('click',e=>{if(e.target.closest('a'))menuSet(false)});
 
 /* REVEALS */
 const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('[data-r], .seam').forEach(el=>ro.observe(el));
+document.querySelectorAll('[data-r]').forEach(el=>ro.observe(el));
 
 /* THE LAMP · live office line (America/Chicago, Mon to Fri 8:00 to 4:30) */
 (function(){
@@ -47,9 +63,9 @@ document.querySelectorAll('[data-r], .seam').forEach(el=>ro.observe(el));
   const COPY={
     hero:{
       open:'The office is open today until 4:30. <a href="tel:+13184734250">Call 318.473.4250</a>.',
-      before:'The office opens at 8:00 this morning. <a href="#contact">Write to us now</a> and it will be waiting when we open.',
-      evening:'The office is closed for the evening. We open at 8:00 tomorrow. <a href="#contact">Write to us tonight</a>. It will be waiting at 8:00.',
-      weekend:'The office opens Monday at 8:00. You do not have to wait until then to write. <a href="#contact">Tell us what happened</a> and it will be waiting when we open.'
+      before:'The office opens at 8:00 this morning. <a href="#call">Write to us now</a> and it will be waiting when we open.',
+      evening:'The office is closed for the evening. We open at 8:00 tomorrow. <a href="#call">Write to us tonight</a>. It will be waiting at 8:00.',
+      weekend:'The office opens Monday at 8:00. You do not have to wait until then to write. <a href="#call">Tell us what happened</a> and it will be waiting when we open.'
     },
     contact:{
       open:'Open now · until 4:30 today',
@@ -59,9 +75,9 @@ document.querySelectorAll('[data-r], .seam').forEach(el=>ro.observe(el));
     },
     f24:{
       open:'The office is open right now. <a href="tel:+13184734250">Call 318.473.4250</a> before 4:30.',
-      before:'It is early. The office opens at 8:00. Write everything down while it is fresh, <a href="#contact">send the form</a>, and call at 8:00.',
-      evening:'It is after hours. Write everything down while it is fresh, <a href="#contact">send the form</a>, and call at 8:00 tomorrow.',
-      weekend:'It is after hours. Write everything down while it is fresh, <a href="#contact">send the form</a>, and call Monday at 8:00.'
+      before:'It is early. The office opens at 8:00. Write everything down while it is fresh, <a href="#call">send the form</a>, and call at 8:00.',
+      evening:'It is after hours. Write everything down while it is fresh, <a href="#call">send the form</a>, and call at 8:00 tomorrow.',
+      weekend:'It is after hours. Write everything down while it is fresh, <a href="#call">send the form</a>, and call Monday at 8:00.'
     }
   };
   function officeState(){
@@ -85,33 +101,43 @@ document.querySelectorAll('[data-r], .seam').forEach(el=>ro.observe(el));
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)render()});
 })();
 
-/* LEDGER SUM · the only counter on the site (40 -> 54, adds the son in front of you) */
+/* LEDGER SUM · 40 becomes 54, the son added in front of you */
 (function(){
-  const el=document.getElementById('sum-big');if(!el)return;
-  if(REDUCE)return; /* engraved things do not move: renders 54+ statically */
-  el.textContent='40+'; /* pre-set so the tick never flashes 54 then rewinds */
-  const co=new IntersectionObserver(es=>{es.forEach(e=>{
-    if(!e.isIntersecting)return;co.unobserve(el);
+  const el=document.getElementById('led-big');if(!el||REDUCE)return;
+  el.textContent='40+';
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{
+    if(!e.isIntersecting)return;io.unobserve(el);
     let s=null;const D=1200;
-    const step=ts=>{if(!s)s=ts;const p=Math.min((ts-s)/D,1),v=40+(54-40)*(1-Math.pow(1-p,4));
+    const step=ts=>{if(!s)s=ts;const p=Math.min((ts-s)/D,1),v=40+14*(1-Math.pow(1-p,4));
       el.textContent=Math.round(v)+'+';if(p<1)requestAnimationFrame(step)};
-    setTimeout(()=>requestAnimationFrame(step),500);
+    setTimeout(()=>requestAnimationFrame(step),450);
   })},{threshold:.6});
-  co.observe(el);
+  io.observe(el);
 })();
 
-/* TABLE OF AUTHORITIES + FAQ · shared expander pattern */
-function wireExpander(btnSel,panelGetter){
+/* PRACTICE INDEX + FAQ · shared expander pattern */
+function wireExpander(btnSel){
   document.querySelectorAll(btnSel).forEach(btn=>{
     btn.addEventListener('click',()=>{
-      const panel=panelGetter(btn),open=btn.getAttribute('aria-expanded')==='true';
+      const panel=document.getElementById(btn.getAttribute('aria-controls'));
+      const open=btn.getAttribute('aria-expanded')==='true';
       btn.setAttribute('aria-expanded',String(!open));
       panel.classList.toggle('open',!open);
     });
   });
 }
-wireExpander('.toa-btn',b=>document.getElementById(b.getAttribute('aria-controls')));
-wireExpander('.fq',b=>document.getElementById(b.getAttribute('aria-controls')));
+wireExpander('.pr-btn');
+wireExpander('.fq');
+
+/* PRACTICE INDEX · on touch screens the row in view lights its photo */
+(function(){
+  if(matchMedia('(hover: hover)').matches)return;
+  const rows=[...document.querySelectorAll('.pr')];
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{
+    e.target.classList.toggle('lit',e.isIntersecting);
+  })},{rootMargin:'-38% 0px -38% 0px'});
+  rows.forEach(r=>io.observe(r));
+})();
 
 /* PRESCRIPTION LEDGER · elapsed time only, never a deadline.
    The date entered is sensitive: never store or transmit it. */
@@ -164,7 +190,7 @@ wireExpander('.fq',b=>document.getElementById(b.getAttribute('aria-controls')));
       if(navigator.share){await navigator.share({title:'The First 24 Hours',text:F24_TEXT,url})}
       else{await navigator.clipboard.writeText(F24_TEXT+' '+url);const t=sb.textContent;sb.textContent='Copied';setTimeout(()=>sb.textContent=t,2000)}
     }catch(e){
-      if(e&&e.name==='AbortError')return; /* user closed the share sheet */
+      if(e&&e.name==='AbortError')return;
       const t=sb.textContent;sb.textContent='Could not copy. Call 318.473.4250';setTimeout(()=>sb.textContent=t,3000);
     }
   });
@@ -181,18 +207,6 @@ wireExpander('.fq',b=>document.getElementById(b.getAttribute('aria-controls')));
     fm.focus();
   });
 })();
-
-/* THE STAMP · anchor navigation presses the destination's section mark */
-if(!REDUCE){
-  document.querySelectorAll('a[href^="#"]').forEach(a=>{
-    a.addEventListener('click',function(){
-      const href=this.getAttribute('href');if(href.length<2)return;
-      const t=document.querySelector(href);if(!t)return;
-      const mark=t.querySelector('.eyebrow .eb-mark');
-      if(mark){setTimeout(()=>{mark.closest('.eyebrow').classList.add('seam--struck');setTimeout(()=>mark.closest('.eyebrow').classList.remove('seam--struck'),700)},450)}
-    });
-  });
-}
   }, []);
 
   return (
@@ -201,63 +215,59 @@ if(!REDUCE){
 
 
 <nav className="nav" id="nav" aria-label="Main"><div className="ni">
-<a href="#top" className="nb"><span className="nb-t">Higgins <span>Law</span></span><span className="nb-s">Trial Attorneys · Pineville, LA</span></a>
+<a href="#top" className="nb"><span className="nb-t">Higgins <span>Law</span></span><span className="nb-s">Trial Attorneys, Pineville LA</span></a>
 <ul className="nl" id="nl">
 <li><a href="#first24">If You Are Arrested</a></li>
-<li><a href="#practice">What We Handle</a></li>
 <li><a href="#generations">Two Generations</a></li>
+<li><a href="#practice">What We Handle</a></li>
 <li><a href="#faq">Questions</a></li>
 <li><a className="n-tel" href="tel:+13184734250">318.473.4250</a></li>
-<li className="ncw"><a href="#contact">Free Consultation</a></li>
+<li className="ncw"><a href="#call">Free Consultation</a></li>
 </ul>
 <button className="nt" id="nt" aria-label="Menu" aria-expanded="false" aria-controls="nl"><span></span><span></span><span></span></button>
 </div></nav>
 
 <main id="main">
 
-<section className="hero" id="top">
-<img className="hero-photo" src="/assets/lawroom.jpeg" alt="" width="2596" height="1632" fetchPriority="high" />
-<div className="hero-lamp" aria-hidden="true"></div>
+<header className="hero" id="top">
+<div className="hero-media"><img src="/assets/lawroom.jpeg" alt="George and Alex Higgins working together at the wood table of their law library" width="2596" height="1632" fetchPriority="high" /></div>
+<div className="hero-grade" aria-hidden="true"></div>
+<div className="hero-frame" aria-hidden="true"></div>
 <div className="hero-inner">
-<p className="eyebrow"><span className="eb-mark">§</span> Pineville, Louisiana · A father and son trial firm</p>
-<h1 className="creed">
-<span className="ln"><span className="ln-in ln-sm">We build successful</span></span>
-<span className="ln"><span className="ln-in ln-lg">Relationships<span className="semi">;</span></span></span>
-<span className="ln"><span className="ln-in ln-sm">treat people with</span></span>
-<span className="ln"><span className="ln-in ln-lg">Respect<span className="semi">;</span></span></span>
-<span className="ln"><span className="ln-in ln-sm">and achieve exceptional</span></span>
-<span className="ln"><span className="ln-in ln-lg ln-brass">Results.</span></span>
+<p className="eyebrow">Pineville, Louisiana <span className="dia" aria-hidden="true"></span> A father and son trial firm</p>
+<h1 className="title">
+<span className="tl"><span className="tw">Experience<span className="dot">.</span></span></span>
+<span className="tl"><span className="tw">Compassion<span className="dot">.</span></span></span>
+<span className="tl"><span className="tw tw--brass">Results.</span></span>
 </h1>
-<div className="plinth"><span className="plinth-rule"></span><p className="plinth-tag">Experience. Compassion. Results.</p><span className="plinth-rule"></span></div>
-<p className="hero-sub">Over 54 years of combined experience in criminal defense, estate planning, personal injury, and juvenile law. The first conversation is free.</p>
+<p className="hero-sub">Over 54 years of combined experience. The first conversation is free.</p>
 <div className="hero-acts">
 <a className="btn btn-brass" href="tel:+13184734250">Call 318.473.4250</a>
-<a className="btn btn-quiet" href="#contact">Request a Free Consultation</a>
+<a className="btn btn-quiet" href="#call">Request a Free Consultation</a>
 </div>
 <p className="office-line" data-office="hero" data-state="closed" role="status"><span className="lamp" aria-hidden="true"></span><span className="office-copy">Monday to Friday, 8:00 to 4:30 · <a href="tel:+13184734250">318.473.4250</a></span></p>
 <a className="hero-emergency" href="#first24">If someone was arrested tonight, start here.</a>
 </div>
-</section>
+</header>
 
 
-<div className="frieze" role="note" aria-label="Firm facts">
-<div className="frieze-in">
-<span>Free initial consultation</span><span className="fz-mark">§</span>
-<span>Injury cases on contingency</span><span className="fz-mark">§</span>
-<span>Virtual meetings available</span><span className="fz-mark">§</span>
-<span>Mon to Fri · 8:00 to 4:30</span>
+<div className="facts" role="note" aria-label="Firm facts">
+<div className="facts-in">
+<div className="fact"><b>Over 54 years</b><span>Combined experience</span></div>
+<div className="fact"><b>Free</b><span>Initial consultation</span></div>
+<div className="fact"><b>Contingency</b><span>On injury cases</span></div>
+<div className="fact"><b>Two generations</b><span>Father and son</span></div>
 </div>
 </div>
 
 
-<section className="sec" id="first24" aria-labelledby="f24-title">
-<div className="wrap">
-<div className="sec-head" data-r>
-<p className="eyebrow"><span className="eb-mark">§</span> If someone was arrested tonight</p>
+<section className="f24" id="first24" aria-labelledby="f24-title">
+<div className="f24-head" data-r>
+<p className="eyebrow">If someone was arrested tonight</p>
 <h2 className="sec-h" id="f24-title">The First 24 Hours</h2>
 <p className="sec-sub">What to do right now, in plain words. Written for Central Louisiana families by the lawyers who take these calls.</p>
 </div>
-<div className="f24-card" data-r="d1">
+<div className="wrap"><div className="f24-card" data-r="d1">
 <div className="f24-grid">
 <ol className="f24-steps">
 <li className="f24-step"><span className="f24-num" aria-hidden="true">1</span><div>
@@ -311,69 +321,118 @@ if(!REDUCE){
 <button className="btn btn-quiet" id="f24-share" type="button">Send it to someone</button>
 </div>
 <p className="f24-legal">General information, not legal advice. Reading this page does not make us your lawyers. Every case is different. When in doubt, call.</p>
+</div></div>
+</section>
+
+
+<section className="gen" id="generations" aria-labelledby="gen-title">
+<span className="ghost" aria-hidden="true">54</span>
+<div className="gen-head" data-r>
+<p className="eyebrow">Two generations <span className="dia" aria-hidden="true"></span> One name on the door</p>
+<h2 className="sec-h" id="gen-title">One firm, handed<br />father to son.</h2>
+<p className="gen-lede">Higgins Law is a father and a son. George Lewis Higgins III has tried cases for over forty years. His son Alex practices beside him and manages the firm. The office is on Melrose Street in Pineville. When you call, you reach the people who will actually handle your case. You will never be just a file here.</p>
+</div>
+<div className="wall">
+<span className="spine" aria-hidden="true"></span>
+<article className="gene gene--g" data-r>
+<figure className="plate"><span className="off" aria-hidden="true"></span><img src="/assets/george-hd.jpeg" alt="Studio portrait of George Lewis Higgins III in a navy suit and gold tie" width="1916" height="2240" loading="lazy" decoding="async" /></figure>
+<p className="gene-era">The first generation</p>
+<h3 className="gene-name">George Lewis Higgins III</h3>
+<p className="gene-role">Founding Attorney</p>
+<p className="gene-body">George Lewis Higgins III has practiced law for over forty years. He built the firm on preparation and a steady presence in the courtroom, and he built its reputation the slow way: one client, one case at a time.</p>
+</article>
+<article className="gene gene--a" data-r="d1">
+<figure className="plate"><span className="off" aria-hidden="true"></span><img src="/assets/alex-hd.jpeg" alt="Studio portrait of G. Alexander Higgins in a navy suit, orange tie, and glasses" width="1916" height="2240" loading="lazy" decoding="async" /></figure>
+<p className="gene-era">The second generation</p>
+<h3 className="gene-name">G. Alexander Higgins</h3>
+<p className="gene-role">Attorney &amp; Managing Partner</p>
+<p className="gene-body">G. Alexander Higgins is the second generation of the firm and its managing partner. He grew up around this work, and he holds his cases to the standard his father set. Clients stay informed at every step, because that is how he was taught to practice.</p>
+</article>
+<div className="ledger" data-r role="group" aria-label="Over 54 years of combined experience">
+<div className="led-row"><span>George Lewis Higgins III</span><span className="led-dots"></span><span className="led-fig">40+ yrs</span></div>
+<div className="led-row"><span>G. Alexander Higgins</span><span className="led-dots"></span><span className="led-fig led-fig--cf">carried forward</span></div>
+<div className="led-rule" aria-hidden="true"></div>
+<div className="led-total"><span className="led-big" id="led-big">54+</span><span className="led-cap">Years of experience, combined</span></div>
 </div>
 </div>
 </section>
-<div className="seam" aria-hidden="true"><span className="seam-line seam-line--l"></span><span className="seam-dia"></span><span className="seam-mark">§</span><span className="seam-dia"></span><span className="seam-line seam-line--r"></span></div>
 
 
-<section className="sec" id="practice" aria-labelledby="pr-title">
-<div className="wrap">
-<div className="sec-head" data-r>
-<p className="eyebrow"><span className="eb-mark">§</span> Areas of practice</p>
-<h2 className="sec-h" id="pr-title">What we handle.</h2>
-<p className="sec-sub">Criminal defense, juvenile law, personal injury, and estate planning. Handled by the two attorneys whose name is on the door.</p>
+<figure className="creed" data-r>
+<div className="creed-media"><img src="/assets/george-and-alex-meeting.webp" alt="" width="1359" height="906" loading="lazy" decoding="async" /></div>
+<div className="creed-grade" aria-hidden="true"></div>
+<div className="creed-in">
+<blockquote className="creed-q">We build successful <em>Relationships</em>; treat people with <em>Respect</em>; and achieve exceptional <em>Results</em>.</blockquote>
+<figcaption className="creed-cap">The creed of the firm</figcaption>
 </div>
-<div className="toa" data-r="d1">
+</figure>
 
-<div className="toa-row">
-<button className="toa-btn" aria-expanded="false" aria-controls="pa-1" id="pa-1-btn">
-<span className="toa-rn" aria-hidden="true">I.</span>
-<span className="toa-t"><span className="toa-h3" role="heading" aria-level="3">Criminal Defense</span><p>A charge is not a conviction. We stand with the person behind the accusation.</p></span>
-<span className="toa-x" aria-hidden="true"></span>
+
+<section className="prac" id="practice" aria-labelledby="pr-title">
+<div className="prac-head" data-r>
+<p className="eyebrow">Areas of practice</p>
+<h2 className="sec-h" id="pr-title">What we handle.</h2>
+<p className="sec-sub">Criminal defense, juvenile law, personal injury, and estate planning. Handled by the two attorneys whose name is on the door. Open a row to see the work.</p>
+</div>
+<div className="dex" data-r="d1">
+
+<div className="pr">
+<button className="pr-btn" aria-expanded="false" aria-controls="pa-1" id="pa-1-btn">
+<span className="pr-bg" aria-hidden="true"><img src="/assets/alexhigginswithclient.webp" alt="" loading="lazy" decoding="async" /></span>
+<span className="pr-in">
+<span className="pr-num" aria-hidden="true">I</span>
+<span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Criminal Defense</span><span className="pr-line">A charge is not a conviction. We stand with the person behind the accusation.</span></span>
+<span className="pr-x" aria-hidden="true"></span>
+</span>
 </button>
-<div className="toa-panel" id="pa-1" role="region" aria-labelledby="pa-1-btn"><div className="toa-panel-in">
-<div className="toa-body">
+<div className="pr-panel" id="pa-1" role="region" aria-labelledby="pa-1-btn"><div className="pr-panel-in">
+<div className="pr-body">
 <div className="pst"><h4>You Will Know Where You Stand</h4><p>You will understand the process, know your options, and never be left in the dark.</p></div>
 <div className="pst"><h4>The State Has the Burden</h4><p>We examine the evidence, hold the State to its burden, and tell your side of the story.</p></div>
 <div className="pst"><h4>Ready for the Courtroom</h4><p>Decades of courtroom advocacy, prepared for the moment a case needs to be tried.</p></div>
 <div className="pst"><h4>Expungements</h4><p>Clearing a record is something we handle regularly. Ask about your eligibility.</p></div>
-<p className="toa-call">Someone was arrested? Read <a href="#first24">The First 24 Hours</a>, then call <a href="tel:+13184734250">318.473.4250</a>.</p>
+<p className="pr-call">Someone was arrested? Read <a href="#first24">The First 24 Hours</a>, then call <a href="tel:+13184734250">318.473.4250</a>.</p>
 </div>
 </div></div>
 </div>
 
-<div className="toa-row">
-<button className="toa-btn" aria-expanded="false" aria-controls="pa-2" id="pa-2-btn">
-<span className="toa-rn" aria-hidden="true">II.</span>
-<span className="toa-t"><span className="toa-h3" role="heading" aria-level="3">Juvenile Law</span><p>When your child is in trouble, or DCFS is at your door, the clock is already running.</p></span>
-<span className="toa-x" aria-hidden="true"></span>
+<div className="pr">
+<button className="pr-btn" aria-expanded="false" aria-controls="pa-2" id="pa-2-btn">
+<span className="pr-bg" aria-hidden="true"><img src="/assets/george-higgins-meeting.webp" alt="" loading="lazy" decoding="async" /></span>
+<span className="pr-in">
+<span className="pr-num" aria-hidden="true">II</span>
+<span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Juvenile Law</span><span className="pr-line">When your child is in trouble, or DCFS is at your door, the clock is already running.</span></span>
+<span className="pr-x" aria-hidden="true"></span>
+</span>
 </button>
-<div className="toa-panel" id="pa-2" role="region" aria-labelledby="pa-2-btn"><div className="toa-panel-in">
-<div className="toa-body">
+<div className="pr-panel" id="pa-2" role="region" aria-labelledby="pa-2-btn"><div className="pr-panel-in">
+<div className="pr-body">
 <div className="pst"><h4>Delinquency Defense</h4><p>Protecting minors with the emphasis on rehabilitation, not punishment.</p></div>
 <div className="pst"><h4>Custody &amp; DCFS</h4><p>Standing with parents when DCFS threatens parental rights. These cases move on strict timelines.</p></div>
-<div className="pst"><h4>Adult Charge Protection</h4><p>Fighting to keep juveniles in the juvenile system, where the focus is their future.</p></div>
+<div className="pst"><h4>Keeping Kids in Juvenile Court</h4><p>Fighting to keep juveniles in the juvenile system, where the focus is their future.</p></div>
 <div className="pst"><h4>What Comes After</h4><p>Court is not the end of it. We help families find their footing, and we stay reachable when questions come.</p></div>
-<p className="toa-call">DCFS involved? Do not wait for the next hearing. Call <a href="tel:+13184734250">318.473.4250</a>.</p>
+<p className="pr-call">DCFS involved? Do not wait for the next hearing. Call <a href="tel:+13184734250">318.473.4250</a>.</p>
 </div>
 </div></div>
 </div>
 
-<div className="toa-row">
-<button className="toa-btn" aria-expanded="false" aria-controls="pa-3" id="pa-3-btn">
-<span className="toa-rn" aria-hidden="true">III.</span>
-<span className="toa-t"><span className="toa-h3" role="heading" aria-level="3">Personal Injury</span><p>Hurt because someone else was careless? Louisiana gives you less time than you think.</p></span>
-<span className="toa-x" aria-hidden="true"></span>
+<div className="pr">
+<button className="pr-btn" aria-expanded="false" aria-controls="pa-3" id="pa-3-btn">
+<span className="pr-bg" aria-hidden="true"><img src="/assets/hero.webp" alt="" loading="lazy" decoding="async" /></span>
+<span className="pr-in">
+<span className="pr-num" aria-hidden="true">III</span>
+<span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Personal Injury</span><span className="pr-line">Hurt because someone else was careless? Louisiana gives you less time than you think.</span></span>
+<span className="pr-x" aria-hidden="true"></span>
+</span>
 </button>
-<div className="toa-panel" id="pa-3" role="region" aria-labelledby="pa-3-btn"><div className="toa-panel-in">
-<div className="toa-body">
+<div className="pr-panel" id="pa-3" role="region" aria-labelledby="pa-3-btn"><div className="pr-panel-in">
+<div className="pr-body">
 <div className="pst"><h4>Your Story, Heard First</h4><p>Our advocacy reflects the full reality of what the injury took from your days.</p></div>
 <div className="pst"><h4>Built Like a Trial Case</h4><p>Medical records, expert testimony, deliberate preparation. Ready for a courtroom from day one.</p></div>
 <div className="pst"><h4>Negotiating from Strength</h4><p>A trial reputation is leverage at the settlement table.</p></div>
 <div className="pst"><h4>The Full Cost, Counted</h4><p>Medical bills, lost wages, and what the injury took from your life. We account for all of it. Injury cases are handled on contingency.</p></div>
 <div className="tool" id="prescription">
-<p className="eyebrow eyebrow--plain"><span className="eb-mark">§</span> How long do you have</p>
+<p className="tool-eb"><span className="mark">&sect;</span> How long do you have</p>
 <h4 className="tool-h">The clock started the day you were hurt.</h4>
 <p>Louisiana's filing deadlines are shorter than most people expect. For some claims it is as little as one year from the date of the injury. The exact deadline depends on the facts of your case. Do not guess.</p>
 
@@ -383,28 +442,31 @@ if(!REDUCE){
 <p className="rx-result" id="rx-result" aria-live="polite"></p>
 <p className="tool-legal">Deadlines, called prescription in Louisiana, vary by claim and by facts. This shows elapsed time only. It does not calculate your deadline and it is not legal advice.</p>
 </div>
-<p className="toa-call">Insurance already calling? Talk to us before you sign anything: <a href="tel:+13184734250">318.473.4250</a>.</p>
+<p className="pr-call">Insurance already calling? Talk to us before you sign anything: <a href="tel:+13184734250">318.473.4250</a>.</p>
 </div>
 </div></div>
 </div>
 
-<div className="toa-row">
-<button className="toa-btn" aria-expanded="false" aria-controls="pa-4" id="pa-4-btn">
-<span className="toa-rn" aria-hidden="true">IV.</span>
-<span className="toa-t"><span className="toa-h3" role="heading" aria-level="3">Estate Planning &amp; Successions</span><p>Plain documents that say exactly what you want, so your family is never left guessing.</p></span>
-<span className="toa-x" aria-hidden="true"></span>
+<div className="pr">
+<button className="pr-btn" aria-expanded="false" aria-controls="pa-4" id="pa-4-btn">
+<span className="pr-bg" aria-hidden="true"><img src="/assets/higginslawheropic.webp" alt="" loading="lazy" decoding="async" /></span>
+<span className="pr-in">
+<span className="pr-num" aria-hidden="true">IV</span>
+<span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Estate Planning &amp; Successions</span><span className="pr-line">Plain documents that say exactly what you want, so your family is never left guessing.</span></span>
+<span className="pr-x" aria-hidden="true"></span>
+</span>
 </button>
-<div className="toa-panel" id="pa-4" role="region" aria-labelledby="pa-4-btn"><div className="toa-panel-in">
-<div className="toa-body">
+<div className="pr-panel" id="pa-4" role="region" aria-labelledby="pa-4-btn"><div className="pr-panel-in">
+<div className="pr-body">
 <div className="pst"><h4>Wills &amp; Trusts</h4><p>From simple wills to comprehensive trusts: safeguard assets, reduce conflict, and protect your family.</p></div>
 <div className="pst"><h4>Powers of Attorney &amp; Health Directives</h4><p>Clear documents, so your medical, financial, and legal decisions rest with the people you trust most.</p></div>
-<div className="pst"><h4>Successions &amp; Probate</h4><p>Guiding families through the process with clarity and compassion.</p></div>
+<div className="pst"><h4>Successions &amp; Probate</h4><p>When a loved one passes, we guide families through the process with clarity and compassion.</p></div>
 <div className="tool" id="drawer">
-<p className="eyebrow eyebrow--plain"><span className="eb-mark">§</span> A five minute check</p>
+<p className="tool-eb"><span className="mark">&sect;</span> A five minute check</p>
 <h4 className="tool-h">Five papers your family hopes you have.</h4>
 <p>If something happened to you tonight, could your family open one drawer and find what they need? Check what you already have. Nothing you check here is saved or sent.</p>
 <fieldset style={{border:'none'}}>
-<legend className="visually-hidden" style={{position:'absolute',left:'-9999px'}}>Estate readiness checklist</legend>
+<legend style={{position:'absolute',left:'-9999px'}}>Estate readiness checklist</legend>
 <ul className="drawer-list" id="drawer-list">
 <li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>A will that reflects your life today.</label></li>
 <li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>A power of attorney for your finances.</label></li>
@@ -414,70 +476,24 @@ if(!REDUCE){
 </ul>
 </fieldset>
 <p className="drawer-result" id="drawer-result" aria-live="polite">Most families start at zero. One conversation puts the first three in motion.</p>
-<div className="tool-acts"><a href="tel:+13184734250">Call 318.473.4250</a><a href="#contact">Ask about a free consultation</a></div>
+<div className="tool-acts"><a href="tel:+13184734250">Call 318.473.4250</a><a href="#call">Ask about a free consultation</a></div>
 </div>
-<p className="toa-call">One appointment, not a season of paperwork. Start with <a href="tel:+13184734250">318.473.4250</a>.</p>
+<p className="pr-call">One appointment, not a season of paperwork. Start with <a href="tel:+13184734250">318.473.4250</a>.</p>
 </div>
 </div></div>
 </div>
 
 </div>
-</div>
-</section>
-
-<div className="seam" aria-hidden="true"><span className="seam-line seam-line--l"></span><span className="seam-dia"></span><span className="seam-mark">§</span><span className="seam-dia"></span><span className="seam-line seam-line--r"></span></div>
-
-
-<section className="sec" id="generations" aria-labelledby="gen-title">
-<div className="wrap">
-<div className="sec-head" data-r>
-<p className="eyebrow"><span className="eb-mark">§</span> Two generations</p>
-<h2 className="sec-h" id="gen-title">One firm, handed father to son.</h2>
-</div>
-<div className="gen-intro" data-r="d1">
-<p>Higgins Law is a father and a son. George Lewis Higgins III has tried cases for over forty years. His son Alex practices beside him and manages the firm. Between them, over 54 years of experience in the law.</p>
-<p>The office is on Melrose Street in Pineville. When you call, you reach the people who will actually handle your case. You will never be just a file here.</p>
-</div>
-<div className="ledger">
-<span className="ledger-spine" aria-hidden="true"></span>
-<span className="ledger-node" aria-hidden="true">§</span>
-<article className="entry entry--george" data-r>
-<figure className="plate"><img src="/assets/george-hd.jpeg" alt="George Lewis Higgins III" width="1916" height="2240" loading="lazy" decoding="async" /></figure>
-<p className="entry-gen">The first generation</p>
-<h3 className="entry-name">George Lewis Higgins III</h3>
-<p className="entry-role">Founding Attorney</p>
-<p className="entry-body">George Lewis Higgins III has practiced law for over forty years. He built the firm on preparation and a steady presence in the courtroom, and he built its reputation the slow way: one client, one case at a time.</p>
-</article>
-<article className="entry entry--alex" data-r="d1">
-<figure className="plate"><img src="/assets/alex-hd.jpeg" alt="G. Alexander Higgins" width="1916" height="2240" loading="lazy" decoding="async" /></figure>
-<p className="entry-gen">The second generation</p>
-<h3 className="entry-name">G. Alexander Higgins</h3>
-<p className="entry-role">Attorney &amp; Managing Partner</p>
-<p className="entry-body">G. Alexander Higgins is the second generation of the firm and its managing partner. He grew up around this work, and he holds his cases to the standard his father set. Clients stay informed at every step, because that is how he was taught to practice.</p>
-</article>
-<div className="ledger-sum" data-r role="group" aria-label="Over 54 years of combined experience">
-<div className="sum-row"><span>George Lewis Higgins III</span><span className="sum-dots"></span><span className="sum-fig">40+ yrs</span></div>
-<div className="sum-row"><span>G. Alexander Higgins</span><span className="sum-dots"></span><span className="sum-fig sum-fig--cf">carried forward</span></div>
-<div className="sum-rule" aria-hidden="true"></div>
-<div className="sum-total"><span className="sum-big" id="sum-big">54+</span><span className="sum-label">Years of experience, combined</span></div>
-</div>
-</div>
-<div className="creed-strip" data-r>
-<div className="creed-cell"><h3>Relationships</h3><p>Trust is not automatic. It is earned, and it starts with listening. You will always know where your case stands, because we will be the ones telling you.</p></div>
-<div className="creed-cell"><h3>Respect</h3><p>We treat every client with dignity. We take your concerns seriously, and we remember what a case really is: a family, waiting on news.</p></div>
-<div className="creed-cell"><h3>Results</h3><p>We prepare every case thoroughly and negotiate from that preparation. When trial is the right answer, we are ready to try it.</p></div>
-</div>
-</div>
+<p className="prac-foot">Free initial consultation. Injury cases handled on contingency.</p>
 </section>
 
 
-<section className="sec" id="testimonials" aria-labelledby="ts-title">
-<div className="wrap">
-<div className="sec-head" data-r>
-<p className="eyebrow"><span className="eb-mark">§</span> In their words</p>
+<section className="testi" id="testimonials" aria-labelledby="ts-title">
+<div className="testi-in">
+<div data-r>
+<p className="eyebrow">In their words</p>
 <h2 className="sec-h" id="ts-title">What clients say when it is over.</h2>
 </div>
-
 <figure className="pull" data-r="d1">
 <blockquote>
 <p className="pull-big"><span className="pq">&ldquo;</span>I called and he answered.<span className="pq">&rdquo;</span></p>
@@ -503,14 +519,14 @@ if(!REDUCE){
 </div>
 </section>
 
-<div className="seam" aria-hidden="true"><span className="seam-line seam-line--l"></span><span className="seam-dia"></span><span className="seam-mark">§</span><span className="seam-dia"></span><span className="seam-line seam-line--r"></span></div>
 
-
-<section className="sec" id="faq" aria-labelledby="faq-title">
-<div className="wrap">
-<div className="sec-head" data-r>
-<p className="eyebrow"><span className="eb-mark">§</span> Before you call</p>
+<section className="faq" id="faq" aria-labelledby="faq-title">
+<div className="faq-in">
+<div className="faq-side" data-r>
+<p className="eyebrow">Before you call</p>
 <h2 className="sec-h" id="faq-title">Questions we hear at the first meeting.</h2>
+<p className="sec-sub">Plain answers, the same ones we give across the table.</p>
+<p className="faq-side-call">Something we did not cover? <a href="tel:+13184734250">Call 318.473.4250</a>. The first conversation is free.</p>
 </div>
 <div className="fqgs" data-r="d1">
 
@@ -543,7 +559,7 @@ if(!REDUCE){
 <div className="fqg"><h3 className="fqgl">Personal Injury</h3>
 <div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p1">What should I do after an accident?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p1"><div className="fa-in"><div className="fai">Get medical attention first. Photograph the scene. Get witness names. And do not discuss a settlement with any insurance company before you talk to a lawyer.</div></div></div></div>
 <div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p2">The insurance company offered money. Should I take it?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p2"><div className="fa-in"><div className="fai">Be careful. Early offers rarely cover the full cost of an injury, and once you accept, the matter is closed, even if you get worse. Talk to a lawyer before you sign anything.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p3">How much does a personal injury lawyer cost?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p3"><div className="fa-in"><div className="fai">We handle injury cases on contingency: no attorney's fee up front, and a fee is collected only if we recover money for you. We explain how fees, costs, and expenses work in plain terms at the first meeting.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p3">How much does a personal injury lawyer cost?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p3"><div className="fa-in"><div className="fai">We handle injury cases on contingency: no attorney&rsquo;s fee up front, and a fee is collected only if we recover money for you. We explain how fees, costs, and expenses work in plain terms at the first meeting.</div></div></div></div>
 <div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p4">How long do I have to file an injury claim?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p4"><div className="fa-in"><div className="fai">Often as little as one year from the date of the accident. Deadlines vary by case, so call early. The date of your accident controls.</div></div></div></div>
 </div>
 
@@ -552,18 +568,19 @@ if(!REDUCE){
 </section>
 
 
-<section className="sec" id="contact" aria-labelledby="ct-title">
-<div className="wrap"><div className="cs">
-<div className="cl" data-r>
-<p className="eyebrow"><span className="eb-mark">§</span> Get in touch</p>
-<h2 className="sec-h" id="ct-title">Start with a conversation.</h2>
-<p className="c-lede" style={{marginTop:'1rem'}}>Every case here begins the same way: you tell us what is going on, and we listen. The consultation is free, in person or by video.</p>
-<div>
-<div className="c-fact"><span className="c-k">Call</span><span className="c-v"><a href="tel:+13184734250">318.473.4250</a></span></div>
-<div className="c-fact"><span className="c-k">Office</span><span className="c-v"><a href="https://www.google.com/maps?q=1603+Melrose+St,+Pineville,+LA+71360" target="_blank" rel="noopener">1603 Melrose St, Pineville, LA 71360</a></span></div>
-<div className="c-fact"><span className="c-k">Hours</span><span className="c-v">Monday to Friday, 8:00 AM to 4:30 PM<span className="c-note office-line office-line--compact" data-office="contact" data-state="closed" style={{display:'flex'}}><span className="lamp" aria-hidden="true"></span><span className="office-copy">Mon to Fri · 8:00 to 4:30</span></span></span></div>
+<section className="call" id="call" aria-labelledby="call-title">
+<span className="call-ghost" aria-hidden="true">&sect;</span>
+<div className="call-in">
+<div data-r>
+<p className="eyebrow">Get in touch</p>
+<h2 className="call-h" id="call-title">Start with<br />a conversation.</h2>
+<p className="call-lede">Every case here begins the same way: you tell us what is going on, and we listen. The consultation is free, in person or by video.</p>
+<a className="call-tel" href="tel:+13184734250">318.473.4250</a>
+<div className="call-facts">
+<div className="cf"><span className="cf-k">Office</span><span className="cf-v"><a href="https://www.google.com/maps?q=1603+Melrose+St,+Pineville,+LA+71360" target="_blank" rel="noopener">1603 Melrose St, Pineville, LA 71360</a></span></div>
+<div className="cf"><span className="cf-k">Hours</span><span className="cf-v">Monday to Friday, 8:00 AM to 4:30 PM<span className="office-line office-line--compact" data-office="contact" data-state="closed" style={{display:'flex'}}><span className="lamp" aria-hidden="true"></span><span className="office-copy">Mon to Fri · 8:00 to 4:30</span></span></span></div>
 </div>
-<noscript><p className="c-note" style={{marginTop:'.8rem',fontStyle:'italic',color:'var(--t-mut)'}}>Office hours: Monday to Friday, 8:00 AM to 4:30 PM.</p></noscript>
+<noscript><p style={{marginTop:'.8rem',fontStyle:'italic',color:'var(--mut)'}}>Office hours: Monday to Friday, 8:00 AM to 4:30 PM.</p></noscript>
 <div className="steps">
 <h3>What happens when you call</h3>
 <p className="steps-sub">Three steps. No mystery.</p>
@@ -576,7 +593,7 @@ if(!REDUCE){
 <h3>Request a Free Consultation</h3>
 <p className="cfs">No fee. No obligation. Just answers.</p>
 
-<form id="cf" noValidate>
+<form id="cf" noValidate={true}>
 <div className="fr">
 <div className="fg"><label htmlFor="f-name">Name</label><input type="text" id="f-name" name="name" autoComplete="name" required /></div>
 <div className="fg"><label htmlFor="f-tel">Phone</label><input type="tel" id="f-tel" name="tel" autoComplete="tel" required /></div>
@@ -588,12 +605,12 @@ if(!REDUCE){
 </form>
 <div id="fm" role="status" aria-live="polite" tabIndex={-1}></div>
 </div>
-</div></div>
+</div>
 </section>
 </main>
 
 
-<footer className="foot"><div className="wrap">
+<footer className="foot"><div className="foot-in">
 <div className="foot-top">
 <div>
 <p className="foot-brand">Higgins <span>Law</span></p>
@@ -602,7 +619,6 @@ if(!REDUCE){
 <div className="foot-col">
 <h4>The Firm</h4>
 <a href="#first24">The First 24 Hours</a>
-<a href="#practice">What We Handle</a>
 <a href="#generations">Two Generations</a>
 <a href="#testimonials">In Their Words</a>
 <a href="#faq">Questions</a>
@@ -623,16 +639,12 @@ if(!REDUCE){
 <a href="https://www.google.com/maps?q=1603+Melrose+St,+Pineville,+LA+71360" target="_blank" rel="noopener">Directions &rarr;</a>
 </div>
 </div>
-<p className="foot-disc" id="disclaimer">Attorney Advertising. The information on this website is general in nature and is not legal advice. Viewing this site or contacting Higgins Law does not create an attorney-client relationship. Past results do not guarantee or predict a similar outcome in future matters.</p>
-<div className="seam foot-seam" aria-hidden="true"><span className="seam-line seam-line--l"></span><span className="seam-dia"></span><span className="seam-mark">§</span><span className="seam-dia"></span><span className="seam-line seam-line--r"></span></div>
-<p className="foot-sig"><span className="fs-mark">§</span> Higgins Law · 1603 Melrose St, Pineville, Louisiana 71360 · &copy; 2026 · All rights reserved</p>
+<p className="foot-disc">Attorney Advertising. The information on this website is general in nature and is not legal advice. Viewing this site or contacting Higgins Law does not create an attorney-client relationship. Past results do not guarantee or predict a similar outcome in future matters.</p>
+<p className="foot-sig"><span className="mark">&sect;</span> Higgins Law, 1603 Melrose St, Pineville, Louisiana 71360. &copy; 2026. All rights reserved.</p>
 </div></footer>
 
 
-<div className="mob-bar">
-<a href="#contact" className="mb-msg">Send a Message</a>
-<a href="tel:+13184734250" className="mb-call">Call Now</a>
-</div>
+<div className="mob"><a href="tel:+13184734250">Call 318.473.4250</a></div>
     </div>
   );
 }
