@@ -71,17 +71,34 @@ html.no-io #eng [data-r]{opacity:1;transform:none;transition:none}
 #eng .ncw a{font-weight:600!important;color:var(--bg0)!important;background:var(--brass);padding:.66rem 1.2rem;border:1px solid var(--brass-deep);transition:background .25s}
 #eng .ncw a::after{display:none!important}
 #eng .ncw a:hover{background:var(--brass-hi);color:var(--bg0)!important}
-#eng .nt{display:none;background:none;border:none;cursor:pointer;padding:.55rem;z-index:101}
+#eng .nt{display:none;background:none;border:none;cursor:pointer;padding:.55rem;z-index:160;position:relative}
 #eng .nt span{display:block;width:25px;height:1.5px;background:var(--cream);margin:6px 0;transition:transform .3s var(--eo),opacity .3s}
 #eng .nt[aria-expanded="true"] span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
 #eng .nt[aria-expanded="true"] span:nth-child(2){opacity:0}
 #eng .nt[aria-expanded="true"] span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px)}
-@media(max-width:900px){
+
+/* Below 1180px the row gets cramped: the menu becomes its own scene. */
+@media(max-width:1180px){
 #eng .nl{display:none}
-#eng .nl.open{display:flex;flex-direction:column;position:fixed;inset:0;background:rgba(23,18,9,.98);justify-content:center;align-items:center;gap:2rem;z-index:100}
-#eng .nl.open a{font-size:1.1rem;color:var(--cream);letter-spacing:.1em}
-#eng .nl.open .ncw a{font-size:.85rem}
 #eng .nt{display:block}
+#eng .nl.open{display:flex;flex-direction:column;position:fixed;inset:0;z-index:150;justify-content:center;align-items:stretch;gap:0;padding:5.5rem var(--pad) 3rem;overflow-y:auto;background:
+ radial-gradient(ellipse 60% 40% at 24% 18%,rgba(230,200,141,.1),transparent 65%),
+ #171209}
+#eng .nl.open::before{content:'\00a7';position:absolute;top:1.05rem;left:var(--pad);font-family:var(--fd);font-size:1.5rem;color:var(--brass);line-height:1.6}
+#eng .nl.open li{border-bottom:1px solid var(--hair)}
+#eng .nl.open li:first-child{border-top:1px solid var(--hair)}
+#eng .nl.open a{display:block;font-family:var(--fd);font-size:clamp(1.5rem,4.5vh,2.3rem);text-transform:none;letter-spacing:.02em;color:var(--cream);padding:clamp(.8rem,2.2vh,1.3rem) 0}
+#eng .nl.open a::after{display:none}
+#eng .nl.open a:hover{color:var(--brass-hi)}
+#eng .nl.open .n-tel{color:var(--brass);font-family:var(--fd)}
+#eng .nl.open .ncw{border-bottom:none;margin-top:2rem}
+#eng .nl.open .ncw a{display:flex;align-items:center;justify-content:center;font-family:var(--fu);font-size:.85rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:1.1rem;min-height:54px}
+@media(prefers-reduced-motion:no-preference){
+#eng .nl.open li{opacity:0;transform:translateY(18px);animation:riseIn .55s var(--eo) forwards}
+#eng .nl.open li:nth-child(1){animation-delay:.05s}.nl.open li:nth-child(2){animation-delay:.11s}
+#eng .nl.open li:nth-child(3){animation-delay:.17s}.nl.open li:nth-child(4){animation-delay:.23s}
+#eng .nl.open li:nth-child(5){animation-delay:.29s}.nl.open li:nth-child(6){animation-delay:.35s}
+}
 }
 
 /*══════════ HERO · The Title Card ══════════*/
