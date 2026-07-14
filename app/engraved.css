@@ -61,8 +61,10 @@ html.no-io #eng [data-r]{opacity:1;transform:none;transition:none}
 #eng .nb{display:flex;align-items:baseline;gap:.85rem;min-width:0}
 #eng .nb-t{font-family:var(--fd);font-size:1.32rem;color:var(--cream);letter-spacing:.05em;white-space:nowrap}
 #eng .nb-t span{color:var(--brass)}
-#eng .nb-s{font-family:var(--fu);font-weight:500;font-size:.57rem;text-transform:uppercase;letter-spacing:.26em;color:var(--mut);white-space:nowrap}
-@media(max-width:1370px){.nb-s{display:none}}
+/* The subtitle can never share a 1280px row with the full menu: it only
+   rides along in hamburger territory, where the row is just brand + button. */
+#eng .nb-s{display:none;font-family:var(--fu);font-weight:500;font-size:.57rem;text-transform:uppercase;letter-spacing:.26em;color:var(--mut);white-space:nowrap}
+@media(min-width:480px) and (max-width:1180px){.nb-s{display:inline}}
 #eng .nl{display:flex;gap:clamp(1.1rem,2vw,2rem);list-style:none;align-items:center}
 #eng .nl a{font-family:var(--fu);font-weight:500;font-size:.69rem;color:var(--mut);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;padding:.3rem 0;position:relative}
 #eng .nl a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--brass);transition:width .35s var(--eo)}
