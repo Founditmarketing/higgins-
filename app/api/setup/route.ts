@@ -1,5 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
+import faqSeed from "../../lib/faq-seed.json";
 
 export async function GET() {
   try {
@@ -45,10 +46,46 @@ export async function GET() {
       );
     `;
 
+    // FAQ items, managed from the Site Editor
+    await sql`
+      CREATE TABLE IF NOT EXISTS faqs (
+        id VARCHAR(40) PRIMARY KEY,
+        grp VARCHAR(100) NOT NULL,
+        question VARCHAR(400) NOT NULL,
+        answer TEXT NOT NULL,
+        locked BOOLEAN NOT NULL DEFAULT false,
+        position INTEGER NOT NULL
+      );
+    `;
+
+    // Change log for the Site Editor (text, photos, settings, FAQ)
+    await sql`
+      CREATE TABLE IF NOT EXISTS site_history (
+        id UUID PRIMARY KEY,
+        key VARCHAR(120) NOT NULL,
+        old_value TEXT,
+        new_value TEXT,
+        changed_at VARCHAR(50) NOT NULL
+      );
+    `;
+
+    // Seed the FAQ from the site's launch content, once
+    const existing = await sql`SELECT COUNT(*)::int AS n FROM faqs`;
+    let seeded = 0;
+    if (existing.rows[0].n === 0) {
+      for (let i = 0; i < (faqSeed as any[]).length; i++) {
+        const it = (faqSeed as any[])[i];
+        await sql`
+          INSERT INTO faqs (id, grp, question, answer, locked, position)
+          VALUES (${it.id}, ${it.grp}, ${it.q}, ${it.a}, ${it.locked}, ${i})
+        `;
+        seeded++;
+      }
+    }
+
     return NextResponse.json(
       {
-        message:
-          "Database tables 'events', 'site_content', and 'intakes' initialized successfully.",
+        message: `Database initialized: events, site_content, intakes, faqs (${seeded} seeded), site_history.`,
       },
       { status: 200 }
     );

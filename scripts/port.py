@@ -129,6 +129,34 @@ for slot in photos:
 if photo_missing:
     raise SystemExit(f"photos.json src not found in static build: {photo_missing}")
 
+# ---------- FAQ region -> prop-driven render (FAQ manager) ----------
+FQGS_OPEN = '<div className="fqgs" data-r="d1">'
+faq_start = jsx.index(FQGS_OPEN) + len(FQGS_OPEN)
+faq_close = jsx.index("</div>\n</div>\n</section>", faq_start)
+FAQ_MAP = (
+    "\n{faq.map((g) => (\n"
+    '<div className="fqg" key={g.grp}><h3 className="fqgl">{g.grp}</h3>\n'
+    "{g.items.map((it) => (\n"
+    '<div className="fi" key={it.id}>\n'
+    '<button className="fq" aria-expanded="false" aria-controls={it.id}>{it.q}'
+    '<span className="fqi" aria-hidden="true"></span></button>\n'
+    '<div className="fa" id={it.id}><div className="fa-in"><div className="fai">{it.a}</div></div></div>\n'
+    "</div>\n))}\n</div>\n))}\n"
+)
+jsx = jsx[:faq_start] + FAQ_MAP + jsx[faq_close:]
+
+# ---------- Announcement bar CSS (Site Editor settings) ----------
+ANN_CSS = """
+/* announcement bar (Site Editor) */
+#eng .ann{position:fixed;top:0;left:0;right:0;z-index:120;display:flex;justify-content:center;align-items:center;gap:1rem;padding:.55rem 1rem;background:#7e3b2f;color:#f3ead8;font-family:var(--fu);font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;text-align:center}
+#eng .ann a{color:#f3ead8;border-bottom:1px solid rgba(243,234,216,.5);white-space:nowrap}
+#eng.has-bar .nav{top:34px}
+#eng.has-bar .nl.open{padding-top:7.5rem}
+@media(max-width:760px){#eng .ann{font-size:.6rem;padding:.5rem .75rem;letter-spacing:.1em}}
+"""
+with open(ROOT / "app/engraved.css", "a", encoding="utf-8") as fh:
+    fh.write(ANN_CSS)
+
 # ---------- Runtime JS: strip demo form handler, keep the rest ----------
 js = src.split("<script>\n")[1].split("\n</script>")[0]
 js, n = re.subn(
@@ -177,9 +205,18 @@ page = (
     'import { useEffect } from "react";\n'
     'import { submitIntake } from "./actions/intake";\n'
     'import "./engraved.css";\n\n'
-    "export default function HomeClient({ c }: { c: Record<string, string> }) {\n"
+    "export default function HomeClient({ c, faq, bar }: { c: Record<string, string>; faq: any[]; bar: { text?: string; link?: string } }) {\n"
     "  useEffect(() => {\n" + guard + js + "\n" + FORM_JS + "\n  }, []);\n\n"
-    '  return (\n    <div id="eng">\n' + jsx.strip() + "\n    </div>\n  );\n}\n"
+    "  const hasBar = !!(bar && bar.text);\n"
+    "  return (\n"
+    '    <div id="eng" className={hasBar ? "has-bar" : undefined}>\n'
+    "      {hasBar ? (\n"
+    '        <div className="ann" role="status">\n'
+    "          <span>{bar.text}</span>\n"
+    '          {bar.link ? <a href={bar.link}>Details</a> : null}\n'
+    "        </div>\n"
+    "      ) : null}\n"
+    + jsx.strip() + "\n    </div>\n  );\n}\n"
 )
 (ROOT / "app/HomeClient.tsx").write_text(page, encoding="utf-8")
 print("port complete: app/engraved.css + app/HomeClient.tsx")

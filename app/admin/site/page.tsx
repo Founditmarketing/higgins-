@@ -6,17 +6,38 @@ import { login, checkAuth } from "../../actions/auth";
 import {
   getEditableFields,
   getPhotoSlots,
+  getSettings,
+  getHistory,
+  revertChange,
   saveSiteContent,
   aiProposeEdits,
   type EditableField,
   type PhotoSlot,
   type ProposedEdit,
+  type HistoryEntry,
 } from "../../actions/content";
 import { uploadFile } from "../../actions/upload";
 import { getIntakes, markIntakeSeen, type Intake } from "../../actions/intake";
+import {
+  getFaqs,
+  addFaq,
+  updateFaq,
+  deleteFaq,
+  moveFaq,
+  type FaqGroup,
+} from "../../actions/faq";
 
 type FieldRow = EditableField & { current: string; overridden: boolean };
 type SlotRow = PhotoSlot & { current: string; overridden: boolean };
+type Tab = "editor" | "photos" | "faq" | "settings" | "history" | "intake";
+
+const FAQ_GROUPS = [
+  "General",
+  "Criminal Defense",
+  "Estate Planning & Successions",
+  "Juvenile Law",
+  "Personal Injury",
+];
 
 export default function SiteEditorPage() {
   const [authed, setAuthed] = useState(false);
@@ -24,10 +45,17 @@ export default function SiteEditorPage() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
-  const [tab, setTab] = useState<"editor" | "photos" | "intake">("editor");
+  const [tab, setTab] = useState<Tab>("editor");
   const [fields, setFields] = useState<FieldRow[]>([]);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [slots, setSlots] = useState<SlotRow[]>([]);
+  const [faq, setFaq] = useState<FaqGroup[]>([]);
+  const [faqDrafts, setFaqDrafts] = useState<Record<string, { q: string; a: string }>>({});
+  const [newFaq, setNewFaq] = useState({ grp: FAQ_GROUPS[0], q: "", a: "" });
+  const [settings, setSettings] = useState<Record<string, string>>({});
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [intakes, setIntakes] = useState<Intake[]>([]);
+
   const [saving, setSaving] = useState(false);
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
   const [status, setStatus] = useState("");
@@ -39,17 +67,27 @@ export default function SiteEditorPage() {
   const [accepted, setAccepted] = useState<Record<string, boolean>>({});
   const [aiNote, setAiNote] = useState("");
 
-  const [intakes, setIntakes] = useState<Intake[]>([]);
-
   async function loadAll() {
-    const [{ fields }, { slots }, intakeRows] = await Promise.all([
-      getEditableFields(),
-      getPhotoSlots(),
-      getIntakes(),
-    ]);
+    const [{ fields }, { slots }, faqGroups, settingsMap, historyRows, intakeRows] =
+      await Promise.all([
+        getEditableFields(),
+        getPhotoSlots(),
+        getFaqs(),
+        getSettings(),
+        getHistory(),
+        getIntakes(),
+      ]);
     setFields(fields);
     setDrafts(Object.fromEntries(fields.map((f) => [f.key, f.current])));
     setSlots(slots);
+    setFaq(faqGroups);
+    setFaqDrafts(
+      Object.fromEntries(
+        faqGroups.flatMap((g) => g.items.map((it) => [it.id, { q: it.q, a: it.a }]))
+      )
+    );
+    setSettings(settingsMap as Record<string, string>);
+    setHistory(historyRows);
     setIntakes(intakeRows);
   }
 
@@ -74,17 +112,17 @@ export default function SiteEditorPage() {
     } else setLoginError(res.error || "Login failed");
   };
 
+  const flash = (msg: string) => setStatus(msg);
+
+  // ----- copy -----
   const dirtyKeys = fields
     .filter((f) => (drafts[f.key] ?? f.current) !== f.current)
     .map((f) => f.key);
 
   const saveDrafts = async () => {
     setSaving(true);
-    setStatus("");
-    const res = await saveSiteContent(
-      dirtyKeys.map((key) => ({ key, value: drafts[key] ?? "" }))
-    );
-    setStatus(res.ok ? "Saved. The live site updates within a few seconds." : res.error || "Save failed.");
+    const res = await saveSiteContent(dirtyKeys.map((key) => ({ key, value: drafts[key] ?? "" })));
+    flash(res.ok ? "Saved. The live site updates within a few seconds." : res.error || "Save failed.");
     if (res.ok) await loadAll();
     setSaving(false);
   };
@@ -93,32 +131,23 @@ export default function SiteEditorPage() {
     setSaving(true);
     const res = await saveSiteContent([{ key, value: "" }]);
     if (res.ok) await loadAll();
-    setStatus(res.ok ? (kind === "photo" ? "Restored the original photograph." : "Restored the original wording.") : res.error || "Reset failed.");
+    flash(res.ok ? (kind === "photo" ? "Restored the original photograph." : "Restored the original wording.") : res.error || "Reset failed.");
     setSaving(false);
   };
 
+  // ----- photos -----
   const handlePhotoPick = async (slot: SlotRow, file: File | null) => {
     if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      setStatus("That file is not an image.");
-      return;
-    }
-    if (file.size > 15 * 1024 * 1024) {
-      setStatus("That image is over 15 MB. Use a smaller one.");
-      return;
-    }
+    if (!file.type.startsWith("image/")) return flash("That file is not an image.");
+    if (file.size > 15 * 1024 * 1024) return flash("That image is over 15 MB. Use a smaller one.");
     setUploadingKey(slot.key);
-    setStatus("");
     try {
       const fd = new FormData();
       fd.append("file", file);
       const up = await uploadFile(fd);
-      if (!up.success || !up.url) {
-        setStatus(up.error || "Upload failed.");
-        return;
-      }
+      if (!up.success || !up.url) return flash(up.error || "Upload failed.");
       const res = await saveSiteContent([{ key: slot.key, value: up.url }]);
-      setStatus(res.ok ? "Photo swapped. The live site updates within a few seconds." : res.error || "Could not save the photo.");
+      flash(res.ok ? "Photo swapped. The live site updates within a few seconds." : res.error || "Could not save the photo.");
       if (res.ok) await loadAll();
     } finally {
       setUploadingKey(null);
@@ -127,9 +156,62 @@ export default function SiteEditorPage() {
     }
   };
 
+  // ----- FAQ -----
+  const saveFaqItem = async (id: string) => {
+    setSaving(true);
+    const d = faqDrafts[id];
+    const res = await updateFaq({ id, q: d.q, a: d.a });
+    flash(res.ok ? "Saved." : res.error || "Save failed.");
+    if (res.ok) await loadAll();
+    setSaving(false);
+  };
+
+  const removeFaqItem = async (id: string, q: string) => {
+    if (!confirm(`Remove this question?\n\n"${q}"`)) return;
+    setSaving(true);
+    const res = await deleteFaq(id);
+    flash(res.ok ? "Removed." : res.error || "Could not remove it.");
+    if (res.ok) await loadAll();
+    setSaving(false);
+  };
+
+  const nudgeFaq = async (id: string, dir: "up" | "down") => {
+    setSaving(true);
+    const res = await moveFaq(id, dir);
+    if (res.ok) await loadAll();
+    else flash(res.error || "Could not reorder.");
+    setSaving(false);
+  };
+
+  const createFaq = async () => {
+    setSaving(true);
+    const res = await addFaq(newFaq);
+    flash(res.ok ? "Added. It is live in that section now." : res.error || "Could not add it.");
+    if (res.ok) {
+      setNewFaq({ grp: newFaq.grp, q: "", a: "" });
+      await loadAll();
+    }
+    setSaving(false);
+  };
+
+  // ----- settings -----
+  const saveSettings = async () => {
+    setSaving(true);
+    const res = await saveSiteContent([
+      { key: "bar.enabled", value: settings["bar.enabled"] === "1" ? "1" : "" },
+      { key: "bar.text", value: settings["bar.text"] ?? "" },
+      { key: "bar.link", value: settings["bar.link"] ?? "" },
+      { key: "meta.title", value: settings["meta.title"] ?? "" },
+      { key: "meta.desc", value: settings["meta.desc"] ?? "" },
+    ]);
+    flash(res.ok ? "Saved. The live site updates within a few seconds." : res.error || "Save failed.");
+    if (res.ok) await loadAll();
+    setSaving(false);
+  };
+
+  // ----- AI -----
   const propose = async () => {
     setProposing(true);
-    setStatus("");
     setProposals([]);
     setAiNote("");
     const res = await aiProposeEdits(instruction);
@@ -137,9 +219,8 @@ export default function SiteEditorPage() {
       setProposals(res.edits ?? []);
       setAccepted(Object.fromEntries((res.edits ?? []).map((e) => [e.key, true])));
       setAiNote(res.note || "");
-      if ((res.edits ?? []).length === 0 && !res.note)
-        setStatus("No changes proposed. Try being more specific.");
-    } else setStatus(res.error || "Could not propose edits.");
+      if ((res.edits ?? []).length === 0 && !res.note) flash("No changes proposed. Try being more specific.");
+    } else flash(res.error || "Could not propose edits.");
     setProposing(false);
   };
 
@@ -148,7 +229,7 @@ export default function SiteEditorPage() {
     if (!chosen.length) return;
     setSaving(true);
     const res = await saveSiteContent(chosen.map((p) => ({ key: p.key, value: p.value })));
-    setStatus(res.ok ? "Applied. The live site updates within a few seconds." : res.error || "Apply failed.");
+    flash(res.ok ? "Applied. The live site updates within a few seconds." : res.error || "Apply failed.");
     if (res.ok) {
       setProposals([]);
       setInstruction("");
@@ -180,13 +261,7 @@ export default function SiteEditorPage() {
           <h1 style={S.h1}>Higgins Law · Site Editor</h1>
           <p style={S.mut}>Sign in with the office password.</p>
           <form onSubmit={handleLogin} style={{ marginTop: 16 }}>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              style={S.input}
-            />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" style={S.input} />
             {loginError && <p style={{ color: "#b3542e", marginTop: 8 }}>{loginError}</p>}
             <button type="submit" style={S.btn}>Sign in</button>
           </form>
@@ -197,26 +272,31 @@ export default function SiteEditorPage() {
       </div>
     );
 
+  const tabs: { id: Tab; label: string }[] = [
+    { id: "editor", label: "Site copy" },
+    { id: "photos", label: "Photos" },
+    { id: "faq", label: "Questions & answers" },
+    { id: "settings", label: "Announcement & search" },
+    { id: "history", label: "History" },
+    { id: "intake", label: `Requests${unseen ? ` (${unseen} new)` : ""}` },
+  ];
+
   return (
     <div style={S.shell}>
       <div style={{ maxWidth: 880, margin: "0 auto" }}>
         <header style={{ marginBottom: 20 }}>
           <h1 style={S.h1}>Higgins Law · Site Editor</h1>
           <p style={S.mut}>
-            Every word and photograph below is yours to change. Edit directly, or describe
-            the change and let the editor draft it. Nothing goes live until you save.
+            Every word, photograph, and question below is yours to change. Nothing goes live
+            until you save, and every change can be undone from History.
           </p>
-          <nav style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
-            <button onClick={() => setTab("editor")} style={tab === "editor" ? S.tabOn : S.tabOff}>
-              Site copy
-            </button>
-            <button onClick={() => setTab("photos")} style={tab === "photos" ? S.tabOn : S.tabOff}>
-              Photos
-            </button>
-            <button onClick={() => setTab("intake")} style={tab === "intake" ? S.tabOn : S.tabOff}>
-              Consultation requests{unseen ? ` (${unseen} new)` : ""}
-            </button>
-            <Link href="/admin" style={{ ...S.tabOff, textDecoration: "none" }}>News &amp; Updates</Link>
+          <nav style={{ display: "flex", gap: 8, marginTop: 14, flexWrap: "wrap" }}>
+            {tabs.map((t) => (
+              <button key={t.id} onClick={() => setTab(t.id)} style={tab === t.id ? S.tabOn : S.tabOff}>
+                {t.label}
+              </button>
+            ))}
+            <Link href="/admin" style={{ ...S.tabOff, textDecoration: "none" }}>News</Link>
             <Link href="/" style={{ ...S.tabOff, textDecoration: "none" }}>View site</Link>
           </nav>
         </header>
@@ -232,30 +312,19 @@ export default function SiteEditorPage() {
                 &ldquo;Mention that we sit down in person.&rdquo; The editor follows the firm&rsquo;s
                 rules: no promises, no invented numbers, your voice.
               </p>
-              <textarea
-                value={instruction}
-                onChange={(e) => setInstruction(e.target.value)}
-                rows={3}
-                placeholder="Describe the change you want…"
-                style={{ ...S.input, resize: "vertical" }}
-              />
+              <textarea value={instruction} onChange={(e) => setInstruction(e.target.value)} rows={3}
+                placeholder="Describe the change you want…" style={{ ...S.input, resize: "vertical" }} />
               <button onClick={propose} disabled={proposing || !instruction.trim()} style={S.btn}>
                 {proposing ? "Drafting…" : "Propose edits"}
               </button>
-
               {aiNote && <p style={{ ...S.mut, marginTop: 12 }}>Note from the editor: {aiNote}</p>}
-
               {proposals.length > 0 && (
                 <div style={{ marginTop: 16 }}>
                   {proposals.map((p) => (
                     <div key={p.key} style={S.proposal}>
                       <label style={{ display: "flex", gap: 10, alignItems: "flex-start", cursor: "pointer" }}>
-                        <input
-                          type="checkbox"
-                          checked={!!accepted[p.key]}
-                          onChange={(e) => setAccepted({ ...accepted, [p.key]: e.target.checked })}
-                          style={{ marginTop: 4 }}
-                        />
+                        <input type="checkbox" checked={!!accepted[p.key]}
+                          onChange={(e) => setAccepted({ ...accepted, [p.key]: e.target.checked })} style={{ marginTop: 4 }} />
                         <span>
                           <b>{labelOf(p.key)}</b>
                           <span style={S.diffOld}>{currentOf(p.key)}</span>
@@ -275,8 +344,8 @@ export default function SiteEditorPage() {
             <section style={S.card}>
               <h2 style={S.h2}>Edit directly</h2>
               <p style={S.mut}>
-                Grouped the way the page reads, top to bottom. Testimonials, the creed, legal
-                notices, and the office details are protected and stay as written.
+                Grouped the way the page reads. Testimonials, the creed, legal notices, and the
+                office details are protected and stay as written.
               </p>
               {groups.map((g, gi) => (
                 <details key={g.name} open={gi === 0} style={S.group}>
@@ -294,18 +363,13 @@ export default function SiteEditorPage() {
                             {f.overridden && <em style={{ color: "#96733a", fontStyle: "normal" }}> · edited</em>}
                           </label>
                           {f.overridden && (
-                            <button onClick={() => resetKey(f.key, "field")} style={S.mini} disabled={saving}>
-                              Restore original
-                            </button>
+                            <button onClick={() => resetKey(f.key, "field")} style={S.mini} disabled={saving}>Restore original</button>
                           )}
                         </div>
-                        <textarea
-                          id={f.key}
-                          value={drafts[f.key] ?? f.current}
+                        <textarea id={f.key} value={drafts[f.key] ?? f.current}
                           onChange={(e) => setDrafts({ ...drafts, [f.key]: e.target.value })}
                           rows={Math.min(6, Math.max(2, Math.ceil((drafts[f.key] ?? f.current).length / 90)))}
-                          style={{ ...S.input, resize: "vertical" }}
-                        />
+                          style={{ ...S.input, resize: "vertical" }} />
                         {f.hint && <p style={{ ...S.mut, fontSize: 12, marginTop: 2 }}>{f.hint}</p>}
                       </div>
                     ))}
@@ -324,38 +388,25 @@ export default function SiteEditorPage() {
             <h2 style={S.h2}>Photographs</h2>
             <p style={S.mut}>
               Upload a replacement and it takes the slot; the site&rsquo;s warm film treatment is
-              applied automatically, so photos match the rest of the page. Restore brings back
-              the original at any time.
+              applied automatically. Restore brings back the original at any time.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 16, marginTop: 16 }}>
               {slots.map((slot) => (
                 <div key={slot.key} style={S.proposal}>
                   <div style={{ aspectRatio: "4 / 3", overflow: "hidden", background: "#0e0b06", marginBottom: 10 }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={slot.current}
-                      alt={slot.label}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", filter: "sepia(.25) saturate(.9) contrast(1.08) brightness(.85)" }}
-                    />
+                    <img src={slot.current} alt={slot.label}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", filter: "sepia(.25) saturate(.9) contrast(1.08) brightness(.85)" }} />
                   </div>
                   <b style={{ color: "#f3ead8", display: "block" }}>
                     {slot.label}
                     {slot.overridden && <em style={{ color: "#96733a", fontStyle: "normal", fontWeight: 400 }}> · swapped</em>}
                   </b>
                   <p style={{ ...S.mut, fontSize: 12, margin: "4px 0 10px" }}>{slot.hint}</p>
-                  <input
-                    ref={(el) => { fileInputs.current[slot.key] = el; }}
-                    type="file"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    onChange={(e) => handlePhotoPick(slot, e.target.files?.[0] ?? null)}
-                  />
+                  <input ref={(el) => { fileInputs.current[slot.key] = el; }} type="file" accept="image/*" style={{ display: "none" }}
+                    onChange={(e) => handlePhotoPick(slot, e.target.files?.[0] ?? null)} />
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                    <button
-                      onClick={() => fileInputs.current[slot.key]?.click()}
-                      style={S.mini}
-                      disabled={uploadingKey !== null}
-                    >
+                    <button onClick={() => fileInputs.current[slot.key]?.click()} style={S.mini} disabled={uploadingKey !== null}>
                       {uploadingKey === slot.key ? "Uploading…" : "Upload new photo"}
                     </button>
                     {slot.overridden && (
@@ -367,6 +418,131 @@ export default function SiteEditorPage() {
                 </div>
               ))}
             </div>
+          </section>
+        )}
+
+        {tab === "faq" && (
+          <>
+            <section style={S.card}>
+              <h2 style={S.h2}>Add a question</h2>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 8 }}>
+                <select value={newFaq.grp} onChange={(e) => setNewFaq({ ...newFaq, grp: e.target.value })}
+                  style={{ ...S.input, width: "auto", marginTop: 0 }}>
+                  {FAQ_GROUPS.map((g) => <option key={g} value={g}>{g}</option>)}
+                </select>
+              </div>
+              <input value={newFaq.q} onChange={(e) => setNewFaq({ ...newFaq, q: e.target.value })}
+                placeholder="The question, as a client would ask it" style={S.input} />
+              <textarea value={newFaq.a} onChange={(e) => setNewFaq({ ...newFaq, a: e.target.value })}
+                placeholder="The answer, plain and short" rows={3} style={{ ...S.input, resize: "vertical" }} />
+              <button onClick={createFaq} disabled={saving || !newFaq.q.trim() || !newFaq.a.trim()} style={S.btn}>
+                Add to the site
+              </button>
+            </section>
+
+            <section style={S.card}>
+              <h2 style={S.h2}>Questions on the site</h2>
+              <p style={S.mut}>
+                A few answers carry required legal wording and are protected; everything else is
+                yours. Order here is the order on the page.
+              </p>
+              {faq.map((g) => (
+                <details key={g.grp} open style={S.group}>
+                  <summary style={S.groupHead}>{g.grp}<span style={S.mut}> · {g.items.length}</span></summary>
+                  <div style={{ padding: "10px 2px 4px" }}>
+                    {g.items.map((it) => (
+                      <div key={it.id} style={S.proposal}>
+                        <input value={faqDrafts[it.id]?.q ?? it.q} disabled={it.locked}
+                          onChange={(e) => setFaqDrafts({ ...faqDrafts, [it.id]: { ...(faqDrafts[it.id] ?? { q: it.q, a: it.a }), q: e.target.value } })}
+                          style={{ ...S.input, marginTop: 0, fontWeight: 600 }} />
+                        <textarea value={faqDrafts[it.id]?.a ?? it.a} disabled={it.locked} rows={3}
+                          onChange={(e) => setFaqDrafts({ ...faqDrafts, [it.id]: { ...(faqDrafts[it.id] ?? { q: it.q, a: it.a }), a: e.target.value } })}
+                          style={{ ...S.input, resize: "vertical" }} />
+                        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8, alignItems: "center" }}>
+                          {it.locked ? (
+                            <span style={{ ...S.mut, fontSize: 12 }}>Protected legal wording · can be reordered, not edited</span>
+                          ) : (
+                            <>
+                              <button style={S.mini} disabled={saving || (faqDrafts[it.id]?.q === it.q && faqDrafts[it.id]?.a === it.a)}
+                                onClick={() => saveFaqItem(it.id)}>Save</button>
+                              <button style={S.mini} disabled={saving} onClick={() => removeFaqItem(it.id, it.q)}>Remove</button>
+                            </>
+                          )}
+                          <button style={S.mini} disabled={saving} onClick={() => nudgeFaq(it.id, "up")}>Move up</button>
+                          <button style={S.mini} disabled={saving} onClick={() => nudgeFaq(it.id, "down")}>Move down</button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              ))}
+            </section>
+          </>
+        )}
+
+        {tab === "settings" && (
+          <>
+            <section style={S.card}>
+              <h2 style={S.h2}>Announcement bar</h2>
+              <p style={S.mut}>
+                A short notice across the top of the site: holiday closures, weather, court
+                schedule changes. Switch it off and it disappears.
+              </p>
+              <label style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 12, cursor: "pointer", color: "#f3ead8" }}>
+                <input type="checkbox" checked={settings["bar.enabled"] === "1"}
+                  onChange={(e) => setSettings({ ...settings, "bar.enabled": e.target.checked ? "1" : "" })} />
+                Show the announcement bar
+              </label>
+              <input value={settings["bar.text"] ?? ""} maxLength={120}
+                onChange={(e) => setSettings({ ...settings, "bar.text": e.target.value })}
+                placeholder="The office is closed Friday, July 3 for Independence Day." style={S.input} />
+              <input value={settings["bar.link"] ?? ""}
+                onChange={(e) => setSettings({ ...settings, "bar.link": e.target.value })}
+                placeholder="Optional link (a page address or tel:3184734250)" style={S.input} />
+            </section>
+
+            <section style={S.card}>
+              <h2 style={S.h2}>Search listing</h2>
+              <p style={S.mut}>
+                How the firm appears in Google results. Leave blank to use the defaults we tuned
+                at launch.
+              </p>
+              <label style={{ ...S.label, marginTop: 12 }}>Title ({(settings["meta.title"] ?? "").length}/60 recommended)</label>
+              <input value={settings["meta.title"] ?? ""} maxLength={90}
+                onChange={(e) => setSettings({ ...settings, "meta.title": e.target.value })}
+                placeholder="Higgins Law | Trial Attorneys in Pineville, Louisiana" style={{ ...S.input, marginTop: 4 }} />
+              <label style={{ ...S.label, marginTop: 12 }}>Description ({(settings["meta.desc"] ?? "").length}/160 recommended)</label>
+              <textarea value={settings["meta.desc"] ?? ""} maxLength={220} rows={3}
+                onChange={(e) => setSettings({ ...settings, "meta.desc": e.target.value })}
+                placeholder="A father and son trial firm in Pineville, Louisiana…" style={{ ...S.input, marginTop: 4, resize: "vertical" }} />
+            </section>
+            <button onClick={saveSettings} disabled={saving} style={S.btn}>
+              {saving ? "Saving…" : "Save announcement & search settings"}
+            </button>
+          </>
+        )}
+
+        {tab === "history" && (
+          <section style={S.card}>
+            <h2 style={S.h2}>Recent changes</h2>
+            <p style={S.mut}>Every save is recorded. Revert puts the earlier version back (and records that too).</p>
+            {history.length === 0 && <p style={{ ...S.mut, marginTop: 10 }}>No changes recorded yet.</p>}
+            {history.map((h) => (
+              <div key={h.id} style={S.proposal}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+                  <b style={{ color: "#f3ead8" }}>{h.label}</b>
+                  <span style={S.mut}>{new Date(h.changedAt).toLocaleString()}</span>
+                </div>
+                {h.oldValue && <span style={S.diffOld}>{h.oldValue.slice(0, 220)}</span>}
+                <span style={S.diffNew}>{h.newValue ? h.newValue.slice(0, 220) : "(restored to original)"}</span>
+                {h.revertable && (
+                  <button style={{ ...S.mini, marginTop: 8 }} disabled={saving}
+                    onClick={async () => { setSaving(true); const r = await revertChange(h.id); flash(r.ok ? "Reverted." : r.error || "Could not revert."); if (r.ok) await loadAll(); setSaving(false); }}>
+                    Revert to the earlier version
+                  </button>
+                )}
+              </div>
+            ))}
           </section>
         )}
 
@@ -409,8 +585,8 @@ const S: Record<string, React.CSSProperties> = {
   input: { width: "100%", background: "#171209", border: "1px solid rgba(201,161,95,.3)", color: "#f3ead8", padding: "10px 12px", fontSize: 15, fontFamily: "inherit", marginTop: 6 },
   btn: { background: "#c9a15f", color: "#171209", border: "1px solid #96733a", padding: "10px 22px", fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase", cursor: "pointer", marginTop: 12, fontFamily: "inherit" },
   mini: { background: "transparent", color: "#c9a15f", border: "1px solid rgba(201,161,95,.35)", padding: "4px 10px", fontSize: 12, cursor: "pointer", fontFamily: "inherit" },
-  tabOn: { background: "#c9a15f", color: "#171209", border: "1px solid #96733a", padding: "8px 16px", fontSize: 13, cursor: "pointer", fontFamily: "inherit" },
-  tabOff: { background: "transparent", color: "#d9cbb0", border: "1px solid rgba(201,161,95,.3)", padding: "8px 16px", fontSize: 13, cursor: "pointer", fontFamily: "inherit" },
+  tabOn: { background: "#c9a15f", color: "#171209", border: "1px solid #96733a", padding: "8px 14px", fontSize: 13, cursor: "pointer", fontFamily: "inherit" },
+  tabOff: { background: "transparent", color: "#d9cbb0", border: "1px solid rgba(201,161,95,.3)", padding: "8px 14px", fontSize: 13, cursor: "pointer", fontFamily: "inherit" },
   status: { background: "rgba(201,161,95,.12)", border: "1px solid rgba(201,161,95,.3)", padding: "10px 14px", marginBottom: 16, color: "#e6c88d" },
   proposal: { border: "1px solid rgba(201,161,95,.2)", padding: 14, marginBottom: 12, background: "#171209" },
   group: { border: "1px solid rgba(201,161,95,.18)", marginBottom: 10, padding: "10px 14px", background: "#171209" },

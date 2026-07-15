@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { submitIntake } from "./actions/intake";
 import "./engraved.css";
 
-export default function HomeClient({ c }: { c: Record<string, string> }) {
+export default function HomeClient({ c, faq, bar }: { c: Record<string, string>; faq: any[]; bar: { text?: string; link?: string } }) {
   useEffect(() => {
     if (document.documentElement.dataset.engInit) return;
     document.documentElement.dataset.engInit = '1';
@@ -226,8 +226,15 @@ wireExpander('.fq');
 
   }, []);
 
+  const hasBar = !!(bar && bar.text);
   return (
-    <div id="eng">
+    <div id="eng" className={hasBar ? "has-bar" : undefined}>
+      {hasBar ? (
+        <div className="ann" role="status">
+          <span>{bar.text}</span>
+          {bar.link ? <a href={bar.link}>Details</a> : null}
+        </div>
+      ) : null}
 <a className="skip" href="#main">Skip to content</a>
 
 
@@ -549,40 +556,16 @@ wireExpander('.fq');
 <p className="faq-side-call">Something we did not cover? <a href="tel:+13184734250">Call 318.473.4250</a>. The first conversation is free.</p>
 </div>
 <div className="fqgs" data-r="d1">
-
-<div className="fqg"><h3 className="fqgl">General</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g1">{c["faq.fa-g1.q"] ?? "Do you charge for an initial consultation?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g1"><div className="fa-in"><div className="fai">{c["faq.fa-g1.a"] ?? "No. The first consultation is free. It helps you understand your options and decide how to move forward, without any financial obligation."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g2">{c["faq.fa-g2.q"] ?? "What should I bring to my first appointment?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g2"><div className="fa-in"><div className="fai">{c["faq.fa-g2.a"] ?? "Bring what you have: police reports, medical records, court notices. A list of questions helps too. We will guide you on the rest."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g3">{c["faq.fa-g3.q"] ?? "Do you offer virtual meetings?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g3"><div className="fa-in"><div className="fai">{c["faq.fa-g3.a"] ?? "Yes. Our office is in Pineville and we serve clients throughout the region. We also meet by video over secure platforms."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g4">{c["faq.fa-g4.q"] ?? "Who will handle my case?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g4"><div className="fa-in"><div className="fai">{c["faq.fa-g4.a"] ?? "An experienced attorney, supported by knowledgeable staff. You will always know who to contact for updates."}</div></div></div></div>
+{faq.map((g) => (
+<div className="fqg" key={g.grp}><h3 className="fqgl">{g.grp}</h3>
+{g.items.map((it) => (
+<div className="fi" key={it.id}>
+<button className="fq" aria-expanded="false" aria-controls={it.id}>{it.q}<span className="fqi" aria-hidden="true"></span></button>
+<div className="fa" id={it.id}><div className="fa-in"><div className="fai">{it.a}</div></div></div>
 </div>
-
-<div className="fqg"><h3 className="fqgl">Criminal Defense</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c1">{c["faq.fa-c1.q"] ?? "What should I do if I\u2019m arrested?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c1"><div className="fa-in"><div className="fai">Stay calm and stay respectful. Ask for a lawyer immediately, then stop answering questions and sign nothing. The full guide is above: <a href="#first24">The First 24 Hours</a>. Then call us as soon as you can.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c2">{c["faq.fa-c2.q"] ?? "Do I need a lawyer if I plan to plead guilty?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c2"><div className="fa-in"><div className="fai">{c["faq.fa-c2.a"] ?? "Yes. An experienced lawyer can review the facts, advocate on your behalf, and often secure a better resolution than you would reach alone."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c3">{c["faq.fa-c3.q"] ?? "Can you get charges reduced or dismissed?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c3"><div className="fa-in"><div className="fai">No honest lawyer promises an outcome. What we can promise is the work: a close review of the evidence and a defense built on its weaknesses.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c4">{c["faq.fa-c4.q"] ?? "Can you help clear my criminal record?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c4"><div className="fa-in"><div className="fai">{c["faq.fa-c4.a"] ?? "Expungement is something we handle regularly. Contact us to discuss your eligibility."}</div></div></div></div>
+))}
 </div>
-
-<div className="fqg"><h3 className="fqgl">Estate Planning &amp; Successions</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e1">{c["faq.fa-e1.q"] ?? "What is estate planning?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e1"><div className="fa-in"><div className="fai">{c["faq.fa-e1.a"] ?? "Estate planning makes sure your wishes are carried out when you are gone or unable to decide. It is for anyone who wants to protect their family and control where their assets go."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e2">{c["faq.fa-e2.q"] ?? "Do I need an estate plan if I don\u2019t have much?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e2"><div className="fa-in"><div className="fai">{c["faq.fa-e2.a"] ?? "Yes. A will and a power of attorney prevent unnecessary court battles and family stress, whatever the size of the estate."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e3">{c["faq.fa-e3.q"] ?? "What happens if I die without a will in Louisiana?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e3"><div className="fa-in"><div className="fai">{c["faq.fa-e3.a"] ?? "Louisiana law, not you, decides who receives your assets. Your spouse does not automatically inherit everything, and that can mean costly delays and disputes for the people you love."}</div></div></div></div>
-</div>
-
-<div className="fqg"><h3 className="fqgl">Personal Injury</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p1">{c["faq.fa-p1.q"] ?? "What should I do after an accident?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p1"><div className="fa-in"><div className="fai">{c["faq.fa-p1.a"] ?? "Get medical attention first. Photograph the scene. Get witness names. And do not discuss a settlement with any insurance company before you talk to a lawyer."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p2">{c["faq.fa-p2.q"] ?? "The insurance company offered money. Should I take it?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p2"><div className="fa-in"><div className="fai">{c["faq.fa-p2.a"] ?? "Be careful. Early offers rarely cover the full cost of an injury, and once you accept, the matter is closed, even if you get worse. Talk to a lawyer before you sign anything."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p3">{c["faq.fa-p3.q"] ?? "How much does a personal injury lawyer cost?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p3"><div className="fa-in"><div className="fai">We handle injury cases on contingency: no attorney&rsquo;s fee up front, and a fee is collected only if we recover money for you. We explain how fees, costs, and expenses work in plain terms at the first meeting.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p4">{c["faq.fa-p4.q"] ?? "How long do I have to file an injury claim?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p4"><div className="fa-in"><div className="fai">Often as little as one year from the date of the accident. Deadlines vary by case, so call early. The date of your accident controls.</div></div></div></div>
-</div>
-
-<div className="fqg"><h3 className="fqgl">Juvenile Law</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j1">{c["faq.fa-j1.q"] ?? "What if my child is accused of a crime?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j1"><div className="fa-in"><div className="fai">{c["faq.fa-j1.a"] ?? "Stay calm. Do not let your child talk to police without a lawyer. Call us immediately so their rights are protected from the first conversation."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j2">{c["faq.fa-j2.q"] ?? "Can my child be charged as an adult?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j2"><div className="fa-in"><div className="fai">{c["faq.fa-j2.a"] ?? "For certain serious charges, yes. We fight to keep young people in the juvenile system, where rehabilitation is the focus."}</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j3">{c["faq.fa-j3.q"] ?? "What if DCFS removed my children?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j3"><div className="fa-in"><div className="fai">{c["faq.fa-j3.a"] ?? "Call us immediately. DCFS cases move fast, on strict timelines, and every decision now affects your ability to bring your children home."}</div></div></div></div>
-</div>
-
+))}
 </div>
 </div>
 </section>

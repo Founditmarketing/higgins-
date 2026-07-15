@@ -472,3 +472,10 @@ body:not(.printing-f24) :is(h1,#eng h2,#eng h3,#eng h4,#eng .sec-h,#eng .gene-na
 #eng::after{display:none}
 }
 /*##CSS-END##*/
+
+/* announcement bar (Site Editor) */
+#eng .ann{position:fixed;top:0;left:0;right:0;z-index:120;display:flex;justify-content:center;align-items:center;gap:1rem;padding:.55rem 1rem;background:#7e3b2f;color:#f3ead8;font-family:var(--fu);font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;text-align:center}
+#eng .ann a{color:#f3ead8;border-bottom:1px solid rgba(243,234,216,.5);white-space:nowrap}
+#eng.has-bar .nav{top:34px}
+#eng.has-bar .nl.open{padding-top:7.5rem}
+@media(max-width:760px){#eng .ann{font-size:.6rem;padding:.5rem .75rem;letter-spacing:.1em}}

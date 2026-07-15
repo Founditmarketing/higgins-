@@ -111,25 +111,35 @@ for pid in ["pa-1", "pa-2", "pa-3", "pa-4"]:
         if "<" not in p:
             add(f"{pid}.c{j}.b", f"Point {j} text", f"Practice: {area}", p)
 
-# ---------- FAQ ----------
+# ---------- FAQ -> faq-seed.json (managed as a list, not flat fields) ----------
 LOCKED_ANSWER_MARKS = [
     "No honest lawyer promises an outcome",   # no-guarantee armor
     "We handle injury cases on contingency",  # fee/costs armor
     "as little as one year",                  # prescription armor
 ]
-groups = re.findall(r'<div class="fqg"><h3 class="fqgl">(.*?)</h3>(.*?)</div>\n\n', src, re.S)
-if len(groups) != 5:
-    raise SystemExit(f"expected 5 faq groups, got {len(groups)}")
-qn = 0
-for gname, gblock in groups:
+faq_groups = re.findall('<div class="fqg"><h3 class="fqgl">(.*?)</h3>(.*?)</div>\n\n', src, re.S)
+if len(faq_groups) != 5:
+    raise SystemExit(f"expected 5 faq groups, got {len(faq_groups)}")
+faq_seed = []
+for gname, gblock in faq_groups:
     items = re.findall(r'aria-controls="(fa-\w+)">(.*?)<span class="fqi".*?<div class="fai">(.*?)</div>', gblock, re.S)
     for fid, q, a in items:
-        qn += 1
-        gclean = html.unescape(gname).replace("&", "and")
-        add(f"faq.{fid}.q", "Question", f"FAQ: {gclean}", q)
-        if "<" in a or any(m in a for m in LOCKED_ANSWER_MARKS):
-            continue
-        add(f"faq.{fid}.a", "Answer", f"FAQ: {gclean}", a)
+        locked = "<" in a or any(m in a for m in LOCKED_ANSWER_MARKS)
+        if fid == "fa-c1":
+            # plain-text version of the linked answer; stays locked (crisis instructions)
+            a = ("Stay calm and stay respectful. Ask for a lawyer immediately, then stop "
+                 "answering questions and sign nothing. The full guide is The First 24 Hours, "
+                 "above on this page. Then call us as soon as you can.")
+        faq_seed.append({
+            "id": fid,
+            "grp": html.unescape(gname),
+            "q": html.unescape(q.strip()),
+            "a": html.unescape(a.strip()),
+            "locked": locked,
+        })
+(ROOT / "app/lib/faq-seed.json").write_text(
+    json.dumps(faq_seed, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+print(f"faq-seed.json: {len(faq_seed)} items")
 
 # ---------- Contact / call band ----------
 add("call.steps.h", "Steps heading", "Contact",

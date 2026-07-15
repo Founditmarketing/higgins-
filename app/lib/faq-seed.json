@@ -1,0 +1,128 @@
+[
+  {
+    "id": "fa-g1",
+    "grp": "General",
+    "q": "Do you charge for an initial consultation?",
+    "a": "No. The first consultation is free. It helps you understand your options and decide how to move forward, without any financial obligation.",
+    "locked": false
+  },
+  {
+    "id": "fa-g2",
+    "grp": "General",
+    "q": "What should I bring to my first appointment?",
+    "a": "Bring what you have: police reports, medical records, court notices. A list of questions helps too. We will guide you on the rest.",
+    "locked": false
+  },
+  {
+    "id": "fa-g3",
+    "grp": "General",
+    "q": "Do you offer virtual meetings?",
+    "a": "Yes. Our office is in Pineville and we serve clients throughout the region. We also meet by video over secure platforms.",
+    "locked": false
+  },
+  {
+    "id": "fa-g4",
+    "grp": "General",
+    "q": "Who will handle my case?",
+    "a": "An experienced attorney, supported by knowledgeable staff. You will always know who to contact for updates.",
+    "locked": false
+  },
+  {
+    "id": "fa-c1",
+    "grp": "Criminal Defense",
+    "q": "What should I do if I’m arrested?",
+    "a": "Stay calm and stay respectful. Ask for a lawyer immediately, then stop answering questions and sign nothing. The full guide is The First 24 Hours, above on this page. Then call us as soon as you can.",
+    "locked": true
+  },
+  {
+    "id": "fa-c2",
+    "grp": "Criminal Defense",
+    "q": "Do I need a lawyer if I plan to plead guilty?",
+    "a": "Yes. An experienced lawyer can review the facts, advocate on your behalf, and often secure a better resolution than you would reach alone.",
+    "locked": false
+  },
+  {
+    "id": "fa-c3",
+    "grp": "Criminal Defense",
+    "q": "Can you get charges reduced or dismissed?",
+    "a": "No honest lawyer promises an outcome. What we can promise is the work: a close review of the evidence and a defense built on its weaknesses.",
+    "locked": true
+  },
+  {
+    "id": "fa-c4",
+    "grp": "Criminal Defense",
+    "q": "Can you help clear my criminal record?",
+    "a": "Expungement is something we handle regularly. Contact us to discuss your eligibility.",
+    "locked": false
+  },
+  {
+    "id": "fa-e1",
+    "grp": "Estate Planning & Successions",
+    "q": "What is estate planning?",
+    "a": "Estate planning makes sure your wishes are carried out when you are gone or unable to decide. It is for anyone who wants to protect their family and control where their assets go.",
+    "locked": false
+  },
+  {
+    "id": "fa-e2",
+    "grp": "Estate Planning & Successions",
+    "q": "Do I need an estate plan if I don’t have much?",
+    "a": "Yes. A will and a power of attorney prevent unnecessary court battles and family stress, whatever the size of the estate.",
+    "locked": false
+  },
+  {
+    "id": "fa-e3",
+    "grp": "Estate Planning & Successions",
+    "q": "What happens if I die without a will in Louisiana?",
+    "a": "Louisiana law, not you, decides who receives your assets. Your spouse does not automatically inherit everything, and that can mean costly delays and disputes for the people you love.",
+    "locked": false
+  },
+  {
+    "id": "fa-p1",
+    "grp": "Personal Injury",
+    "q": "What should I do after an accident?",
+    "a": "Get medical attention first. Photograph the scene. Get witness names. And do not discuss a settlement with any insurance company before you talk to a lawyer.",
+    "locked": false
+  },
+  {
+    "id": "fa-p2",
+    "grp": "Personal Injury",
+    "q": "The insurance company offered money. Should I take it?",
+    "a": "Be careful. Early offers rarely cover the full cost of an injury, and once you accept, the matter is closed, even if you get worse. Talk to a lawyer before you sign anything.",
+    "locked": false
+  },
+  {
+    "id": "fa-p3",
+    "grp": "Personal Injury",
+    "q": "How much does a personal injury lawyer cost?",
+    "a": "We handle injury cases on contingency: no attorney’s fee up front, and a fee is collected only if we recover money for you. We explain how fees, costs, and expenses work in plain terms at the first meeting.",
+    "locked": true
+  },
+  {
+    "id": "fa-p4",
+    "grp": "Personal Injury",
+    "q": "How long do I have to file an injury claim?",
+    "a": "Often as little as one year from the date of the accident. Deadlines vary by case, so call early. The date of your accident controls.",
+    "locked": true
+  },
+  {
+    "id": "fa-j1",
+    "grp": "Juvenile Law",
+    "q": "What if my child is accused of a crime?",
+    "a": "Stay calm. Do not let your child talk to police without a lawyer. Call us immediately so their rights are protected from the first conversation.",
+    "locked": false
+  },
+  {
+    "id": "fa-j2",
+    "grp": "Juvenile Law",
+    "q": "Can my child be charged as an adult?",
+    "a": "For certain serious charges, yes. We fight to keep young people in the juvenile system, where rehabilitation is the focus.",
+    "locked": false
+  },
+  {
+    "id": "fa-j3",
+    "grp": "Juvenile Law",
+    "q": "What if DCFS removed my children?",
+    "a": "Call us immediately. DCFS cases move fast, on strict timelines, and every decision now affects your ability to bring your children home.",
+    "locked": false
+  }
+]

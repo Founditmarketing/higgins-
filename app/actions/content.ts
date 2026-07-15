@@ -32,7 +32,26 @@ export type ProposedEdit = {
 const FIELDS = manifest as EditableField[];
 const PHOTOS = photoManifest as PhotoSlot[];
 const PHOTO_KEYS = new Set(PHOTOS.map((p) => p.key));
-const VALID_KEYS = new Set([...FIELDS.map((f) => f.key), ...PHOTOS.map((p) => p.key)]);
+/** Settings keys: announcement bar + SEO. Defaults live in code, not the manifest. */
+export type SettingsMap = {
+  "bar.enabled": string;
+  "bar.text": string;
+  "bar.link": string;
+  "meta.title": string;
+  "meta.desc": string;
+};
+const SETTINGS_KEYS = new Set<keyof SettingsMap>([
+  "bar.enabled",
+  "bar.text",
+  "bar.link",
+  "meta.title",
+  "meta.desc",
+]);
+const VALID_KEYS = new Set<string>([
+  ...FIELDS.map((f) => f.key),
+  ...PHOTOS.map((p) => p.key),
+  ...SETTINGS_KEYS,
+]);
 
 /** Public: overrides map used by the homepage. Safe fallbacks everywhere. */
 export async function getSiteContent(): Promise<Record<string, string>> {
@@ -83,6 +102,94 @@ export async function getPhotoSlots(): Promise<{
   };
 }
 
+async function logHistory(key: string, oldValue: string | null, newValue: string | null) {
+  try {
+    const { randomUUID } = await import("crypto");
+    await sql`
+      INSERT INTO site_history (id, key, old_value, new_value, changed_at)
+      VALUES (${randomUUID()}, ${key}, ${oldValue}, ${newValue}, ${Date.now().toString()})
+    `;
+  } catch (e) {
+    console.error("history log failed:", e);
+  }
+}
+
+export type HistoryEntry = {
+  id: string;
+  key: string;
+  label: string;
+  oldValue: string | null;
+  newValue: string | null;
+  changedAt: number;
+  revertable: boolean;
+};
+
+/** Admin: recent changes, newest first. */
+export async function getHistory(): Promise<HistoryEntry[]> {
+  if (!(await checkAuth())) throw new Error("Not authorized");
+  if (!process.env.POSTGRES_URL) return [];
+  try {
+    const { rows } = await sql`
+      SELECT * FROM site_history ORDER BY changed_at DESC LIMIT 60
+    `;
+    return rows.map((r) => {
+      const field = FIELDS.find((f) => f.key === r.key);
+      const photo = PHOTOS.find((p) => p.key === r.key);
+      const label = field
+        ? `${field.group}: ${field.label}`
+        : photo
+        ? `Photo: ${photo.label}`
+        : r.key.startsWith("faq:")
+        ? "FAQ item"
+        : r.key.startsWith("bar.")
+        ? "Announcement bar"
+        : r.key.startsWith("meta.")
+        ? "Search listing"
+        : r.key;
+      return {
+        id: r.id,
+        key: r.key,
+        label,
+        oldValue: r.old_value,
+        newValue: r.new_value,
+        changedAt: parseInt(r.changed_at, 10),
+        revertable: VALID_KEYS.has(r.key),
+      };
+    });
+  } catch (error: any) {
+    if (error.message?.includes('relation "site_history" does not exist')) return [];
+    console.error("getHistory error:", error);
+    return [];
+  }
+}
+
+/** Admin: put a value back the way it was before a logged change. */
+export async function revertChange(historyId: string): Promise<{ ok: boolean; error?: string }> {
+  if (!(await checkAuth())) return { ok: false, error: "Not authorized" };
+  if (!process.env.POSTGRES_URL) return { ok: false, error: "Database is not connected." };
+  try {
+    const { rows } = await sql`SELECT * FROM site_history WHERE id = ${historyId}`;
+    if (!rows.length) return { ok: false, error: "Not found." };
+    const entry = rows[0];
+    if (!VALID_KEYS.has(entry.key))
+      return { ok: false, error: "That change cannot be reverted from here." };
+    return await saveSiteContent([{ key: entry.key, value: entry.old_value ?? "" }]);
+  } catch (e) {
+    console.error("revertChange:", e);
+    return { ok: false, error: "Could not revert." };
+  }
+}
+
+/** Public: announcement bar + SEO settings with safe defaults. */
+export async function getSettings(): Promise<Partial<SettingsMap>> {
+  const overrides = await getSiteContent();
+  const out: Partial<SettingsMap> = {};
+  for (const key of SETTINGS_KEYS) {
+    if (overrides[key]) out[key] = overrides[key];
+  }
+  return out;
+}
+
 /** Admin: save overrides. Empty value resets the field to its original text. */
 export async function saveSiteContent(
   entries: { key: string; value: string }[]
@@ -94,6 +201,30 @@ export async function saveSiteContent(
     for (const entry of entries) {
       if (!VALID_KEYS.has(entry.key)) continue;
       const value = (entry.value ?? "").trim().slice(0, 2000);
+      if (
+        entry.key === "bar.link" &&
+        value &&
+        !/^(\/|https:\/\/|tel:|mailto:)/.test(value)
+      )
+        continue;
+      if (SETTINGS_KEYS.has(entry.key as keyof SettingsMap)) {
+        const { rows } = await sql`SELECT value FROM site_content WHERE key = ${entry.key}`;
+        const old = rows[0]?.value ?? null;
+        if (!value) {
+          await sql`DELETE FROM site_content WHERE key = ${entry.key}`;
+        } else {
+          await sql`
+            INSERT INTO site_content (key, value, updated_at)
+            VALUES (${entry.key}, ${value}, ${Date.now().toString()})
+            ON CONFLICT (key) DO UPDATE
+            SET value = ${value}, updated_at = ${Date.now().toString()}
+          `;
+        }
+        if (old !== (value || null)) await logHistory(entry.key, old, value || null);
+        continue;
+      }
+      const prior = await sql`SELECT value FROM site_content WHERE key = ${entry.key}`;
+      const oldValue: string | null = prior.rows[0]?.value ?? null;
       if (PHOTO_KEYS.has(entry.key)) {
         // Photo slots hold URLs only: Vercel Blob uploads, or empty to reset.
         if (value && !value.startsWith("https://")) continue;
@@ -108,6 +239,8 @@ export async function saveSiteContent(
             SET value = ${value}, updated_at = ${Date.now().toString()}
           `;
         }
+        if (oldValue !== (value && value !== slot.src ? value : null))
+          await logHistory(entry.key, oldValue, value && value !== slot.src ? value : null);
         continue;
       }
       const field = FIELDS.find((f) => f.key === entry.key)!;
@@ -121,6 +254,8 @@ export async function saveSiteContent(
           SET value = ${value}, updated_at = ${Date.now().toString()}
         `;
       }
+      const stored = !value || value === field.default ? null : value;
+      if (oldValue !== stored) await logHistory(entry.key, oldValue, stored);
     }
     revalidatePath("/");
     return { ok: true };
