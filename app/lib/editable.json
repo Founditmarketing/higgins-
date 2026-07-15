@@ -1,0 +1,74 @@
+[
+  {
+    "key": "hero.sub",
+    "label": "Hero: subheadline",
+    "hint": "One or two short sentences under the big title.",
+    "src": "Over 54 years of combined experience. The first conversation is free."
+  },
+  {
+    "key": "hero.emergency",
+    "label": "Hero: emergency link",
+    "hint": "The italic line that leads to The First 24 Hours.",
+    "src": "If someone was arrested tonight, start here."
+  },
+  {
+    "key": "f24.lede",
+    "label": "First 24 Hours: intro line",
+    "hint": "Sits under the section title.",
+    "src": "What to do right now, in plain words. Written for Central Louisiana families by the lawyers who take these calls."
+  },
+  {
+    "key": "gen.lede",
+    "label": "Two Generations: intro paragraph",
+    "hint": "The paragraph about the father and son.",
+    "src": "Higgins Law is a father and a son. George Lewis Higgins III has tried cases for over forty years. His son Alex practices beside him and manages the firm. The office is on Melrose Street in Pineville. When you call, you reach the people who will actually handle your case. You will never be just a file here."
+  },
+  {
+    "key": "gen.george",
+    "label": "George's bio",
+    "hint": "Under his portrait.",
+    "src": "George Lewis Higgins III has practiced law for over forty years. He built the firm on preparation and a steady presence in the courtroom, and he built its reputation the slow way: one client, one case at a time."
+  },
+  {
+    "key": "gen.alex",
+    "label": "Alex's bio",
+    "hint": "Under his portrait.",
+    "src": "G. Alexander Higgins is the second generation of the firm and its managing partner. He grew up around this work, and he holds his cases to the standard his father set. Clients stay informed at every step, because that is how he was taught to practice."
+  },
+  {
+    "key": "pr.sub",
+    "label": "Practice areas: intro line",
+    "hint": "Under the What we handle title.",
+    "src": "Criminal defense, estate planning, personal injury, and juvenile law. One firm for the whole of it, handled by the two attorneys whose name is on the door. Open a row to see the work."
+  },
+  {
+    "key": "pr.criminal",
+    "label": "Criminal Defense: one-liner",
+    "hint": "The italic line on the practice row.",
+    "src": "A charge is not a conviction. We stand with the person behind the accusation."
+  },
+  {
+    "key": "pr.estate",
+    "label": "Estate Planning: one-liner",
+    "hint": "The italic line on the practice row.",
+    "src": "A will, a power of attorney, a plan. Plain documents at a plain price, so your family is never left guessing."
+  },
+  {
+    "key": "pr.injury",
+    "label": "Personal Injury: one-liner",
+    "hint": "The italic line on the practice row.",
+    "src": "Hurt because someone else was careless? Louisiana gives you less time than you think."
+  },
+  {
+    "key": "pr.juvenile",
+    "label": "Juvenile Law: one-liner",
+    "hint": "The italic line on the practice row.",
+    "src": "The family is the fundamental unit of society. When yours is under strain, we stand with all of it."
+  },
+  {
+    "key": "call.lede",
+    "label": "Contact: intro paragraph",
+    "hint": "Under Start with a conversation.",
+    "src": "Every case here begins the same way: you tell us what is going on, and we listen. The consultation is free, in person or by video."
+  }
+]

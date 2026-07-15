@@ -23,8 +23,33 @@ export async function GET() {
       ALTER TABLE events ADD COLUMN IF NOT EXISTS time_str VARCHAR(50);
     `;
 
+    // Site content overrides (the Site Editor writes here)
+    await sql`
+      CREATE TABLE IF NOT EXISTS site_content (
+        key VARCHAR(100) PRIMARY KEY,
+        value TEXT NOT NULL,
+        updated_at VARCHAR(50) NOT NULL
+      );
+    `;
+
+    // Consultation form submissions
+    await sql`
+      CREATE TABLE IF NOT EXISTS intakes (
+        id UUID PRIMARY KEY,
+        name VARCHAR(200) NOT NULL,
+        tel VARCHAR(50) NOT NULL,
+        email VARCHAR(200),
+        message TEXT,
+        created_at VARCHAR(50) NOT NULL,
+        seen BOOLEAN NOT NULL DEFAULT false
+      );
+    `;
+
     return NextResponse.json(
-      { message: "Database table 'events' initialized successfully." },
+      {
+        message:
+          "Database tables 'events', 'site_content', and 'intakes' initialized successfully.",
+      },
       { status: 200 }
     );
   } catch (error) {
