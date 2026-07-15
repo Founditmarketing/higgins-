@@ -358,6 +358,8 @@ wireExpander('.fq');
 </section>
 
 
+
+
 <figure className="creed" data-r>
 <div className="creed-media"><img src="/assets/george-and-alex-meeting.webp" alt="" width="1359" height="906" loading="lazy" decoding="async" /></div>
 <div className="creed-grade" aria-hidden="true"></div>
@@ -372,7 +374,7 @@ wireExpander('.fq');
 <div className="prac-head" data-r>
 <p className="eyebrow">Areas of practice</p>
 <h2 className="sec-h" id="pr-title">What we handle.</h2>
-<p className="sec-sub">Criminal defense, juvenile law, personal injury, and estate planning. Handled by the two attorneys whose name is on the door. Open a row to see the work.</p>
+<p className="sec-sub">Criminal defense, estate planning, personal injury, and juvenile law. One firm for the whole of it, handled by the two attorneys whose name is on the door. Open a row to see the work.</p>
 </div>
 <div className="dex" data-r="d1">
 
@@ -397,21 +399,37 @@ wireExpander('.fq');
 </div>
 
 <div className="pr">
-<button className="pr-btn" aria-expanded="false" aria-controls="pa-2" id="pa-2-btn">
-<span className="pr-bg" aria-hidden="true"><img src="/assets/george-higgins-meeting.webp" alt="" loading="lazy" decoding="async" /></span>
+<button className="pr-btn" aria-expanded="false" aria-controls="pa-4" id="pa-4-btn">
+<span className="pr-bg" aria-hidden="true"><img src="/assets/higginslawheropic.webp" alt="" loading="lazy" decoding="async" /></span>
 <span className="pr-in">
 <span className="pr-num" aria-hidden="true">II</span>
-<span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Juvenile Law</span><span className="pr-line">When your child is in trouble, or DCFS is at your door, the clock is already running.</span></span>
+<span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Estate Planning &amp; Successions</span><span className="pr-line">A will, a power of attorney, a plan. Plain documents at a plain price, so your family is never left guessing.</span></span>
 <span className="pr-x" aria-hidden="true"></span>
 </span>
 </button>
-<div className="pr-panel" id="pa-2" role="region" aria-labelledby="pa-2-btn"><div className="pr-panel-in">
+<div className="pr-panel" id="pa-4" role="region" aria-labelledby="pa-4-btn"><div className="pr-panel-in">
 <div className="pr-body">
-<div className="pst"><h4>Delinquency Defense</h4><p>Protecting minors with the emphasis on rehabilitation, not punishment.</p></div>
-<div className="pst"><h4>Custody &amp; DCFS</h4><p>Standing with parents when DCFS threatens parental rights. These cases move on strict timelines.</p></div>
-<div className="pst"><h4>Keeping Kids in Juvenile Court</h4><p>Fighting to keep juveniles in the juvenile system, where the focus is their future.</p></div>
-<div className="pst"><h4>What Comes After</h4><p>Court is not the end of it. We help families find their footing, and we stay reachable when questions come.</p></div>
-<p className="pr-call">DCFS involved? Do not wait for the next hearing. Call <a href="tel:+13184734250">318.473.4250</a>.</p>
+<div className="pst"><h4>Wills &amp; Trusts</h4><p>From simple wills to comprehensive trusts: safeguard assets, reduce conflict, and protect your family.</p></div>
+<div className="pst"><h4>Powers of Attorney &amp; Health Directives</h4><p>Clear documents, so your medical, financial, and legal decisions rest with the people you trust most.</p></div>
+<div className="pst"><h4>Successions &amp; Probate</h4><p>When a loved one passes, we guide families through the process with clarity and compassion.</p></div>
+<div className="tool" id="drawer">
+<p className="tool-eb"><span className="mark">&sect;</span> A five minute check</p>
+<h4 className="tool-h">Five papers your family hopes you have.</h4>
+<p>If something happened to you tonight, could your family open one drawer and find what they need? Check what you already have. Nothing you check here is saved or sent.</p>
+<fieldset style={{border:'none'}}>
+<legend style={{position:'absolute',left:'-9999px'}}>Estate readiness checklist</legend>
+<ul className="drawer-list" id="drawer-list">
+<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>A will that reflects your life today.</label></li>
+<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>A power of attorney for your finances.</label></li>
+<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>A healthcare power of attorney or living will.</label></li>
+<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>Beneficiaries named and current on policies and accounts.</label></li>
+<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>One person who knows where all of it is.</label></li>
+</ul>
+</fieldset>
+<p className="drawer-result" id="drawer-result" aria-live="polite">Most families start at zero. One conversation puts the first three in motion.</p>
+<div className="tool-acts"><a href="tel:+13184734250">Start your estate plan: 318.473.4250</a><a href="#call">Ask about a free consultation</a></div>
+</div>
+<p className="pr-call">One appointment, not a season of paperwork. Start with <a href="tel:+13184734250">318.473.4250</a>.</p>
 </div>
 </div></div>
 </div>
@@ -448,37 +466,22 @@ wireExpander('.fq');
 </div>
 
 <div className="pr">
-<button className="pr-btn" aria-expanded="false" aria-controls="pa-4" id="pa-4-btn">
-<span className="pr-bg" aria-hidden="true"><img src="/assets/higginslawheropic.webp" alt="" loading="lazy" decoding="async" /></span>
+<button className="pr-btn" aria-expanded="false" aria-controls="pa-2" id="pa-2-btn">
+<span className="pr-bg" aria-hidden="true"><img src="/assets/george-higgins-meeting.webp" alt="" loading="lazy" decoding="async" /></span>
 <span className="pr-in">
 <span className="pr-num" aria-hidden="true">IV</span>
-<span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Estate Planning &amp; Successions</span><span className="pr-line">Plain documents that say exactly what you want, so your family is never left guessing.</span></span>
+<span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Juvenile Law</span><span className="pr-line">The family is the fundamental unit of society. When yours is under strain, we stand with all of it.</span></span>
 <span className="pr-x" aria-hidden="true"></span>
 </span>
 </button>
-<div className="pr-panel" id="pa-4" role="region" aria-labelledby="pa-4-btn"><div className="pr-panel-in">
+<div className="pr-panel" id="pa-2" role="region" aria-labelledby="pa-2-btn"><div className="pr-panel-in">
 <div className="pr-body">
-<div className="pst"><h4>Wills &amp; Trusts</h4><p>From simple wills to comprehensive trusts: safeguard assets, reduce conflict, and protect your family.</p></div>
-<div className="pst"><h4>Powers of Attorney &amp; Health Directives</h4><p>Clear documents, so your medical, financial, and legal decisions rest with the people you trust most.</p></div>
-<div className="pst"><h4>Successions &amp; Probate</h4><p>When a loved one passes, we guide families through the process with clarity and compassion.</p></div>
-<div className="tool" id="drawer">
-<p className="tool-eb"><span className="mark">&sect;</span> A five minute check</p>
-<h4 className="tool-h">Five papers your family hopes you have.</h4>
-<p>If something happened to you tonight, could your family open one drawer and find what they need? Check what you already have. Nothing you check here is saved or sent.</p>
-<fieldset style={{border:'none'}}>
-<legend style={{position:'absolute',left:'-9999px'}}>Estate readiness checklist</legend>
-<ul className="drawer-list" id="drawer-list">
-<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>A will that reflects your life today.</label></li>
-<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>A power of attorney for your finances.</label></li>
-<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>A healthcare power of attorney or living will.</label></li>
-<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>Beneficiaries named and current on policies and accounts.</label></li>
-<li><label><input type="checkbox" /><span className="dbox" aria-hidden="true"></span>One person who knows where all of it is.</label></li>
-</ul>
-</fieldset>
-<p className="drawer-result" id="drawer-result" aria-live="polite">Most families start at zero. One conversation puts the first three in motion.</p>
-<div className="tool-acts"><a href="tel:+13184734250">Call 318.473.4250</a><a href="#call">Ask about a free consultation</a></div>
-</div>
-<p className="pr-call">One appointment, not a season of paperwork. Start with <a href="tel:+13184734250">318.473.4250</a>.</p>
+<div className="pst"><h4>The Family Comes First</h4><p>Families are the fabric a community is woven from. Our job, in every juvenile matter, is to help hold yours together.</p></div>
+<div className="pst"><h4>Delinquency Defense</h4><p>Protecting minors with the emphasis on rehabilitation, not punishment. A mistake at fifteen should not define a life.</p></div>
+<div className="pst"><h4>Custody &amp; DCFS</h4><p>Standing with parents when DCFS threatens parental rights. These cases move on strict timelines.</p></div>
+<div className="pst"><h4>Keeping Kids in Juvenile Court</h4><p>Fighting to keep juveniles in the juvenile system, where the focus is their future.</p></div>
+<div className="pst"><h4>What Comes After</h4><p>Court is not the end of it. We help families find their footing, and we stay reachable when questions come.</p></div>
+<p className="pr-call">Your child in trouble, or DCFS at the door? Do not wait for the next hearing. Call <a href="tel:+13184734250">318.473.4250</a>.</p>
 </div>
 </div></div>
 </div>
@@ -550,17 +553,17 @@ wireExpander('.fq');
 <div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e3">What happens if I die without a will in Louisiana?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e3"><div className="fa-in"><div className="fai">Louisiana law, not you, decides who receives your assets. Your spouse does not automatically inherit everything, and that can mean costly delays and disputes for the people you love.</div></div></div></div>
 </div>
 
-<div className="fqg"><h3 className="fqgl">Juvenile Law</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j1">What if my child is accused of a crime?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j1"><div className="fa-in"><div className="fai">Stay calm. Do not let your child talk to police without a lawyer. Call us immediately so their rights are protected from the first conversation.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j2">Can my child be charged as an adult?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j2"><div className="fa-in"><div className="fai">For certain serious charges, yes. We fight to keep young people in the juvenile system, where rehabilitation is the focus.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j3">What if DCFS removed my children?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j3"><div className="fa-in"><div className="fai">Call us immediately. DCFS cases move fast, on strict timelines, and every decision now affects your ability to bring your children home.</div></div></div></div>
-</div>
-
 <div className="fqg"><h3 className="fqgl">Personal Injury</h3>
 <div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p1">What should I do after an accident?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p1"><div className="fa-in"><div className="fai">Get medical attention first. Photograph the scene. Get witness names. And do not discuss a settlement with any insurance company before you talk to a lawyer.</div></div></div></div>
 <div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p2">The insurance company offered money. Should I take it?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p2"><div className="fa-in"><div className="fai">Be careful. Early offers rarely cover the full cost of an injury, and once you accept, the matter is closed, even if you get worse. Talk to a lawyer before you sign anything.</div></div></div></div>
 <div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p3">How much does a personal injury lawyer cost?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p3"><div className="fa-in"><div className="fai">We handle injury cases on contingency: no attorney&rsquo;s fee up front, and a fee is collected only if we recover money for you. We explain how fees, costs, and expenses work in plain terms at the first meeting.</div></div></div></div>
 <div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p4">How long do I have to file an injury claim?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p4"><div className="fa-in"><div className="fai">Often as little as one year from the date of the accident. Deadlines vary by case, so call early. The date of your accident controls.</div></div></div></div>
+</div>
+
+<div className="fqg"><h3 className="fqgl">Juvenile Law</h3>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j1">What if my child is accused of a crime?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j1"><div className="fa-in"><div className="fai">Stay calm. Do not let your child talk to police without a lawyer. Call us immediately so their rights are protected from the first conversation.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j2">Can my child be charged as an adult?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j2"><div className="fa-in"><div className="fai">For certain serious charges, yes. We fight to keep young people in the juvenile system, where rehabilitation is the focus.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j3">What if DCFS removed my children?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j3"><div className="fa-in"><div className="fai">Call us immediately. DCFS cases move fast, on strict timelines, and every decision now affects your ability to bring your children home.</div></div></div></div>
 </div>
 
 </div>
