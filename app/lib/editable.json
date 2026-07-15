@@ -1,74 +1,810 @@
 [
   {
     "key": "hero.sub",
-    "label": "Hero: subheadline",
+    "label": "Subheadline",
+    "group": "Hero",
     "hint": "One or two short sentences under the big title.",
-    "src": "Over 54 years of combined experience. The first conversation is free."
+    "src": "Over 54 years of combined experience. The first conversation is free.",
+    "default": "Over 54 years of combined experience. The first conversation is free."
   },
   {
     "key": "hero.emergency",
-    "label": "Hero: emergency link",
+    "label": "Emergency link",
+    "group": "Hero",
     "hint": "The italic line that leads to The First 24 Hours.",
-    "src": "If someone was arrested tonight, start here."
+    "src": "If someone was arrested tonight, start here.",
+    "default": "If someone was arrested tonight, start here."
+  },
+  {
+    "key": "f24.h",
+    "label": "First 24 Hours: title",
+    "group": "Section titles",
+    "hint": "",
+    "src": "The First 24 Hours",
+    "default": "The First 24 Hours"
+  },
+  {
+    "key": "pr.h",
+    "label": "Practice areas: title",
+    "group": "Section titles",
+    "hint": "",
+    "src": "What we handle.",
+    "default": "What we handle."
+  },
+  {
+    "key": "ts.h",
+    "label": "Testimonials: title",
+    "group": "Section titles",
+    "hint": "",
+    "src": "What clients say when it is over.",
+    "default": "What clients say when it is over."
+  },
+  {
+    "key": "faq.h",
+    "label": "Questions: title",
+    "group": "Section titles",
+    "hint": "",
+    "src": "Questions we hear at the first meeting.",
+    "default": "Questions we hear at the first meeting."
   },
   {
     "key": "f24.lede",
-    "label": "First 24 Hours: intro line",
-    "hint": "Sits under the section title.",
-    "src": "What to do right now, in plain words. Written for Central Louisiana families by the lawyers who take these calls."
+    "label": "Intro line",
+    "group": "First 24 Hours",
+    "hint": "Sits under the title.",
+    "src": "What to do right now, in plain words. Written for Central Louisiana families by the lawyers who take these calls.",
+    "default": "What to do right now, in plain words. Written for Central Louisiana families by the lawyers who take these calls."
+  },
+  {
+    "key": "pr.sub",
+    "label": "Intro line",
+    "group": "Practice areas",
+    "hint": "Sits under the title.",
+    "src": "Criminal defense, estate planning, personal injury, and juvenile law. One firm for the whole of it, handled by the two attorneys whose name is on the door. Open a row to see the work.",
+    "default": "Criminal defense, estate planning, personal injury, and juvenile law. One firm for the whole of it, handled by the two attorneys whose name is on the door. Open a row to see the work."
+  },
+  {
+    "key": "faq.sub",
+    "label": "Intro line",
+    "group": "Questions",
+    "hint": "Sits under the title.",
+    "src": "Plain answers, the same ones we give across the table.",
+    "default": "Plain answers, the same ones we give across the table."
+  },
+  {
+    "key": "call.lede",
+    "label": "Intro paragraph",
+    "group": "Contact",
+    "hint": "",
+    "src": "Every case here begins the same way: you tell us what is going on, and we listen. The consultation is free, in person or by video.",
+    "default": "Every case here begins the same way: you tell us what is going on, and we listen. The consultation is free, in person or by video."
+  },
+  {
+    "key": "f24.s1.t",
+    "label": "Step 1 title",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "Say one sentence, out loud",
+    "default": "Say one sentence, out loud"
+  },
+  {
+    "key": "f24.s2.t",
+    "label": "Step 2 title",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "Do not sign, consent, or explain",
+    "default": "Do not sign, consent, or explain"
+  },
+  {
+    "key": "f24.s2.b",
+    "label": "Step 2 text",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "No written statements. No waivers. No consent to search a car, a phone, or a home. Saying no is not an admission of anything. It is the law working the way it is supposed to.",
+    "default": "No written statements. No waivers. No consent to search a car, a phone, or a home. Saying no is not an admission of anything. It is the law working the way it is supposed to."
+  },
+  {
+    "key": "f24.s3.t",
+    "label": "Step 3 title",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "Treat every jail phone as a recorded line",
+    "default": "Treat every jail phone as a recorded line"
+  },
+  {
+    "key": "f24.s3.b",
+    "label": "Step 3 text",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "Because it is. Talk about family, money for the account, and staying steady. Never discuss the case, the charges, or that night on a jail phone.",
+    "default": "Because it is. Talk about family, money for the account, and staying steady. Never discuss the case, the charges, or that night on a jail phone."
+  },
+  {
+    "key": "f24.s4.t",
+    "label": "Step 4 title",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "Write everything down tonight",
+    "default": "Write everything down tonight"
+  },
+  {
+    "key": "f24.s4.b",
+    "label": "Step 4 text",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "The time and place of the arrest. The names you heard. Who was there. What was taken. Memory fades in a day. Paper does not.",
+    "default": "The time and place of the arrest. The names you heard. Who was there. What was taken. Memory fades in a day. Paper does not."
+  },
+  {
+    "key": "f24.s5.t",
+    "label": "Step 5 title",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "Call before anyone decides anything",
+    "default": "Call before anyone decides anything"
+  },
+  {
+    "key": "f24.say.h",
+    "label": "Say-card title",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "What to say. What not to say.",
+    "default": "What to say. What not to say."
+  },
+  {
+    "key": "f24.say.foot",
+    "label": "Say-card closing line",
+    "group": "First 24 Hours",
+    "hint": "",
+    "src": "Silence protects you only after you claim it. Claim it, then keep it.",
+    "default": "Silence protects you only after you claim it. Claim it, then keep it."
   },
   {
     "key": "gen.lede",
-    "label": "Two Generations: intro paragraph",
-    "hint": "The paragraph about the father and son.",
-    "src": "Higgins Law is a father and a son. George Lewis Higgins III has tried cases for over forty years. His son Alex practices beside him and manages the firm. The office is on Melrose Street in Pineville. When you call, you reach the people who will actually handle your case. You will never be just a file here."
+    "label": "Intro paragraph",
+    "group": "Two Generations",
+    "hint": "",
+    "src": "Higgins Law is a father and a son. George Lewis Higgins III has tried cases for over forty years. His son Alex practices beside him and manages the firm. The office is on Melrose Street in Pineville. When you call, you reach the people who will actually handle your case. You will never be just a file here.",
+    "default": "Higgins Law is a father and a son. George Lewis Higgins III has tried cases for over forty years. His son Alex practices beside him and manages the firm. The office is on Melrose Street in Pineville. When you call, you reach the people who will actually handle your case. You will never be just a file here."
   },
   {
     "key": "gen.george",
     "label": "George's bio",
-    "hint": "Under his portrait.",
-    "src": "George Lewis Higgins III has practiced law for over forty years. He built the firm on preparation and a steady presence in the courtroom, and he built its reputation the slow way: one client, one case at a time."
+    "group": "Two Generations",
+    "hint": "",
+    "src": "George Lewis Higgins III has practiced law for over forty years. He built the firm on preparation and a steady presence in the courtroom, and he built its reputation the slow way: one client, one case at a time.",
+    "default": "George Lewis Higgins III has practiced law for over forty years. He built the firm on preparation and a steady presence in the courtroom, and he built its reputation the slow way: one client, one case at a time."
   },
   {
     "key": "gen.alex",
     "label": "Alex's bio",
-    "hint": "Under his portrait.",
-    "src": "G. Alexander Higgins is the second generation of the firm and its managing partner. He grew up around this work, and he holds his cases to the standard his father set. Clients stay informed at every step, because that is how he was taught to practice."
-  },
-  {
-    "key": "pr.sub",
-    "label": "Practice areas: intro line",
-    "hint": "Under the What we handle title.",
-    "src": "Criminal defense, estate planning, personal injury, and juvenile law. One firm for the whole of it, handled by the two attorneys whose name is on the door. Open a row to see the work."
+    "group": "Two Generations",
+    "hint": "",
+    "src": "G. Alexander Higgins is the second generation of the firm and its managing partner. He grew up around this work, and he holds his cases to the standard his father set. Clients stay informed at every step, because that is how he was taught to practice.",
+    "default": "G. Alexander Higgins is the second generation of the firm and its managing partner. He grew up around this work, and he holds his cases to the standard his father set. Clients stay informed at every step, because that is how he was taught to practice."
   },
   {
     "key": "pr.criminal",
     "label": "Criminal Defense: one-liner",
-    "hint": "The italic line on the practice row.",
-    "src": "A charge is not a conviction. We stand with the person behind the accusation."
+    "group": "Practice areas",
+    "hint": "The italic line on the closed row.",
+    "src": "A charge is not a conviction. We stand with the person behind the accusation.",
+    "default": "A charge is not a conviction. We stand with the person behind the accusation."
   },
   {
     "key": "pr.estate",
     "label": "Estate Planning: one-liner",
-    "hint": "The italic line on the practice row.",
-    "src": "A will, a power of attorney, a plan. Plain documents at a plain price, so your family is never left guessing."
+    "group": "Practice areas",
+    "hint": "The italic line on the closed row.",
+    "src": "A will, a power of attorney, a plan. Plain documents at a plain price, so your family is never left guessing.",
+    "default": "A will, a power of attorney, a plan. Plain documents at a plain price, so your family is never left guessing."
   },
   {
     "key": "pr.injury",
     "label": "Personal Injury: one-liner",
-    "hint": "The italic line on the practice row.",
-    "src": "Hurt because someone else was careless? Louisiana gives you less time than you think."
+    "group": "Practice areas",
+    "hint": "The italic line on the closed row.",
+    "src": "Hurt because someone else was careless? Louisiana gives you less time than you think.",
+    "default": "Hurt because someone else was careless? Louisiana gives you less time than you think."
   },
   {
     "key": "pr.juvenile",
     "label": "Juvenile Law: one-liner",
-    "hint": "The italic line on the practice row.",
-    "src": "The family is the fundamental unit of society. When yours is under strain, we stand with all of it."
+    "group": "Practice areas",
+    "hint": "The italic line on the closed row.",
+    "src": "The family is the fundamental unit of society. When yours is under strain, we stand with all of it.",
+    "default": "The family is the fundamental unit of society. When yours is under strain, we stand with all of it."
   },
   {
-    "key": "call.lede",
-    "label": "Contact: intro paragraph",
-    "hint": "Under Start with a conversation.",
-    "src": "Every case here begins the same way: you tell us what is going on, and we listen. The consultation is free, in person or by video."
+    "key": "pa-1.c1.t",
+    "label": "Point 1 title",
+    "group": "Practice: Criminal Defense",
+    "hint": "",
+    "src": "You Will Know Where You Stand",
+    "default": "You Will Know Where You Stand"
+  },
+  {
+    "key": "pa-1.c1.b",
+    "label": "Point 1 text",
+    "group": "Practice: Criminal Defense",
+    "hint": "",
+    "src": "You will understand the process, know your options, and never be left in the dark.",
+    "default": "You will understand the process, know your options, and never be left in the dark."
+  },
+  {
+    "key": "pa-1.c2.t",
+    "label": "Point 2 title",
+    "group": "Practice: Criminal Defense",
+    "hint": "",
+    "src": "The State Has the Burden",
+    "default": "The State Has the Burden"
+  },
+  {
+    "key": "pa-1.c2.b",
+    "label": "Point 2 text",
+    "group": "Practice: Criminal Defense",
+    "hint": "",
+    "src": "We examine the evidence, hold the State to its burden, and tell your side of the story.",
+    "default": "We examine the evidence, hold the State to its burden, and tell your side of the story."
+  },
+  {
+    "key": "pa-1.c3.t",
+    "label": "Point 3 title",
+    "group": "Practice: Criminal Defense",
+    "hint": "",
+    "src": "Ready for the Courtroom",
+    "default": "Ready for the Courtroom"
+  },
+  {
+    "key": "pa-1.c3.b",
+    "label": "Point 3 text",
+    "group": "Practice: Criminal Defense",
+    "hint": "",
+    "src": "Decades of courtroom advocacy, prepared for the moment a case needs to be tried.",
+    "default": "Decades of courtroom advocacy, prepared for the moment a case needs to be tried."
+  },
+  {
+    "key": "pa-1.c4.t",
+    "label": "Point 4 title",
+    "group": "Practice: Criminal Defense",
+    "hint": "",
+    "src": "Expungements",
+    "default": "Expungements"
+  },
+  {
+    "key": "pa-1.c4.b",
+    "label": "Point 4 text",
+    "group": "Practice: Criminal Defense",
+    "hint": "",
+    "src": "Clearing a record is something we handle regularly. Ask about your eligibility.",
+    "default": "Clearing a record is something we handle regularly. Ask about your eligibility."
+  },
+  {
+    "key": "pa-2.c1.t",
+    "label": "Point 1 title",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "The Family Comes First",
+    "default": "The Family Comes First"
+  },
+  {
+    "key": "pa-2.c1.b",
+    "label": "Point 1 text",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "Families are the fabric a community is woven from. Our job, in every juvenile matter, is to help hold yours together.",
+    "default": "Families are the fabric a community is woven from. Our job, in every juvenile matter, is to help hold yours together."
+  },
+  {
+    "key": "pa-2.c2.t",
+    "label": "Point 2 title",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "Delinquency Defense",
+    "default": "Delinquency Defense"
+  },
+  {
+    "key": "pa-2.c2.b",
+    "label": "Point 2 text",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "Protecting minors with the emphasis on rehabilitation, not punishment. A mistake at fifteen should not define a life.",
+    "default": "Protecting minors with the emphasis on rehabilitation, not punishment. A mistake at fifteen should not define a life."
+  },
+  {
+    "key": "pa-2.c3.t",
+    "label": "Point 3 title",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "Custody &amp; DCFS",
+    "default": "Custody & DCFS"
+  },
+  {
+    "key": "pa-2.c3.b",
+    "label": "Point 3 text",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "Standing with parents when DCFS threatens parental rights. These cases move on strict timelines.",
+    "default": "Standing with parents when DCFS threatens parental rights. These cases move on strict timelines."
+  },
+  {
+    "key": "pa-2.c4.t",
+    "label": "Point 4 title",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "Keeping Kids in Juvenile Court",
+    "default": "Keeping Kids in Juvenile Court"
+  },
+  {
+    "key": "pa-2.c4.b",
+    "label": "Point 4 text",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "Fighting to keep juveniles in the juvenile system, where the focus is their future.",
+    "default": "Fighting to keep juveniles in the juvenile system, where the focus is their future."
+  },
+  {
+    "key": "pa-2.c5.t",
+    "label": "Point 5 title",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "What Comes After",
+    "default": "What Comes After"
+  },
+  {
+    "key": "pa-2.c5.b",
+    "label": "Point 5 text",
+    "group": "Practice: Estate Planning",
+    "hint": "",
+    "src": "Court is not the end of it. We help families find their footing, and we stay reachable when questions come.",
+    "default": "Court is not the end of it. We help families find their footing, and we stay reachable when questions come."
+  },
+  {
+    "key": "pa-3.c1.t",
+    "label": "Point 1 title",
+    "group": "Practice: Personal Injury",
+    "hint": "",
+    "src": "Your Story, Heard First",
+    "default": "Your Story, Heard First"
+  },
+  {
+    "key": "pa-3.c1.b",
+    "label": "Point 1 text",
+    "group": "Practice: Personal Injury",
+    "hint": "",
+    "src": "Our advocacy reflects the full reality of what the injury took from your days.",
+    "default": "Our advocacy reflects the full reality of what the injury took from your days."
+  },
+  {
+    "key": "pa-3.c2.t",
+    "label": "Point 2 title",
+    "group": "Practice: Personal Injury",
+    "hint": "",
+    "src": "Built Like a Trial Case",
+    "default": "Built Like a Trial Case"
+  },
+  {
+    "key": "pa-3.c2.b",
+    "label": "Point 2 text",
+    "group": "Practice: Personal Injury",
+    "hint": "",
+    "src": "Medical records, expert testimony, deliberate preparation. Ready for a courtroom from day one.",
+    "default": "Medical records, expert testimony, deliberate preparation. Ready for a courtroom from day one."
+  },
+  {
+    "key": "pa-3.c3.t",
+    "label": "Point 3 title",
+    "group": "Practice: Personal Injury",
+    "hint": "",
+    "src": "Negotiating from Strength",
+    "default": "Negotiating from Strength"
+  },
+  {
+    "key": "pa-3.c3.b",
+    "label": "Point 3 text",
+    "group": "Practice: Personal Injury",
+    "hint": "",
+    "src": "A trial reputation is leverage at the settlement table.",
+    "default": "A trial reputation is leverage at the settlement table."
+  },
+  {
+    "key": "pa-3.c4.t",
+    "label": "Point 4 title",
+    "group": "Practice: Personal Injury",
+    "hint": "",
+    "src": "The Full Cost, Counted",
+    "default": "The Full Cost, Counted"
+  },
+  {
+    "key": "pa-3.c4.b",
+    "label": "Point 4 text",
+    "group": "Practice: Personal Injury",
+    "hint": "",
+    "src": "Medical bills, lost wages, and what the injury took from your life. We account for all of it. Injury cases are handled on contingency.",
+    "default": "Medical bills, lost wages, and what the injury took from your life. We account for all of it. Injury cases are handled on contingency."
+  },
+  {
+    "key": "pa-4.c1.t",
+    "label": "Point 1 title",
+    "group": "Practice: Juvenile Law",
+    "hint": "",
+    "src": "Wills &amp; Trusts",
+    "default": "Wills & Trusts"
+  },
+  {
+    "key": "pa-4.c1.b",
+    "label": "Point 1 text",
+    "group": "Practice: Juvenile Law",
+    "hint": "",
+    "src": "From simple wills to comprehensive trusts: safeguard assets, reduce conflict, and protect your family.",
+    "default": "From simple wills to comprehensive trusts: safeguard assets, reduce conflict, and protect your family."
+  },
+  {
+    "key": "pa-4.c2.t",
+    "label": "Point 2 title",
+    "group": "Practice: Juvenile Law",
+    "hint": "",
+    "src": "Powers of Attorney &amp; Health Directives",
+    "default": "Powers of Attorney & Health Directives"
+  },
+  {
+    "key": "pa-4.c2.b",
+    "label": "Point 2 text",
+    "group": "Practice: Juvenile Law",
+    "hint": "",
+    "src": "Clear documents, so your medical, financial, and legal decisions rest with the people you trust most.",
+    "default": "Clear documents, so your medical, financial, and legal decisions rest with the people you trust most."
+  },
+  {
+    "key": "pa-4.c3.t",
+    "label": "Point 3 title",
+    "group": "Practice: Juvenile Law",
+    "hint": "",
+    "src": "Successions &amp; Probate",
+    "default": "Successions & Probate"
+  },
+  {
+    "key": "pa-4.c3.b",
+    "label": "Point 3 text",
+    "group": "Practice: Juvenile Law",
+    "hint": "",
+    "src": "When a loved one passes, we guide families through the process with clarity and compassion.",
+    "default": "When a loved one passes, we guide families through the process with clarity and compassion."
+  },
+  {
+    "key": "faq.fa-g1.q",
+    "label": "Question",
+    "group": "FAQ: General",
+    "hint": "",
+    "src": "Do you charge for an initial consultation?",
+    "default": "Do you charge for an initial consultation?"
+  },
+  {
+    "key": "faq.fa-g1.a",
+    "label": "Answer",
+    "group": "FAQ: General",
+    "hint": "",
+    "src": "No. The first consultation is free. It helps you understand your options and decide how to move forward, without any financial obligation.",
+    "default": "No. The first consultation is free. It helps you understand your options and decide how to move forward, without any financial obligation."
+  },
+  {
+    "key": "faq.fa-g2.q",
+    "label": "Question",
+    "group": "FAQ: General",
+    "hint": "",
+    "src": "What should I bring to my first appointment?",
+    "default": "What should I bring to my first appointment?"
+  },
+  {
+    "key": "faq.fa-g2.a",
+    "label": "Answer",
+    "group": "FAQ: General",
+    "hint": "",
+    "src": "Bring what you have: police reports, medical records, court notices. A list of questions helps too. We will guide you on the rest.",
+    "default": "Bring what you have: police reports, medical records, court notices. A list of questions helps too. We will guide you on the rest."
+  },
+  {
+    "key": "faq.fa-g3.q",
+    "label": "Question",
+    "group": "FAQ: General",
+    "hint": "",
+    "src": "Do you offer virtual meetings?",
+    "default": "Do you offer virtual meetings?"
+  },
+  {
+    "key": "faq.fa-g3.a",
+    "label": "Answer",
+    "group": "FAQ: General",
+    "hint": "",
+    "src": "Yes. Our office is in Pineville and we serve clients throughout the region. We also meet by video over secure platforms.",
+    "default": "Yes. Our office is in Pineville and we serve clients throughout the region. We also meet by video over secure platforms."
+  },
+  {
+    "key": "faq.fa-g4.q",
+    "label": "Question",
+    "group": "FAQ: General",
+    "hint": "",
+    "src": "Who will handle my case?",
+    "default": "Who will handle my case?"
+  },
+  {
+    "key": "faq.fa-g4.a",
+    "label": "Answer",
+    "group": "FAQ: General",
+    "hint": "",
+    "src": "An experienced attorney, supported by knowledgeable staff. You will always know who to contact for updates.",
+    "default": "An experienced attorney, supported by knowledgeable staff. You will always know who to contact for updates."
+  },
+  {
+    "key": "faq.fa-c1.q",
+    "label": "Question",
+    "group": "FAQ: Criminal Defense",
+    "hint": "",
+    "src": "What should I do if I&rsquo;m arrested?",
+    "default": "What should I do if I’m arrested?"
+  },
+  {
+    "key": "faq.fa-c2.q",
+    "label": "Question",
+    "group": "FAQ: Criminal Defense",
+    "hint": "",
+    "src": "Do I need a lawyer if I plan to plead guilty?",
+    "default": "Do I need a lawyer if I plan to plead guilty?"
+  },
+  {
+    "key": "faq.fa-c2.a",
+    "label": "Answer",
+    "group": "FAQ: Criminal Defense",
+    "hint": "",
+    "src": "Yes. An experienced lawyer can review the facts, advocate on your behalf, and often secure a better resolution than you would reach alone.",
+    "default": "Yes. An experienced lawyer can review the facts, advocate on your behalf, and often secure a better resolution than you would reach alone."
+  },
+  {
+    "key": "faq.fa-c3.q",
+    "label": "Question",
+    "group": "FAQ: Criminal Defense",
+    "hint": "",
+    "src": "Can you get charges reduced or dismissed?",
+    "default": "Can you get charges reduced or dismissed?"
+  },
+  {
+    "key": "faq.fa-c4.q",
+    "label": "Question",
+    "group": "FAQ: Criminal Defense",
+    "hint": "",
+    "src": "Can you help clear my criminal record?",
+    "default": "Can you help clear my criminal record?"
+  },
+  {
+    "key": "faq.fa-c4.a",
+    "label": "Answer",
+    "group": "FAQ: Criminal Defense",
+    "hint": "",
+    "src": "Expungement is something we handle regularly. Contact us to discuss your eligibility.",
+    "default": "Expungement is something we handle regularly. Contact us to discuss your eligibility."
+  },
+  {
+    "key": "faq.fa-e1.q",
+    "label": "Question",
+    "group": "FAQ: Estate Planning and Successions",
+    "hint": "",
+    "src": "What is estate planning?",
+    "default": "What is estate planning?"
+  },
+  {
+    "key": "faq.fa-e1.a",
+    "label": "Answer",
+    "group": "FAQ: Estate Planning and Successions",
+    "hint": "",
+    "src": "Estate planning makes sure your wishes are carried out when you are gone or unable to decide. It is for anyone who wants to protect their family and control where their assets go.",
+    "default": "Estate planning makes sure your wishes are carried out when you are gone or unable to decide. It is for anyone who wants to protect their family and control where their assets go."
+  },
+  {
+    "key": "faq.fa-e2.q",
+    "label": "Question",
+    "group": "FAQ: Estate Planning and Successions",
+    "hint": "",
+    "src": "Do I need an estate plan if I don&rsquo;t have much?",
+    "default": "Do I need an estate plan if I don’t have much?"
+  },
+  {
+    "key": "faq.fa-e2.a",
+    "label": "Answer",
+    "group": "FAQ: Estate Planning and Successions",
+    "hint": "",
+    "src": "Yes. A will and a power of attorney prevent unnecessary court battles and family stress, whatever the size of the estate.",
+    "default": "Yes. A will and a power of attorney prevent unnecessary court battles and family stress, whatever the size of the estate."
+  },
+  {
+    "key": "faq.fa-e3.q",
+    "label": "Question",
+    "group": "FAQ: Estate Planning and Successions",
+    "hint": "",
+    "src": "What happens if I die without a will in Louisiana?",
+    "default": "What happens if I die without a will in Louisiana?"
+  },
+  {
+    "key": "faq.fa-e3.a",
+    "label": "Answer",
+    "group": "FAQ: Estate Planning and Successions",
+    "hint": "",
+    "src": "Louisiana law, not you, decides who receives your assets. Your spouse does not automatically inherit everything, and that can mean costly delays and disputes for the people you love.",
+    "default": "Louisiana law, not you, decides who receives your assets. Your spouse does not automatically inherit everything, and that can mean costly delays and disputes for the people you love."
+  },
+  {
+    "key": "faq.fa-p1.q",
+    "label": "Question",
+    "group": "FAQ: Personal Injury",
+    "hint": "",
+    "src": "What should I do after an accident?",
+    "default": "What should I do after an accident?"
+  },
+  {
+    "key": "faq.fa-p1.a",
+    "label": "Answer",
+    "group": "FAQ: Personal Injury",
+    "hint": "",
+    "src": "Get medical attention first. Photograph the scene. Get witness names. And do not discuss a settlement with any insurance company before you talk to a lawyer.",
+    "default": "Get medical attention first. Photograph the scene. Get witness names. And do not discuss a settlement with any insurance company before you talk to a lawyer."
+  },
+  {
+    "key": "faq.fa-p2.q",
+    "label": "Question",
+    "group": "FAQ: Personal Injury",
+    "hint": "",
+    "src": "The insurance company offered money. Should I take it?",
+    "default": "The insurance company offered money. Should I take it?"
+  },
+  {
+    "key": "faq.fa-p2.a",
+    "label": "Answer",
+    "group": "FAQ: Personal Injury",
+    "hint": "",
+    "src": "Be careful. Early offers rarely cover the full cost of an injury, and once you accept, the matter is closed, even if you get worse. Talk to a lawyer before you sign anything.",
+    "default": "Be careful. Early offers rarely cover the full cost of an injury, and once you accept, the matter is closed, even if you get worse. Talk to a lawyer before you sign anything."
+  },
+  {
+    "key": "faq.fa-p3.q",
+    "label": "Question",
+    "group": "FAQ: Personal Injury",
+    "hint": "",
+    "src": "How much does a personal injury lawyer cost?",
+    "default": "How much does a personal injury lawyer cost?"
+  },
+  {
+    "key": "faq.fa-p4.q",
+    "label": "Question",
+    "group": "FAQ: Personal Injury",
+    "hint": "",
+    "src": "How long do I have to file an injury claim?",
+    "default": "How long do I have to file an injury claim?"
+  },
+  {
+    "key": "faq.fa-j1.q",
+    "label": "Question",
+    "group": "FAQ: Juvenile Law",
+    "hint": "",
+    "src": "What if my child is accused of a crime?",
+    "default": "What if my child is accused of a crime?"
+  },
+  {
+    "key": "faq.fa-j1.a",
+    "label": "Answer",
+    "group": "FAQ: Juvenile Law",
+    "hint": "",
+    "src": "Stay calm. Do not let your child talk to police without a lawyer. Call us immediately so their rights are protected from the first conversation.",
+    "default": "Stay calm. Do not let your child talk to police without a lawyer. Call us immediately so their rights are protected from the first conversation."
+  },
+  {
+    "key": "faq.fa-j2.q",
+    "label": "Question",
+    "group": "FAQ: Juvenile Law",
+    "hint": "",
+    "src": "Can my child be charged as an adult?",
+    "default": "Can my child be charged as an adult?"
+  },
+  {
+    "key": "faq.fa-j2.a",
+    "label": "Answer",
+    "group": "FAQ: Juvenile Law",
+    "hint": "",
+    "src": "For certain serious charges, yes. We fight to keep young people in the juvenile system, where rehabilitation is the focus.",
+    "default": "For certain serious charges, yes. We fight to keep young people in the juvenile system, where rehabilitation is the focus."
+  },
+  {
+    "key": "faq.fa-j3.q",
+    "label": "Question",
+    "group": "FAQ: Juvenile Law",
+    "hint": "",
+    "src": "What if DCFS removed my children?",
+    "default": "What if DCFS removed my children?"
+  },
+  {
+    "key": "faq.fa-j3.a",
+    "label": "Answer",
+    "group": "FAQ: Juvenile Law",
+    "hint": "",
+    "src": "Call us immediately. DCFS cases move fast, on strict timelines, and every decision now affects your ability to bring your children home.",
+    "default": "Call us immediately. DCFS cases move fast, on strict timelines, and every decision now affects your ability to bring your children home."
+  },
+  {
+    "key": "call.steps.h",
+    "label": "Steps heading",
+    "group": "Contact",
+    "hint": "",
+    "src": "What happens when you call",
+    "default": "What happens when you call"
+  },
+  {
+    "key": "call.steps.sub",
+    "label": "Steps subtitle",
+    "group": "Contact",
+    "hint": "",
+    "src": "Three steps. No mystery.",
+    "default": "Three steps. No mystery."
+  },
+  {
+    "key": "call.step1.t",
+    "label": "Step 1 title",
+    "group": "Contact",
+    "hint": "",
+    "src": "You Call",
+    "default": "You Call"
+  },
+  {
+    "key": "call.step1.b",
+    "label": "Step 1 text",
+    "group": "Contact",
+    "hint": "",
+    "src": "Call, or send the form. We listen, answer your questions, and explain your options. The consultation is free, with no obligation.",
+    "default": "Call, or send the form. We listen, answer your questions, and explain your options. The consultation is free, with no obligation."
+  },
+  {
+    "key": "call.step2.t",
+    "label": "Step 2 title",
+    "group": "Contact",
+    "hint": "",
+    "src": "We Prepare",
+    "default": "We Prepare"
+  },
+  {
+    "key": "call.step2.b",
+    "label": "Step 2 text",
+    "group": "Contact",
+    "hint": "",
+    "src": "We build the strategy, gather the evidence, and bring in experts when the case needs them.",
+    "default": "We build the strategy, gather the evidence, and bring in experts when the case needs them."
+  },
+  {
+    "key": "call.step3.t",
+    "label": "Step 3 title",
+    "group": "Contact",
+    "hint": "",
+    "src": "You Decide",
+    "default": "You Decide"
+  },
+  {
+    "key": "call.step3.b",
+    "label": "Step 3 text",
+    "group": "Contact",
+    "hint": "",
+    "src": "Settle or go to trial: we lay out the choices plainly and prepare for both. The decision is yours, made with full information.",
+    "default": "Settle or go to trial: we lay out the choices plainly and prepare for both. The decision is yours, made with full information."
+  },
+  {
+    "key": "form.h",
+    "label": "Form title",
+    "group": "Contact",
+    "hint": "",
+    "src": "Request a Free Consultation",
+    "default": "Request a Free Consultation"
+  },
+  {
+    "key": "form.sub",
+    "label": "Form subtitle",
+    "group": "Contact",
+    "hint": "",
+    "src": "No fee. No obligation. Just answers.",
+    "default": "No fee. No obligation. Just answers."
   }
 ]

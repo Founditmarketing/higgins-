@@ -20,6 +20,7 @@ SRC = Path(r"C:/Users/trevo/OneDrive/Desktop/AI Websites/higgins/index.html")
 
 src = SRC.read_text(encoding="utf-8")
 manifest = json.loads((ROOT / "app/lib/editable.json").read_text(encoding="utf-8"))
+photos = json.loads((ROOT / "app/lib/photos.json").read_text(encoding="utf-8"))
 
 # ---------- CSS: scope every selector under #eng ----------
 css = src.split("<style>")[1].split("</style>")[0]
@@ -108,13 +109,25 @@ jsx = jsx.replace('src="assets/', 'src="/assets/')
 missing = []
 for field in manifest:
     src_text = field["src"]
-    expr = "{c[" + json.dumps(field["key"]) + "] ?? " + json.dumps(src_text) + "}"
+    expr = "{c[" + json.dumps(field["key"]) + "] ?? " + json.dumps(field.get("default", src_text)) + "}"
     if ">" + src_text + "<" in jsx:
         jsx = jsx.replace(">" + src_text + "<", ">" + expr + "<", 1)
     else:
         missing.append(field["key"])
 if missing:
     raise SystemExit(f"editable.json src text not found in static build: {missing}")
+
+# ---------- Inject photo slot overrides ----------
+photo_missing = []
+for slot in photos:
+    needle = 'src="' + slot["src"] + '"'
+    expr = "src={c[" + json.dumps(slot["key"]) + "] ?? " + json.dumps(slot["src"]) + "}"
+    if needle in jsx:
+        jsx = jsx.replace(needle, expr, 1)
+    else:
+        photo_missing.append(slot["key"])
+if photo_missing:
+    raise SystemExit(f"photos.json src not found in static build: {photo_missing}")
 
 # ---------- Runtime JS: strip demo form handler, keep the rest ----------
 js = src.split("<script>\n")[1].split("\n</script>")[0]

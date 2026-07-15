@@ -5,8 +5,18 @@ import { revalidatePath } from "next/cache";
 import Anthropic from "@anthropic-ai/sdk";
 import { checkAuth } from "./auth";
 import manifest from "../lib/editable.json";
+import photoManifest from "../lib/photos.json";
 
 export type EditableField = {
+  key: string;
+  label: string;
+  group: string;
+  hint: string;
+  src: string;
+  default: string;
+};
+
+export type PhotoSlot = {
   key: string;
   label: string;
   hint: string;
@@ -20,7 +30,9 @@ export type ProposedEdit = {
 };
 
 const FIELDS = manifest as EditableField[];
-const VALID_KEYS = new Set(FIELDS.map((f) => f.key));
+const PHOTOS = photoManifest as PhotoSlot[];
+const PHOTO_KEYS = new Set(PHOTOS.map((p) => p.key));
+const VALID_KEYS = new Set([...FIELDS.map((f) => f.key), ...PHOTOS.map((p) => p.key)]);
 
 /** Public: overrides map used by the homepage. Safe fallbacks everywhere. */
 export async function getSiteContent(): Promise<Record<string, string>> {
@@ -50,8 +62,23 @@ export async function getEditableFields(): Promise<{
   return {
     fields: FIELDS.map((f) => ({
       ...f,
-      current: overrides[f.key] ?? f.src,
+      current: overrides[f.key] ?? f.default,
       overridden: f.key in overrides,
+    })),
+  };
+}
+
+/** Admin: photo slots + current URLs for the editor UI. */
+export async function getPhotoSlots(): Promise<{
+  slots: (PhotoSlot & { current: string; overridden: boolean })[];
+}> {
+  if (!(await checkAuth())) throw new Error("Not authorized");
+  const overrides = await getSiteContent();
+  return {
+    slots: PHOTOS.map((p) => ({
+      ...p,
+      current: overrides[p.key] ?? p.src,
+      overridden: p.key in overrides,
     })),
   };
 }
@@ -67,8 +94,24 @@ export async function saveSiteContent(
     for (const entry of entries) {
       if (!VALID_KEYS.has(entry.key)) continue;
       const value = (entry.value ?? "").trim().slice(0, 2000);
+      if (PHOTO_KEYS.has(entry.key)) {
+        // Photo slots hold URLs only: Vercel Blob uploads, or empty to reset.
+        if (value && !value.startsWith("https://")) continue;
+        const slot = PHOTOS.find((s) => s.key === entry.key)!;
+        if (!value || value === slot.src) {
+          await sql`DELETE FROM site_content WHERE key = ${entry.key}`;
+        } else {
+          await sql`
+            INSERT INTO site_content (key, value, updated_at)
+            VALUES (${entry.key}, ${value}, ${Date.now().toString()})
+            ON CONFLICT (key) DO UPDATE
+            SET value = ${value}, updated_at = ${Date.now().toString()}
+          `;
+        }
+        continue;
+      }
       const field = FIELDS.find((f) => f.key === entry.key)!;
-      if (!value || value === field.src) {
+      if (!value || value === field.default) {
         await sql`DELETE FROM site_content WHERE key = ${entry.key}`;
       } else {
         await sql`
@@ -140,7 +183,7 @@ export async function aiProposeEdits(
   const overrides = await getSiteContent();
   const fieldState = FIELDS.map(
     (f) =>
-      `[${f.key}] (${f.label})\n${overrides[f.key] ?? f.src}`
+      `[${f.key}] (${f.group}: ${f.label})\n${overrides[f.key] ?? f.default}`
   ).join("\n\n");
 
   try {

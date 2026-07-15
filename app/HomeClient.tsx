@@ -247,7 +247,7 @@ wireExpander('.fq');
 <main id="main">
 
 <header className="hero" id="top">
-<div className="hero-media"><img src="/assets/lawroom.jpeg" alt="George and Alex Higgins working together at the wood table of their law library" width="2596" height="1632" fetchPriority="high" /></div>
+<div className="hero-media"><img src={c["img.hero"] ?? "/assets/lawroom.jpeg"} alt="George and Alex Higgins working together at the wood table of their law library" width="2596" height="1632" fetchPriority="high" /></div>
 <div className="hero-grade" aria-hidden="true"></div>
 <div className="hero-frame" aria-hidden="true"></div>
 <div className="hero-inner">
@@ -260,7 +260,7 @@ wireExpander('.fq');
 <p className="hero-sub">{c["hero.sub"] ?? "Over 54 years of combined experience. The first conversation is free."}</p>
 <div className="hero-acts">
 <a className="btn btn-brass" href="tel:+13184734250">Call 318.473.4250</a>
-<a className="btn btn-quiet" href="#call">Request a Free Consultation</a>
+<a className="btn btn-quiet" href="#call">{c["form.h"] ?? "Request a Free Consultation"}</a>
 </div>
 <p className="office-line" data-office="hero" data-state="closed" role="status"><span className="lamp" aria-hidden="true"></span><span className="office-copy">Monday to Friday, 8:00 to 4:30 · <a href="tel:+13184734250">318.473.4250</a></span></p>
 <a className="hero-emergency" href="#first24">{c["hero.emergency"] ?? "If someone was arrested tonight, start here."}</a>
@@ -281,36 +281,36 @@ wireExpander('.fq');
 <section className="f24" id="first24" aria-labelledby="f24-title">
 <div className="f24-head" data-r>
 <p className="eyebrow">If someone was arrested tonight</p>
-<h2 className="sec-h" id="f24-title">The First 24 Hours</h2>
+<h2 className="sec-h" id="f24-title">{c["f24.h"] ?? "The First 24 Hours"}</h2>
 <p className="sec-sub">{c["f24.lede"] ?? "What to do right now, in plain words. Written for Central Louisiana families by the lawyers who take these calls."}</p>
 </div>
 <div className="wrap"><div className="f24-card" data-r="d1">
 <div className="f24-grid">
 <ol className="f24-steps">
 <li className="f24-step"><span className="f24-num" aria-hidden="true">1</span><div>
-<h3>Say one sentence, out loud</h3>
+<h3>{c["f24.s1.t"] ?? "Say one sentence, out loud"}</h3>
 <p>The right to remain silent only protects you once you claim it. Say: <strong>&ldquo;I am not answering questions. I want a lawyer.&rdquo;</strong> Then stop talking. Stay polite. Repeat it as many times as you need to.</p>
 </div></li>
 <li className="f24-step"><span className="f24-num" aria-hidden="true">2</span><div>
-<h3>Do not sign, consent, or explain</h3>
-<p>No written statements. No waivers. No consent to search a car, a phone, or a home. Saying no is not an admission of anything. It is the law working the way it is supposed to.</p>
+<h3>{c["f24.s2.t"] ?? "Do not sign, consent, or explain"}</h3>
+<p>{c["f24.s2.b"] ?? "No written statements. No waivers. No consent to search a car, a phone, or a home. Saying no is not an admission of anything. It is the law working the way it is supposed to."}</p>
 </div></li>
 <li className="f24-step"><span className="f24-num" aria-hidden="true">3</span><div>
-<h3>Treat every jail phone as a recorded line</h3>
-<p>Because it is. Talk about family, money for the account, and staying steady. Never discuss the case, the charges, or that night on a jail phone.</p>
+<h3>{c["f24.s3.t"] ?? "Treat every jail phone as a recorded line"}</h3>
+<p>{c["f24.s3.b"] ?? "Because it is. Talk about family, money for the account, and staying steady. Never discuss the case, the charges, or that night on a jail phone."}</p>
 </div></li>
 <li className="f24-step"><span className="f24-num" aria-hidden="true">4</span><div>
-<h3>Write everything down tonight</h3>
-<p>The time and place of the arrest. The names you heard. Who was there. What was taken. Memory fades in a day. Paper does not.</p>
+<h3>{c["f24.s4.t"] ?? "Write everything down tonight"}</h3>
+<p>{c["f24.s4.b"] ?? "The time and place of the arrest. The names you heard. Who was there. What was taken. Memory fades in a day. Paper does not."}</p>
 </div></li>
 <li className="f24-step"><span className="f24-num" aria-hidden="true">5</span><div>
-<h3>Call before anyone decides anything</h3>
+<h3>{c["f24.s5.t"] ?? "Call before anyone decides anything"}</h3>
 <p>Before anyone answers questions. Before anyone takes a deal. One conversation first: <a href="tel:+13184734250">318.473.4250</a>.</p>
 <p className="office-line f24-office" data-office="f24" data-state="closed" role="status"><span className="lamp" aria-hidden="true"></span><span className="office-copy">Office hours: Monday to Friday, 8:00 to 4:30.</span></p>
 </div></li>
 </ol>
 <aside className="f24-say" aria-labelledby="f24-say-title">
-<h3 id="f24-say-title">What to say. What not to say.</h3>
+<h3 id="f24-say-title">{c["f24.say.h"] ?? "What to say. What not to say."}</h3>
 <div className="f24-col f24-col--say">
 <h4>Say</h4>
 <ul>
@@ -329,7 +329,7 @@ wireExpander('.fq');
 <li>Anything about the case on a jail phone.</li>
 </ul>
 </div>
-<p className="f24-say-foot">Silence protects you only after you claim it. Claim it, then keep it.</p>
+<p className="f24-say-foot">{c["f24.say.foot"] ?? "Silence protects you only after you claim it. Claim it, then keep it."}</p>
 </aside>
 </div>
 <div className="f24-actions">
@@ -352,14 +352,14 @@ wireExpander('.fq');
 <div className="wall">
 <span className="spine" aria-hidden="true"></span>
 <article className="gene gene--g" data-r>
-<figure className="plate"><span className="off" aria-hidden="true"></span><img src="/assets/george-hd.jpeg" alt="Studio portrait of George Lewis Higgins III in a navy suit and gold tie" width="1916" height="2240" loading="lazy" decoding="async" /></figure>
+<figure className="plate"><span className="off" aria-hidden="true"></span><img src={c["img.george"] ?? "/assets/george-hd.jpeg"} alt="Studio portrait of George Lewis Higgins III in a navy suit and gold tie" width="1916" height="2240" loading="lazy" decoding="async" /></figure>
 <p className="gene-era">The first generation</p>
 <h3 className="gene-name">George Lewis Higgins III</h3>
 <p className="gene-role">Founding Attorney</p>
 <p className="gene-body">{c["gen.george"] ?? "George Lewis Higgins III has practiced law for over forty years. He built the firm on preparation and a steady presence in the courtroom, and he built its reputation the slow way: one client, one case at a time."}</p>
 </article>
 <article className="gene gene--a" data-r="d1">
-<figure className="plate"><span className="off" aria-hidden="true"></span><img src="/assets/alex-hd.jpeg" alt="Studio portrait of G. Alexander Higgins in a navy suit, orange tie, and glasses" width="1916" height="2240" loading="lazy" decoding="async" /></figure>
+<figure className="plate"><span className="off" aria-hidden="true"></span><img src={c["img.alex"] ?? "/assets/alex-hd.jpeg"} alt="Studio portrait of G. Alexander Higgins in a navy suit, orange tie, and glasses" width="1916" height="2240" loading="lazy" decoding="async" /></figure>
 <p className="gene-era">The second generation</p>
 <h3 className="gene-name">G. Alexander Higgins</h3>
 <p className="gene-role">Attorney &amp; Managing Partner</p>
@@ -378,7 +378,7 @@ wireExpander('.fq');
 
 
 <figure className="creed" data-r>
-<div className="creed-media"><img src="/assets/george-and-alex-meeting.webp" alt="" width="1359" height="906" loading="lazy" decoding="async" /></div>
+<div className="creed-media"><img src={c["img.creed"] ?? "/assets/george-and-alex-meeting.webp"} alt="" width="1359" height="906" loading="lazy" decoding="async" /></div>
 <div className="creed-grade" aria-hidden="true"></div>
 <div className="creed-in">
 <blockquote className="creed-q">We build successful <em>Relationships</em>; treat people with <em>Respect</em>; and achieve exceptional <em>Results</em>.</blockquote>
@@ -390,14 +390,14 @@ wireExpander('.fq');
 <section className="prac" id="practice" aria-labelledby="pr-title">
 <div className="prac-head" data-r>
 <p className="eyebrow">Areas of practice</p>
-<h2 className="sec-h" id="pr-title">What we handle.</h2>
+<h2 className="sec-h" id="pr-title">{c["pr.h"] ?? "What we handle."}</h2>
 <p className="sec-sub">{c["pr.sub"] ?? "Criminal defense, estate planning, personal injury, and juvenile law. One firm for the whole of it, handled by the two attorneys whose name is on the door. Open a row to see the work."}</p>
 </div>
 <div className="dex" data-r="d1">
 
 <div className="pr">
 <button className="pr-btn" aria-expanded="false" aria-controls="pa-1" id="pa-1-btn">
-<span className="pr-bg" aria-hidden="true"><img src="/assets/alexhigginswithclient.webp" alt="" loading="lazy" decoding="async" /></span>
+<span className="pr-bg" aria-hidden="true"><img src={c["img.pr1"] ?? "/assets/alexhigginswithclient.webp"} alt="" loading="lazy" decoding="async" /></span>
 <span className="pr-in">
 <span className="pr-num" aria-hidden="true">I</span>
 <span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Criminal Defense</span><span className="pr-line">{c["pr.criminal"] ?? "A charge is not a conviction. We stand with the person behind the accusation."}</span></span>
@@ -406,10 +406,10 @@ wireExpander('.fq');
 </button>
 <div className="pr-panel" id="pa-1" role="region" aria-labelledby="pa-1-btn"><div className="pr-panel-in">
 <div className="pr-body">
-<div className="pst"><h4>You Will Know Where You Stand</h4><p>You will understand the process, know your options, and never be left in the dark.</p></div>
-<div className="pst"><h4>The State Has the Burden</h4><p>We examine the evidence, hold the State to its burden, and tell your side of the story.</p></div>
-<div className="pst"><h4>Ready for the Courtroom</h4><p>Decades of courtroom advocacy, prepared for the moment a case needs to be tried.</p></div>
-<div className="pst"><h4>Expungements</h4><p>Clearing a record is something we handle regularly. Ask about your eligibility.</p></div>
+<div className="pst"><h4>{c["pa-1.c1.t"] ?? "You Will Know Where You Stand"}</h4><p>{c["pa-1.c1.b"] ?? "You will understand the process, know your options, and never be left in the dark."}</p></div>
+<div className="pst"><h4>{c["pa-1.c2.t"] ?? "The State Has the Burden"}</h4><p>{c["pa-1.c2.b"] ?? "We examine the evidence, hold the State to its burden, and tell your side of the story."}</p></div>
+<div className="pst"><h4>{c["pa-1.c3.t"] ?? "Ready for the Courtroom"}</h4><p>{c["pa-1.c3.b"] ?? "Decades of courtroom advocacy, prepared for the moment a case needs to be tried."}</p></div>
+<div className="pst"><h4>{c["pa-1.c4.t"] ?? "Expungements"}</h4><p>{c["pa-1.c4.b"] ?? "Clearing a record is something we handle regularly. Ask about your eligibility."}</p></div>
 <p className="pr-call">Someone was arrested? Read <a href="#first24">The First 24 Hours</a>, then call <a href="tel:+13184734250">318.473.4250</a>.</p>
 </div>
 </div></div>
@@ -417,7 +417,7 @@ wireExpander('.fq');
 
 <div className="pr">
 <button className="pr-btn" aria-expanded="false" aria-controls="pa-4" id="pa-4-btn">
-<span className="pr-bg" aria-hidden="true"><img src="/assets/higginslawheropic.webp" alt="" loading="lazy" decoding="async" /></span>
+<span className="pr-bg" aria-hidden="true"><img src={c["img.pr2"] ?? "/assets/higginslawheropic.webp"} alt="" loading="lazy" decoding="async" /></span>
 <span className="pr-in">
 <span className="pr-num" aria-hidden="true">II</span>
 <span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Estate Planning &amp; Successions</span><span className="pr-line">{c["pr.estate"] ?? "A will, a power of attorney, a plan. Plain documents at a plain price, so your family is never left guessing."}</span></span>
@@ -426,9 +426,9 @@ wireExpander('.fq');
 </button>
 <div className="pr-panel" id="pa-4" role="region" aria-labelledby="pa-4-btn"><div className="pr-panel-in">
 <div className="pr-body">
-<div className="pst"><h4>Wills &amp; Trusts</h4><p>From simple wills to comprehensive trusts: safeguard assets, reduce conflict, and protect your family.</p></div>
-<div className="pst"><h4>Powers of Attorney &amp; Health Directives</h4><p>Clear documents, so your medical, financial, and legal decisions rest with the people you trust most.</p></div>
-<div className="pst"><h4>Successions &amp; Probate</h4><p>When a loved one passes, we guide families through the process with clarity and compassion.</p></div>
+<div className="pst"><h4>{c["pa-4.c1.t"] ?? "Wills & Trusts"}</h4><p>{c["pa-4.c1.b"] ?? "From simple wills to comprehensive trusts: safeguard assets, reduce conflict, and protect your family."}</p></div>
+<div className="pst"><h4>{c["pa-4.c2.t"] ?? "Powers of Attorney & Health Directives"}</h4><p>{c["pa-4.c2.b"] ?? "Clear documents, so your medical, financial, and legal decisions rest with the people you trust most."}</p></div>
+<div className="pst"><h4>{c["pa-4.c3.t"] ?? "Successions & Probate"}</h4><p>{c["pa-4.c3.b"] ?? "When a loved one passes, we guide families through the process with clarity and compassion."}</p></div>
 <div className="tool" id="drawer">
 <p className="tool-eb"><span className="mark">&sect;</span> A five minute check</p>
 <h4 className="tool-h">Five papers your family hopes you have.</h4>
@@ -453,7 +453,7 @@ wireExpander('.fq');
 
 <div className="pr">
 <button className="pr-btn" aria-expanded="false" aria-controls="pa-3" id="pa-3-btn">
-<span className="pr-bg" aria-hidden="true"><img src="/assets/hero.webp" alt="" loading="lazy" decoding="async" /></span>
+<span className="pr-bg" aria-hidden="true"><img src={c["img.pr3"] ?? "/assets/hero.webp"} alt="" loading="lazy" decoding="async" /></span>
 <span className="pr-in">
 <span className="pr-num" aria-hidden="true">III</span>
 <span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Personal Injury</span><span className="pr-line">{c["pr.injury"] ?? "Hurt because someone else was careless? Louisiana gives you less time than you think."}</span></span>
@@ -462,10 +462,10 @@ wireExpander('.fq');
 </button>
 <div className="pr-panel" id="pa-3" role="region" aria-labelledby="pa-3-btn"><div className="pr-panel-in">
 <div className="pr-body">
-<div className="pst"><h4>Your Story, Heard First</h4><p>Our advocacy reflects the full reality of what the injury took from your days.</p></div>
-<div className="pst"><h4>Built Like a Trial Case</h4><p>Medical records, expert testimony, deliberate preparation. Ready for a courtroom from day one.</p></div>
-<div className="pst"><h4>Negotiating from Strength</h4><p>A trial reputation is leverage at the settlement table.</p></div>
-<div className="pst"><h4>The Full Cost, Counted</h4><p>Medical bills, lost wages, and what the injury took from your life. We account for all of it. Injury cases are handled on contingency.</p></div>
+<div className="pst"><h4>{c["pa-3.c1.t"] ?? "Your Story, Heard First"}</h4><p>{c["pa-3.c1.b"] ?? "Our advocacy reflects the full reality of what the injury took from your days."}</p></div>
+<div className="pst"><h4>{c["pa-3.c2.t"] ?? "Built Like a Trial Case"}</h4><p>{c["pa-3.c2.b"] ?? "Medical records, expert testimony, deliberate preparation. Ready for a courtroom from day one."}</p></div>
+<div className="pst"><h4>{c["pa-3.c3.t"] ?? "Negotiating from Strength"}</h4><p>{c["pa-3.c3.b"] ?? "A trial reputation is leverage at the settlement table."}</p></div>
+<div className="pst"><h4>{c["pa-3.c4.t"] ?? "The Full Cost, Counted"}</h4><p>{c["pa-3.c4.b"] ?? "Medical bills, lost wages, and what the injury took from your life. We account for all of it. Injury cases are handled on contingency."}</p></div>
 <div className="tool" id="prescription">
 <p className="tool-eb"><span className="mark">&sect;</span> How long do you have</p>
 <h4 className="tool-h">The clock started the day you were hurt.</h4>
@@ -484,7 +484,7 @@ wireExpander('.fq');
 
 <div className="pr">
 <button className="pr-btn" aria-expanded="false" aria-controls="pa-2" id="pa-2-btn">
-<span className="pr-bg" aria-hidden="true"><img src="/assets/george-higgins-meeting.webp" alt="" loading="lazy" decoding="async" /></span>
+<span className="pr-bg" aria-hidden="true"><img src={c["img.pr4"] ?? "/assets/george-higgins-meeting.webp"} alt="" loading="lazy" decoding="async" /></span>
 <span className="pr-in">
 <span className="pr-num" aria-hidden="true">IV</span>
 <span className="pr-t"><span className="pr-name" role="heading" aria-level="3">Juvenile Law</span><span className="pr-line">{c["pr.juvenile"] ?? "The family is the fundamental unit of society. When yours is under strain, we stand with all of it."}</span></span>
@@ -493,11 +493,11 @@ wireExpander('.fq');
 </button>
 <div className="pr-panel" id="pa-2" role="region" aria-labelledby="pa-2-btn"><div className="pr-panel-in">
 <div className="pr-body">
-<div className="pst"><h4>The Family Comes First</h4><p>Families are the fabric a community is woven from. Our job, in every juvenile matter, is to help hold yours together.</p></div>
-<div className="pst"><h4>Delinquency Defense</h4><p>Protecting minors with the emphasis on rehabilitation, not punishment. A mistake at fifteen should not define a life.</p></div>
-<div className="pst"><h4>Custody &amp; DCFS</h4><p>Standing with parents when DCFS threatens parental rights. These cases move on strict timelines.</p></div>
-<div className="pst"><h4>Keeping Kids in Juvenile Court</h4><p>Fighting to keep juveniles in the juvenile system, where the focus is their future.</p></div>
-<div className="pst"><h4>What Comes After</h4><p>Court is not the end of it. We help families find their footing, and we stay reachable when questions come.</p></div>
+<div className="pst"><h4>{c["pa-2.c1.t"] ?? "The Family Comes First"}</h4><p>{c["pa-2.c1.b"] ?? "Families are the fabric a community is woven from. Our job, in every juvenile matter, is to help hold yours together."}</p></div>
+<div className="pst"><h4>{c["pa-2.c2.t"] ?? "Delinquency Defense"}</h4><p>{c["pa-2.c2.b"] ?? "Protecting minors with the emphasis on rehabilitation, not punishment. A mistake at fifteen should not define a life."}</p></div>
+<div className="pst"><h4>{c["pa-2.c3.t"] ?? "Custody & DCFS"}</h4><p>{c["pa-2.c3.b"] ?? "Standing with parents when DCFS threatens parental rights. These cases move on strict timelines."}</p></div>
+<div className="pst"><h4>{c["pa-2.c4.t"] ?? "Keeping Kids in Juvenile Court"}</h4><p>{c["pa-2.c4.b"] ?? "Fighting to keep juveniles in the juvenile system, where the focus is their future."}</p></div>
+<div className="pst"><h4>{c["pa-2.c5.t"] ?? "What Comes After"}</h4><p>{c["pa-2.c5.b"] ?? "Court is not the end of it. We help families find their footing, and we stay reachable when questions come."}</p></div>
 <p className="pr-call">Your child in trouble, or DCFS at the door? Do not wait for the next hearing. Call <a href="tel:+13184734250">318.473.4250</a>.</p>
 </div>
 </div></div>
@@ -512,7 +512,7 @@ wireExpander('.fq');
 <div className="testi-in">
 <div data-r>
 <p className="eyebrow">In their words</p>
-<h2 className="sec-h" id="ts-title">What clients say when it is over.</h2>
+<h2 className="sec-h" id="ts-title">{c["ts.h"] ?? "What clients say when it is over."}</h2>
 </div>
 <figure className="pull" data-r="d1">
 <blockquote>
@@ -544,43 +544,43 @@ wireExpander('.fq');
 <div className="faq-in">
 <div className="faq-side" data-r>
 <p className="eyebrow">Before you call</p>
-<h2 className="sec-h" id="faq-title">Questions we hear at the first meeting.</h2>
-<p className="sec-sub">Plain answers, the same ones we give across the table.</p>
+<h2 className="sec-h" id="faq-title">{c["faq.h"] ?? "Questions we hear at the first meeting."}</h2>
+<p className="sec-sub">{c["faq.sub"] ?? "Plain answers, the same ones we give across the table."}</p>
 <p className="faq-side-call">Something we did not cover? <a href="tel:+13184734250">Call 318.473.4250</a>. The first conversation is free.</p>
 </div>
 <div className="fqgs" data-r="d1">
 
 <div className="fqg"><h3 className="fqgl">General</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g1">Do you charge for an initial consultation?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g1"><div className="fa-in"><div className="fai">No. The first consultation is free. It helps you understand your options and decide how to move forward, without any financial obligation.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g2">What should I bring to my first appointment?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g2"><div className="fa-in"><div className="fai">Bring what you have: police reports, medical records, court notices. A list of questions helps too. We will guide you on the rest.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g3">Do you offer virtual meetings?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g3"><div className="fa-in"><div className="fai">Yes. Our office is in Pineville and we serve clients throughout the region. We also meet by video over secure platforms.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g4">Who will handle my case?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g4"><div className="fa-in"><div className="fai">An experienced attorney, supported by knowledgeable staff. You will always know who to contact for updates.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g1">{c["faq.fa-g1.q"] ?? "Do you charge for an initial consultation?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g1"><div className="fa-in"><div className="fai">{c["faq.fa-g1.a"] ?? "No. The first consultation is free. It helps you understand your options and decide how to move forward, without any financial obligation."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g2">{c["faq.fa-g2.q"] ?? "What should I bring to my first appointment?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g2"><div className="fa-in"><div className="fai">{c["faq.fa-g2.a"] ?? "Bring what you have: police reports, medical records, court notices. A list of questions helps too. We will guide you on the rest."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g3">{c["faq.fa-g3.q"] ?? "Do you offer virtual meetings?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g3"><div className="fa-in"><div className="fai">{c["faq.fa-g3.a"] ?? "Yes. Our office is in Pineville and we serve clients throughout the region. We also meet by video over secure platforms."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-g4">{c["faq.fa-g4.q"] ?? "Who will handle my case?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-g4"><div className="fa-in"><div className="fai">{c["faq.fa-g4.a"] ?? "An experienced attorney, supported by knowledgeable staff. You will always know who to contact for updates."}</div></div></div></div>
 </div>
 
 <div className="fqg"><h3 className="fqgl">Criminal Defense</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c1">What should I do if I&rsquo;m arrested?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c1"><div className="fa-in"><div className="fai">Stay calm and stay respectful. Ask for a lawyer immediately, then stop answering questions and sign nothing. The full guide is above: <a href="#first24">The First 24 Hours</a>. Then call us as soon as you can.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c2">Do I need a lawyer if I plan to plead guilty?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c2"><div className="fa-in"><div className="fai">Yes. An experienced lawyer can review the facts, advocate on your behalf, and often secure a better resolution than you would reach alone.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c3">Can you get charges reduced or dismissed?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c3"><div className="fa-in"><div className="fai">No honest lawyer promises an outcome. What we can promise is the work: a close review of the evidence and a defense built on its weaknesses.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c4">Can you help clear my criminal record?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c4"><div className="fa-in"><div className="fai">Expungement is something we handle regularly. Contact us to discuss your eligibility.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c1">{c["faq.fa-c1.q"] ?? "What should I do if I\u2019m arrested?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c1"><div className="fa-in"><div className="fai">Stay calm and stay respectful. Ask for a lawyer immediately, then stop answering questions and sign nothing. The full guide is above: <a href="#first24">The First 24 Hours</a>. Then call us as soon as you can.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c2">{c["faq.fa-c2.q"] ?? "Do I need a lawyer if I plan to plead guilty?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c2"><div className="fa-in"><div className="fai">{c["faq.fa-c2.a"] ?? "Yes. An experienced lawyer can review the facts, advocate on your behalf, and often secure a better resolution than you would reach alone."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c3">{c["faq.fa-c3.q"] ?? "Can you get charges reduced or dismissed?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c3"><div className="fa-in"><div className="fai">No honest lawyer promises an outcome. What we can promise is the work: a close review of the evidence and a defense built on its weaknesses.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-c4">{c["faq.fa-c4.q"] ?? "Can you help clear my criminal record?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-c4"><div className="fa-in"><div className="fai">{c["faq.fa-c4.a"] ?? "Expungement is something we handle regularly. Contact us to discuss your eligibility."}</div></div></div></div>
 </div>
 
 <div className="fqg"><h3 className="fqgl">Estate Planning &amp; Successions</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e1">What is estate planning?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e1"><div className="fa-in"><div className="fai">Estate planning makes sure your wishes are carried out when you are gone or unable to decide. It is for anyone who wants to protect their family and control where their assets go.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e2">Do I need an estate plan if I don&rsquo;t have much?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e2"><div className="fa-in"><div className="fai">Yes. A will and a power of attorney prevent unnecessary court battles and family stress, whatever the size of the estate.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e3">What happens if I die without a will in Louisiana?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e3"><div className="fa-in"><div className="fai">Louisiana law, not you, decides who receives your assets. Your spouse does not automatically inherit everything, and that can mean costly delays and disputes for the people you love.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e1">{c["faq.fa-e1.q"] ?? "What is estate planning?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e1"><div className="fa-in"><div className="fai">{c["faq.fa-e1.a"] ?? "Estate planning makes sure your wishes are carried out when you are gone or unable to decide. It is for anyone who wants to protect their family and control where their assets go."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e2">{c["faq.fa-e2.q"] ?? "Do I need an estate plan if I don\u2019t have much?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e2"><div className="fa-in"><div className="fai">{c["faq.fa-e2.a"] ?? "Yes. A will and a power of attorney prevent unnecessary court battles and family stress, whatever the size of the estate."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-e3">{c["faq.fa-e3.q"] ?? "What happens if I die without a will in Louisiana?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-e3"><div className="fa-in"><div className="fai">{c["faq.fa-e3.a"] ?? "Louisiana law, not you, decides who receives your assets. Your spouse does not automatically inherit everything, and that can mean costly delays and disputes for the people you love."}</div></div></div></div>
 </div>
 
 <div className="fqg"><h3 className="fqgl">Personal Injury</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p1">What should I do after an accident?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p1"><div className="fa-in"><div className="fai">Get medical attention first. Photograph the scene. Get witness names. And do not discuss a settlement with any insurance company before you talk to a lawyer.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p2">The insurance company offered money. Should I take it?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p2"><div className="fa-in"><div className="fai">Be careful. Early offers rarely cover the full cost of an injury, and once you accept, the matter is closed, even if you get worse. Talk to a lawyer before you sign anything.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p3">How much does a personal injury lawyer cost?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p3"><div className="fa-in"><div className="fai">We handle injury cases on contingency: no attorney&rsquo;s fee up front, and a fee is collected only if we recover money for you. We explain how fees, costs, and expenses work in plain terms at the first meeting.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p4">How long do I have to file an injury claim?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p4"><div className="fa-in"><div className="fai">Often as little as one year from the date of the accident. Deadlines vary by case, so call early. The date of your accident controls.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p1">{c["faq.fa-p1.q"] ?? "What should I do after an accident?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p1"><div className="fa-in"><div className="fai">{c["faq.fa-p1.a"] ?? "Get medical attention first. Photograph the scene. Get witness names. And do not discuss a settlement with any insurance company before you talk to a lawyer."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p2">{c["faq.fa-p2.q"] ?? "The insurance company offered money. Should I take it?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p2"><div className="fa-in"><div className="fai">{c["faq.fa-p2.a"] ?? "Be careful. Early offers rarely cover the full cost of an injury, and once you accept, the matter is closed, even if you get worse. Talk to a lawyer before you sign anything."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p3">{c["faq.fa-p3.q"] ?? "How much does a personal injury lawyer cost?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p3"><div className="fa-in"><div className="fai">We handle injury cases on contingency: no attorney&rsquo;s fee up front, and a fee is collected only if we recover money for you. We explain how fees, costs, and expenses work in plain terms at the first meeting.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-p4">{c["faq.fa-p4.q"] ?? "How long do I have to file an injury claim?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-p4"><div className="fa-in"><div className="fai">Often as little as one year from the date of the accident. Deadlines vary by case, so call early. The date of your accident controls.</div></div></div></div>
 </div>
 
 <div className="fqg"><h3 className="fqgl">Juvenile Law</h3>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j1">What if my child is accused of a crime?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j1"><div className="fa-in"><div className="fai">Stay calm. Do not let your child talk to police without a lawyer. Call us immediately so their rights are protected from the first conversation.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j2">Can my child be charged as an adult?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j2"><div className="fa-in"><div className="fai">For certain serious charges, yes. We fight to keep young people in the juvenile system, where rehabilitation is the focus.</div></div></div></div>
-<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j3">What if DCFS removed my children?<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j3"><div className="fa-in"><div className="fai">Call us immediately. DCFS cases move fast, on strict timelines, and every decision now affects your ability to bring your children home.</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j1">{c["faq.fa-j1.q"] ?? "What if my child is accused of a crime?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j1"><div className="fa-in"><div className="fai">{c["faq.fa-j1.a"] ?? "Stay calm. Do not let your child talk to police without a lawyer. Call us immediately so their rights are protected from the first conversation."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j2">{c["faq.fa-j2.q"] ?? "Can my child be charged as an adult?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j2"><div className="fa-in"><div className="fai">{c["faq.fa-j2.a"] ?? "For certain serious charges, yes. We fight to keep young people in the juvenile system, where rehabilitation is the focus."}</div></div></div></div>
+<div className="fi"><button className="fq" aria-expanded="false" aria-controls="fa-j3">{c["faq.fa-j3.q"] ?? "What if DCFS removed my children?"}<span className="fqi" aria-hidden="true"></span></button><div className="fa" id="fa-j3"><div className="fa-in"><div className="fai">{c["faq.fa-j3.a"] ?? "Call us immediately. DCFS cases move fast, on strict timelines, and every decision now affects your ability to bring your children home."}</div></div></div></div>
 </div>
 
 </div>
@@ -602,16 +602,16 @@ wireExpander('.fq');
 </div>
 <noscript><p style={{marginTop:'.8rem',fontStyle:'italic',color:'var(--mut)'}}>Office hours: Monday to Friday, 8:00 AM to 4:30 PM.</p></noscript>
 <div className="steps">
-<h3>What happens when you call</h3>
-<p className="steps-sub">Three steps. No mystery.</p>
-<div className="step-row"><span className="step-n" aria-hidden="true">01</span><div><h4>You Call</h4><p>Call, or send the form. We listen, answer your questions, and explain your options. The consultation is free, with no obligation.</p></div></div>
-<div className="step-row"><span className="step-n" aria-hidden="true">02</span><div><h4>We Prepare</h4><p>We build the strategy, gather the evidence, and bring in experts when the case needs them.</p></div></div>
-<div className="step-row"><span className="step-n" aria-hidden="true">03</span><div><h4>You Decide</h4><p>Settle or go to trial: we lay out the choices plainly and prepare for both. The decision is yours, made with full information.</p></div></div>
+<h3>{c["call.steps.h"] ?? "What happens when you call"}</h3>
+<p className="steps-sub">{c["call.steps.sub"] ?? "Three steps. No mystery."}</p>
+<div className="step-row"><span className="step-n" aria-hidden="true">01</span><div><h4>{c["call.step1.t"] ?? "You Call"}</h4><p>{c["call.step1.b"] ?? "Call, or send the form. We listen, answer your questions, and explain your options. The consultation is free, with no obligation."}</p></div></div>
+<div className="step-row"><span className="step-n" aria-hidden="true">02</span><div><h4>{c["call.step2.t"] ?? "We Prepare"}</h4><p>{c["call.step2.b"] ?? "We build the strategy, gather the evidence, and bring in experts when the case needs them."}</p></div></div>
+<div className="step-row"><span className="step-n" aria-hidden="true">03</span><div><h4>{c["call.step3.t"] ?? "You Decide"}</h4><p>{c["call.step3.b"] ?? "Settle or go to trial: we lay out the choices plainly and prepare for both. The decision is yours, made with full information."}</p></div></div>
 </div>
 </div>
 <div className="cfb" data-r="d1">
 <h3>Request a Free Consultation</h3>
-<p className="cfs">No fee. No obligation. Just answers.</p>
+<p className="cfs">{c["form.sub"] ?? "No fee. No obligation. Just answers."}</p>
 
 <form id="cf" noValidate={true}>
 <div className="fr">

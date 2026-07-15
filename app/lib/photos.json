@@ -1,0 +1,50 @@
+[
+  {
+    "key": "img.hero",
+    "label": "Hero photograph",
+    "hint": "The big opening photo. Wide images work best.",
+    "src": "/assets/lawroom.jpeg"
+  },
+  {
+    "key": "img.george",
+    "label": "George's portrait",
+    "hint": "Tall portrait, roughly 4 by 5.",
+    "src": "/assets/george-hd.jpeg"
+  },
+  {
+    "key": "img.alex",
+    "label": "Alex's portrait",
+    "hint": "Tall portrait, roughly 4 by 5.",
+    "src": "/assets/alex-hd.jpeg"
+  },
+  {
+    "key": "img.creed",
+    "label": "Creed section photograph",
+    "hint": "The full-width photo behind the firm's creed.",
+    "src": "/assets/george-and-alex-meeting.webp"
+  },
+  {
+    "key": "img.pr1",
+    "label": "Criminal Defense row photo",
+    "hint": "Appears behind the row when it lights up.",
+    "src": "/assets/alexhigginswithclient.webp"
+  },
+  {
+    "key": "img.pr2",
+    "label": "Estate Planning row photo",
+    "hint": "Appears behind the row when it lights up.",
+    "src": "/assets/higginslawheropic.webp"
+  },
+  {
+    "key": "img.pr3",
+    "label": "Personal Injury row photo",
+    "hint": "Appears behind the row when it lights up.",
+    "src": "/assets/hero.webp"
+  },
+  {
+    "key": "img.pr4",
+    "label": "Juvenile Law row photo",
+    "hint": "Appears behind the row when it lights up.",
+    "src": "/assets/george-higgins-meeting.webp"
+  }
+]
